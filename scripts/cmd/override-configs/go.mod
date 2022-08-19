@@ -1,3 +1,3 @@
-module github.com/jembi/ethiopia-on-platform/override-configs
+module github.com/jembi/cares-on-platform/override-configs
 
 go 1.17
