@@ -21,6 +21,8 @@ platform-test-harness/PackageTest.dockerfile
 Dockerfile
 
 get-cli.sh
+remote-img-load.sh
+build-image.sh
 
 .env.*
 .github/
