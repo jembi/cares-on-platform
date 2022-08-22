@@ -1,6 +1,6 @@
 ---
 image: jembi/cares-on-platform
-platformVersion: 1.4.7
+platformVersion: latest
 defaultTargetLauncher: swarm
 disableKubernetes: true
 disableIG: true
@@ -16,3 +16,7 @@ packages:
     name: Message Bus - Kafka
   - id: message-bus-helper-hapi-proxy
     name: Message Bus Helper Package - Hapi Proxy
+  - id: kafka-unbundler-consumer
+    name: Kafka Unbundler Consumer
+  - id: kafka-mapper-consumer
+    name: Kafka Mapper Consumer
