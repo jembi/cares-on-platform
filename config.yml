@@ -20,3 +20,5 @@ packages:
     name: Kafka Unbundler Consumer
   - id: kafka-mapper-consumer
     name: Kafka Mapper Consumer
+  - id: analytics-datastore-clickhouse
+    name: Analytics Datastore Clickhouse
