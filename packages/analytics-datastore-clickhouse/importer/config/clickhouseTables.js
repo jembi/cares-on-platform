@@ -1,46 +1,50 @@
 const queries = [
   `CREATE TABLE patient(
-		createdAt Date,
-		updatedAt Date,
-		patientGender String,
-		patientBirthdate Date, 
-		patientCountry String, 
-		patientKeyPopulation String
+		created_at Date,
+		updated_at Date,
+		patient_id String,
+		patient_gender String,
+		patient_birthdate Date,
+		patient_country String, 
+		patient_key_population String
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
 
   `CREATE TABLE condition(
-		createdAt Date,
-		updatedAt Date,
-		positiveHIVDiagnosisDate String
+		created_at Date,
+		updated_at Date,
+		positive_HIV_diagnosis_date Date
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
 
   `CREATE TABLE diagnostic_report(
-		createdAt Date,
-		updatedAt Date,
-		rapidAntigenTestResult String
+		created_at Date,
+		updated_at Date,
+		rapid_antigen_test_result String
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
 
   `CREATE TABLE service_request(
-		createdAt Date,
-		updatedAt Date,
-		testRequested String
+		created_at Date,
+		updated_at Date,
+		test_requested String
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
-
+  // TODO patient_id for testing only [To be updated]
   `CREATE TABLE specimen(
-		createdAt Date,
-		updatedAt Date,
-		dateSampleCollected String
+		created_at Date,
+		updated_at Date,
+		patient_id String,
+		date_sample_collected Date
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
+  // TODO Add join according + create live view
+  `CREATE VIEW report_1_test_2 AS SELECT * from patient INNER JOIN specimen ON patient.patient_id=specimen.patient_id`,
 ];
 
 module.exports = queries;

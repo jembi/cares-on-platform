@@ -4,22 +4,25 @@
     "tableMappings": [
       {
         "targetTable": "patient",
-        "plugin": "report-1.ts",
         "columnMappings": [
           {
-            "columnName": "patientGender",
+            "columnName": "patient_id",
+            "fhirPath": "Patient.id"
+          },
+          {
+            "columnName": "patient_gender",
             "fhirPath": "Patient.gender"
           },
           {
-            "columnName": "patientBirthdate",
-            "fhirPath": "Patient.birthdate"
+            "columnName": "patient_birthdate",
+            "fhirPath": "Patient.birthDate"
           },
           {
-            "columnName": "patientCountry",
+            "columnName": "patient_country",
             "fhirPath": "Patient.address.state"
           },
           {
-            "columnName": "patientKeyPopulation",
+            "columnName": "patient_key_population",
             "fhirPath": "Patient.extension.where(url='http://openhie.org/fhir/hiv-casereporting/StructureDefinition/key-population').first().valueCodeableConcept.coding[0].code"
           }
         ]
@@ -31,10 +34,9 @@
     "tableMappings": [
       {
         "targetTable": "condition",
-        "plugin": "report-1.ts",
         "columnMappings": [
           {
-            "columnName": "positiveHIVDiagnosisDate",
+            "columnName": "positive_HIV_diagnosis_date",
             "fhirPath": "Condition.recordedDate"
           }
         ]
@@ -46,10 +48,13 @@
     "tableMappings": [
       {
         "targetTable": "specimen",
-        "plugin": "report-1.ts",
         "columnMappings": [
           {
-            "columnName": "dateSampleCollected",
+            "columnName": "patient_id",
+            "fhirPath": "Specimen.subject.reference.substring(8)"
+          },
+          {
+            "columnName": "date_sample_collected",
             "fhirPath": "Specimen.collection.collectedDateTime"
           }
         ]
@@ -61,11 +66,10 @@
     "tableMappings": [
       {
         "targetTable": "service_request",
-        "plugin": "report-1.ts",
         "columnMappings": [
           {
-            "columnName": "testRequested",
-            "fhirPath": "ServiceRequest.code.coding.where(url='http://loinc.org').first().code"
+            "columnName": "test_requested",
+            "fhirPath": "ServiceRequest.code.coding.where(system='http://loinc.org').first().code"
           }
         ]
       }
@@ -76,10 +80,9 @@
     "tableMappings": [
       {
         "targetTable": "diagnostic_report",
-        "plugin": "report-1.ts",
         "columnMappings": [
           {
-            "columnName": "rapidAntigenTestResult",
+            "columnName": "rapid_antigen_test_result",
             "fhirPath": "ServiceRequest.code.coding.where(url='http://loinc.org').first().code"
           }
         ]
