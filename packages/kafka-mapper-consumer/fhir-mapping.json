@@ -34,7 +34,7 @@
         "plugin": "report-1.ts",
         "columnMappings": [
           {
-            "columnName": "PositiveHIVDiagnosisDate",
+            "columnName": "positiveHIVDiagnosisDate",
             "fhirPath": "Condition.recordedDate"
           }
         ]
@@ -49,7 +49,7 @@
         "plugin": "report-1.ts",
         "columnMappings": [
           {
-            "columnName": "DateSampleCollected",
+            "columnName": "dateSampleCollected",
             "fhirPath": "Specimen.collection.collectedDateTime"
           }
         ]
@@ -64,7 +64,7 @@
         "plugin": "report-1.ts",
         "columnMappings": [
           {
-            "columnName": "TestRequested",
+            "columnName": "testRequested",
             "fhirPath": "ServiceRequest.code.coding.where(url='http://loinc.org').first().code"
           }
         ]
@@ -79,7 +79,7 @@
         "plugin": "report-1.ts",
         "columnMappings": [
           {
-            "columnName": "RapidAntigenTestResult",
+            "columnName": "rapidAntigenTestResult",
             "fhirPath": "ServiceRequest.code.coding.where(url='http://loinc.org').first().code"
           }
         ]

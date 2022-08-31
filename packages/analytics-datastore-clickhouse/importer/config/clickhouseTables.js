@@ -13,7 +13,7 @@ const queries = [
   `CREATE TABLE condition(
 		createdAt Date,
 		updatedAt Date,
-		PositiveHIVDiagnosisDate String
+		positiveHIVDiagnosisDate String
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
@@ -21,7 +21,7 @@ const queries = [
   `CREATE TABLE diagnostic_report(
 		createdAt Date,
 		updatedAt Date,
-		RapidAntigenTestResult String
+		rapidAntigenTestResult String
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
@@ -29,7 +29,7 @@ const queries = [
   `CREATE TABLE service_request(
 		createdAt Date,
 		updatedAt Date,
-		TestRequested String
+		testRequested String
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
@@ -37,7 +37,7 @@ const queries = [
   `CREATE TABLE specimen(
 		createdAt Date,
 		updatedAt Date,
-		DateSampleCollected String
+		dateSampleCollected String
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
