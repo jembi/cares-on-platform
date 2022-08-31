@@ -1,0 +1,89 @@
+[
+  {
+    "resourceType": "Patient",
+    "tableMappings": [
+      {
+        "targetTable": "patient",
+        "plugin": "report-1.ts",
+        "columnMappings": [
+          {
+            "columnName": "patientGender",
+            "fhirPath": "Patient.gender"
+          },
+          {
+            "columnName": "patientBirthdate",
+            "fhirPath": "Patient.birthdate"
+          },
+          {
+            "columnName": "patientCountry",
+            "fhirPath": "Patient.address.state"
+          },
+          {
+            "columnName": "patientKeyPopulation",
+            "fhirPath": "Patient.extension.where(url='http://openhie.org/fhir/hiv-casereporting/StructureDefinition/key-population').first().valueCodeableConcept.coding[0].code"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "resourceType": "Condition",
+    "tableMappings": [
+      {
+        "targetTable": "condition",
+        "plugin": "report-1.ts",
+        "columnMappings": [
+          {
+            "columnName": "PositiveHIVDiagnosisDate",
+            "fhirPath": "Condition.recordedDate"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "resourceType": "Specimen",
+    "tableMappings": [
+      {
+        "targetTable": "specimen",
+        "plugin": "report-1.ts",
+        "columnMappings": [
+          {
+            "columnName": "DateSampleCollected",
+            "fhirPath": "Specimen.collection.collectedDateTime"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "resourceType": "ServiceRequest",
+    "tableMappings": [
+      {
+        "targetTable": "service_request",
+        "plugin": "report-1.ts",
+        "columnMappings": [
+          {
+            "columnName": "TestRequested",
+            "fhirPath": "ServiceRequest.code.coding.where(url='http://loinc.org').first().code"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "resourceType": "DiagnosticReport",
+    "tableMappings": [
+      {
+        "targetTable": "diagnostic_report",
+        "plugin": "report-1.ts",
+        "columnMappings": [
+          {
+            "columnName": "RapidAntigenTestResult",
+            "fhirPath": "ServiceRequest.code.coding.where(url='http://loinc.org').first().code"
+          }
+        ]
+      }
+    ]
+  }
+]

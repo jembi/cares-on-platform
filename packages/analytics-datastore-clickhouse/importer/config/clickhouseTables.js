@@ -2,20 +2,42 @@ const queries = [
   `CREATE TABLE patient(
 		createdAt Date,
 		updatedAt Date,
-		patientId String,
-		patientName String, 
-		patientFamilyName String, 
-		patientGivenName String
+		patientGender String,
+		patientBirthdate Date, 
+		patientCountry String, 
+		patientKeyPopulation String
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
 
-  `CREATE TABLE observation(
+  `CREATE TABLE condition(
 		createdAt Date,
-		observationCode String, 
-		observationDateTime DateTime, 
-		observationUnit String,
-		observationValue String
+		updatedAt Date,
+		PositiveHIVDiagnosisDate String
+	  ) 
+	  ENGINE=MergeTree
+	  ORDER BY tuple();`,
+
+  `CREATE TABLE diagnostic_report(
+		createdAt Date,
+		updatedAt Date,
+		RapidAntigenTestResult String
+	  ) 
+	  ENGINE=MergeTree
+	  ORDER BY tuple();`,
+
+  `CREATE TABLE service_request(
+		createdAt Date,
+		updatedAt Date,
+		TestRequested String
+	  ) 
+	  ENGINE=MergeTree
+	  ORDER BY tuple();`,
+
+  `CREATE TABLE specimen(
+		createdAt Date,
+		updatedAt Date,
+		DateSampleCollected String
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
