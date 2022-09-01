@@ -36,7 +36,7 @@
         "targetTable": "condition",
         "columnMappings": [
           {
-            "columnName": "positive_HIV_diagnosis_date",
+            "columnName": "positive_hiv_diagnosis_date",
             "fhirPath": "Condition.recordedDate"
           },
           {
