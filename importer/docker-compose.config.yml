@@ -1,0 +1,89 @@
+version: '3.9'
+
+services:
+  # container for executing config import scripts for setting up initial config
+  cares-openhim-config-importer:
+    image: jembi/instantohie-config-importer
+    deploy:
+      restart_policy:
+        condition: none
+    environment:
+      OPENHIM_API_HOSTNAME: 'openhim-core'
+      OPENHIM_API_PORT: 8080
+      OPENHIM_API_USERNAME: 'root@openhim.org'
+      OPENHIM_API_PASSWORD: 'instant101'
+      # Reject unauthorised is only needed if the OpenHIM's SSL is not setup
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
+    configs:
+      - source: cares-openhim-config-openhimConfig.js
+        target: /openhimConfig.js
+      - source: cares-openhim-config-openhim-import.json
+        target: /openhim-import.json
+    # This command will only attempt to import the OpenHIM config when the heartbeat responds with a 2xx
+    command: sh -c "wait-on -t 60000 https-get://openhim-core:8080/heartbeat && node /openhimConfig.js"
+
+  cares-clickhouse-config-importer:
+    image: node:erbium-alpine
+    deploy:
+      restart_policy:
+        condition: none
+    environment:
+      CLICKHOUSE_HOST: ${CLICKHOUSE_HOST:-analytics-datastore-clickhouse}
+      CLICKHOUSE_PORT: ${CLICKHOUSE_PORT:-8123}
+    configs:
+      - source: cares-clickhouse-config-clickhouseConfig.js
+        target: /clickhouseConfig.js
+      - source: cares-clickhouse-config-clickhouseTables.js
+        target: /clickhouseTables.js
+    command: sh -c "cd / && npm i clickhouse && node /clickhouseConfig.js"
+
+  cares-superset-config-importer:
+    image: node:erbium-alpine
+    deploy:
+      restart_policy:
+        condition: none
+    environment:
+      SUPERSET_SERVICE_NAME: 'dashboard-visualiser-superset'
+      SUPERSET_API_PORT: 8088
+      SUPERSET_API_PASSWORD: ${SUPERSET_API_PASSWORD:-admin}
+      SUPERSET_API_USERNAME: ${SUPERSET_API_USERNAME:-admin}
+      CONFIG_FILE: ${CONFIG_FILE:-superset-export.zip}
+      SUPERSET_SSL: ${SUPERSET_SSL:-false}
+    configs:
+      - source: cares-superset-config-supersetConfig.js
+        target: /supersetConfig.js
+      - source: cares-superset-config-superset-export.zip
+        target: /superset-export.zip
+    command: sh -c "cd / && npm i axios form-data && node /supersetConfig.js"
+
+configs:
+  cares-openhim-config-openhimConfig.js:
+    file: ./interoperability-layer-openhim/openhimConfig.js
+    name:  cares-openhim-config-openhimConfig.js-${cares_openhim_config_openhimConfig_js_DIGEST:?err}
+    labels:
+      name: cares
+  cares-openhim-config-openhim-import.json:
+    file: ./interoperability-layer-openhim/openhim-import.json
+    name: cares-openhim-config-openhim-import.json-${cares_openhim_config_openhim_import_json_DIGEST:?err}
+    labels:
+      name: cares
+  cares-clickhouse-config-clickhouseConfig.js:
+    file: ./analytics-datastore-clickhouse/clickhouseConfig.js
+    name: cares-clickhouse-config-clickhouseConfig.js-${cares_clickhouse_config_clickhouseConfig_js_DIGEST:?err}
+    labels:
+      name: cares
+  cares-clickhouse-config-clickhouseTables.js:
+    file: ./analytics-datastore-clickhouse/clickhouseTables.js
+    name: cares-clickhouse-config-clickhouseTables.js-${cares_clickhouse_config_clickhouseTables_js_DIGEST:?err}
+    labels:
+      name: cares
+  cares-superset-config-supersetConfig.js:
+    file: ./dashboard-visualiser-superset/supersetConfig.js
+    name: cares-superset-config-supersetConfig.js-${cares_superset_config_supersetConfig_js_DIGEST:?err}
+    labels:
+      name: cares
+  cares-superset-config-superset-export.zip:
+    file: ./dashboard-visualiser-superset/superset-export.zip
+    name: cares-superset-config-superset-export.zip-${cares_superset_config_superset_export_zip_DIGEST:?err}
+    labels:
+      name: cares

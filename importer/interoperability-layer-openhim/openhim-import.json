@@ -44,7 +44,7 @@
           "type": "http",
           "status": "enabled",
           "forwardAuthHeader": false,
-          "name": "FHIR Server",
+          "name": "Cares FHIR Server",
           "secured": false,
           "host": "hapi-proxy",
           "port": 18080,
@@ -58,9 +58,9 @@
       "requestBody": true,
       "responseBody": true,
       "rewriteUrlsConfig": [],
-      "name": "FHIR Server",
+      "name": "Cares FHIR Server",
       "description": "A FHIR server (HAPI FHIR)",
-      "urlPattern": "^/fhir.*$",
+      "urlPattern": "^/fhir-cares.*$",
       "priority": 1,
       "matchContentRegex": null,
       "matchContentXpath": null,
@@ -100,7 +100,7 @@
           "type": "http",
           "status": "enabled",
           "forwardAuthHeader": false,
-          "name": "FHIR Server",
+          "name": "Cares FHIR Server",
           "secured": false,
           "host": "hapi-fhir",
           "port": 8080,
@@ -115,7 +115,7 @@
       "responseBody": true,
       "rewriteUrlsConfig": [],
       "description": "A channel to allow queries on the FHIR Server directly",
-      "urlPattern": "^/fhir.*$",
+      "urlPattern": "^/fhir-cares.*$",
       "priority": 2,
       "matchContentRegex": null,
       "matchContentXpath": null,
@@ -125,7 +125,7 @@
       "tcpHost": null,
       "tcpPort": null,
       "alerts": [],
-      "name": "FHIR Server Direct"
+      "name": "Cares FHIR Server Direct"
     }
   ]
 }
