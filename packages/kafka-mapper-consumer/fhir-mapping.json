@@ -38,6 +38,10 @@
           {
             "columnName": "positive_HIV_diagnosis_date",
             "fhirPath": "Condition.recordedDate"
+          },
+          {
+            "columnName": "covid_diagnosis",
+            "fhirPath": "Condition.code.coding.first().code"
           }
         ]
       }
@@ -84,6 +88,28 @@
           {
             "columnName": "rapid_antigen_test_result",
             "fhirPath": "ServiceRequest.code.coding.where(url='http://loinc.org').first().code"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "resourceType": "Immunization",
+    "tableMappings": [
+      {
+        "targetTable": "immunization",
+        "columnMappings": [
+          {
+            "columnName": "vaccine_administered",
+            "fhirPath": "Immunization.vaccineCode.coding.first().code"
+          },
+          {
+            "columnName": "vaccine_dose",
+            "fhirPath": "Immunization.protocolApplied.first().doseNumberPositiveInt"
+          },
+          {
+            "columnName": "vaccination_date",
+            "fhirPath": "Immunization.occurrenceDateTime"
           }
         ]
       }
