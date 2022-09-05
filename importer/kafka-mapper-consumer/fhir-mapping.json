@@ -1,0 +1,118 @@
+[
+  {
+    "resourceType": "Patient",
+    "tableMappings": [
+      {
+        "targetTable": "patient",
+        "columnMappings": [
+          {
+            "columnName": "patient_id",
+            "fhirPath": "Patient.id"
+          },
+          {
+            "columnName": "patient_gender",
+            "fhirPath": "Patient.gender"
+          },
+          {
+            "columnName": "patient_birthdate",
+            "fhirPath": "Patient.birthDate"
+          },
+          {
+            "columnName": "patient_country",
+            "fhirPath": "Patient.address.state"
+          },
+          {
+            "columnName": "patient_key_population",
+            "fhirPath": "Patient.extension.where(url='http://openhie.org/fhir/hiv-casereporting/StructureDefinition/key-population').first().valueCodeableConcept.coding[0].code"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "resourceType": "Condition",
+    "tableMappings": [
+      {
+        "targetTable": "condition",
+        "columnMappings": [
+          {
+            "columnName": "positive_HIV_diagnosis_date",
+            "fhirPath": "Condition.recordedDate"
+          },
+          {
+            "columnName": "covid_diagnosis",
+            "fhirPath": "Condition.code.coding.first().code"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "resourceType": "Specimen",
+    "tableMappings": [
+      {
+        "targetTable": "specimen",
+        "columnMappings": [
+          {
+            "columnName": "patient_id",
+            "fhirPath": "Specimen.subject.reference.substring(8)"
+          },
+          {
+            "columnName": "date_sample_collected",
+            "fhirPath": "Specimen.collection.collectedDateTime"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "resourceType": "ServiceRequest",
+    "tableMappings": [
+      {
+        "targetTable": "service_request",
+        "columnMappings": [
+          {
+            "columnName": "test_requested",
+            "fhirPath": "ServiceRequest.code.coding.where(system='http://loinc.org').first().code"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "resourceType": "DiagnosticReport",
+    "tableMappings": [
+      {
+        "targetTable": "diagnostic_report",
+        "columnMappings": [
+          {
+            "columnName": "rapid_antigen_test_result",
+            "fhirPath": "ServiceRequest.code.coding.where(url='http://loinc.org').first().code"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "resourceType": "Immunization",
+    "tableMappings": [
+      {
+        "targetTable": "immunization",
+        "columnMappings": [
+          {
+            "columnName": "vaccine_administered",
+            "fhirPath": "Immunization.vaccineCode.coding.first().code"
+          },
+          {
+            "columnName": "vaccine_dose",
+            "fhirPath": "Immunization.protocolApplied.first().doseNumberPositiveInt"
+          },
+          {
+            "columnName": "vaccination_date",
+            "fhirPath": "Immunization.occurrenceDateTime"
+          }
+        ]
+      }
+    ]
+  }
+]
