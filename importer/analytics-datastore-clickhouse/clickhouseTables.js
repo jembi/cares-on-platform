@@ -5,7 +5,7 @@ const queries = [
 		patient_id String,
 		id String,
 		version String,
-		lastUpdated Date,
+		lastUpdated String,
 		patient_gender String,
 		patient_birthdate Date,
 		patient_country String, 
@@ -19,8 +19,8 @@ const queries = [
 		updated_at Date,
 		id String,
 		version String,
-		lastUpdated Date,
-		positive_HIV_diagnosis_date Date,
+		lastUpdated String,
+		positive_hiv_diagnosis_date Date,
 		covid_diagnosis String
 	  ) 
 	  ENGINE=MergeTree
@@ -31,7 +31,7 @@ const queries = [
 		updated_at Date,
 		id String,
 		version String,
-		lastUpdated Date,
+		lastUpdated String,
 		rapid_antigen_test_result String
 	  ) 
 	  ENGINE=MergeTree
@@ -42,7 +42,7 @@ const queries = [
 		updated_at Date,
 		id String,
 		version String,
-		lastUpdated Date,
+		lastUpdated String,
 		test_requested String
 	  ) 
 	  ENGINE=MergeTree
@@ -55,7 +55,7 @@ const queries = [
 		patient_id String,
 		id String,
 		version String,
-		lastUpdated Date,
+		lastUpdated String,
 		date_sample_collected Date
 	  ) 
 	  ENGINE=MergeTree
@@ -66,7 +66,7 @@ const queries = [
 		updated_at Date,
 		id String,
 		version String,
-		lastUpdated Date,
+		lastUpdated String,
 		vaccine_administered String,
 		vaccine_dose String,
 		vaccination_date Date
