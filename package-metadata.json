@@ -7,9 +7,7 @@
   "dependencies": [
     "kafka-unbundler-consumer",
     "kafka-mapper-consumer",
-    "dashboard-visualiser-superset",
-    "message-bus-helper-hapi-proxy",
-    "disi-poc"
+    "dashboard-visualiser-superset"
   ],
   "environmentVariables": {}
 }
