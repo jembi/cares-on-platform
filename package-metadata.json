@@ -1,0 +1,13 @@
+{
+  "id": "cares-on-platform",
+  "name": "Cares on platform",
+  "description": "A reference architecture for cares",
+  "type": "infrastructure",
+  "version": "0.0.1",
+  "dependencies": [
+    "kafka-unbundler-consumer",
+    "kafka-mapper-consumer",
+    "dashboard-visualiser-superset"
+  ],
+  "environmentVariables": {}
+}

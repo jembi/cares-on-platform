@@ -1,6 +1,5 @@
 ---
-image: jembi/cares-on-platform
-platformVersion: latest
+image: jembi/platform
 defaultTargetLauncher: swarm
 disableKubernetes: true
 disableIG: true
