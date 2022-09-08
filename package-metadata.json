@@ -7,8 +7,6 @@
   "dependencies": [
     "kafka-unbundler-consumer",
     "kafka-mapper-consumer",
-    "interoperability-layer-openhim",
-    "message-bus-helper-hapi-proxy",
     "dashboard-visualiser-superset"
   ],
   "environmentVariables": {}
