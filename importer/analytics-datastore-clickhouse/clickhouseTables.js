@@ -1,4 +1,21 @@
 const queries = [
+  `CREATE TABLE organization(
+		created_at Date,
+		updated_at Date,
+		facility_id String,
+		id String,
+		version String,
+		lastUpdated String,
+		facility_name String,
+		facility_code String,
+		country_state_province String,
+		country String, 
+		district String,
+		city String
+	  ) 
+	  ENGINE=MergeTree
+	  ORDER BY tuple();`,
+
   `CREATE TABLE patient(
 		created_at Date,
 		updated_at Date,
@@ -8,8 +25,9 @@ const queries = [
 		lastUpdated String,
 		patient_gender String,
 		patient_birthdate Date,
-		patient_country String, 
-		patient_key_population String
+		patient_district String, 
+		patient_key_population String,
+		facility_id String
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
@@ -20,6 +38,7 @@ const queries = [
 		id String,
 		version String,
 		lastUpdated String,
+		patient_id String,
 		positive_hiv_diagnosis_date Date,
 		covid_diagnosis String
 	  ) 
@@ -32,7 +51,9 @@ const queries = [
 		id String,
 		version String,
 		lastUpdated String,
-		rapid_antigen_test_result String
+		patient_id String,
+		rapid_antigen_test_result String,
+		diagnostic_pcr_test_result String
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
@@ -43,6 +64,7 @@ const queries = [
 		id String,
 		version String,
 		lastUpdated String,
+		patient_id String,
 		test_requested String
 	  ) 
 	  ENGINE=MergeTree

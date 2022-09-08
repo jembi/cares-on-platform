@@ -1,5 +1,43 @@
 [
   {
+    "resourceType": "Organization",
+    "tableMappings": [
+      {
+        "targetTable": "organization",
+        "columnMappings": [
+          {
+            "columnName": "facility_id",
+            "fhirPath": "Organization.id"
+          },
+          {
+            "columnName": "facility_name",
+            "fhirPath": "Organization.name"
+          },
+          {
+            "columnName": "facility_code",
+            "fhirPath": "Organization.identifier.where(system='http://test.org/identifier/hiv-organization').first().value"
+          },
+          {
+            "columnName": "country",
+            "fhirPath": "Organization.address.first().country"
+          },
+          {
+            "columnName": "country_state_province",
+            "fhirPath": "Organization.address.first().state"
+          },
+          {
+            "columnName": "district",
+            "fhirPath": "Organization.address.first().district"
+          },
+          {
+            "columnName": "city",
+            "fhirPath": "Organization.address.first().city"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "resourceType": "Patient",
     "tableMappings": [
       {
@@ -18,12 +56,16 @@
             "fhirPath": "Patient.birthDate"
           },
           {
-            "columnName": "patient_country",
-            "fhirPath": "Patient.address.state"
+            "columnName": "patient_district",
+            "fhirPath": "Patient.address.district"
           },
           {
             "columnName": "patient_key_population",
-            "fhirPath": "Patient.extension.where(url='http://openhie.org/fhir/hiv-casereporting/StructureDefinition/key-population').first().valueCodeableConcept.coding[0].code"
+            "fhirPath": "Patient.extension.where(url='http://openhie.org/fhir/hiv-casereporting/StructureDefinition/key-population').first().valueCodeableConcept.coding.first().code"
+          },
+          {
+            "columnName": "facility_id",
+            "fhirPath": "Patient.managingOrganization.reference.substring(13)"
           }
         ]
       }
@@ -35,6 +77,10 @@
       {
         "targetTable": "condition",
         "columnMappings": [
+          {
+            "columnName": "patient_id",
+            "fhirPath": "Condition.subject.reference.substring(8)"
+          },
           {
             "columnName": "positive_hiv_diagnosis_date",
             "fhirPath": "Condition.recordedDate"
@@ -72,8 +118,12 @@
         "targetTable": "service_request",
         "columnMappings": [
           {
+            "columnName": "patient_id",
+            "fhirPath": "ServiceRequest.subject.reference.substring(8)"
+          },
+          {
             "columnName": "test_requested",
-            "fhirPath": "ServiceRequest.code.coding.where(system='http://loinc.org').first().code"
+            "fhirPath": "ServiceRequest.code.coding.where(system='http://loinc.org').first().name"
           }
         ]
       }
@@ -86,8 +136,16 @@
         "targetTable": "diagnostic_report",
         "columnMappings": [
           {
+            "columnName": "patient_id",
+            "fhirPath": "DiagnosticReport.subject.reference.substring(8)"
+          },
+          {
             "columnName": "rapid_antigen_test_result",
-            "fhirPath": "ServiceRequest.code.coding.where(url='http://loinc.org').first().code"
+            "fhirPath": "DiagnosticReport.code.coding.where(url='antigen').first().result"
+          },
+          {
+            "columnName": "diagnostic_pcr_test_result",
+            "fhirPath": "DiagnosticReport.code.coding.where(url='pcr').first().result"
           }
         ]
       }
