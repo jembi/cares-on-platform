@@ -44,10 +44,6 @@
         "targetTable": "patient",
         "columnMappings": [
           {
-            "columnName": "patient_id",
-            "fhirPath": "Patient.id"
-          },
-          {
             "columnName": "patient_gender",
             "fhirPath": "Patient.gender"
           },

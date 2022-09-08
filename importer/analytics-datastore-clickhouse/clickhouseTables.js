@@ -1,7 +1,5 @@
 const queries = [
   `CREATE TABLE organization(
-		created_at Date,
-		updated_at Date,
 		facility_id String,
 		id String,
 		version String,
@@ -17,9 +15,6 @@ const queries = [
 	  ORDER BY tuple();`,
 
   `CREATE TABLE patient(
-		created_at Date,
-		updated_at Date,
-		patient_id String,
 		id String,
 		version String,
 		lastUpdated String,
@@ -33,8 +28,6 @@ const queries = [
 	  ORDER BY tuple();`,
 
   `CREATE TABLE condition(
-		created_at Date,
-		updated_at Date,
 		id String,
 		version String,
 		lastUpdated String,
@@ -46,8 +39,6 @@ const queries = [
 	  ORDER BY tuple();`,
 
   `CREATE TABLE diagnostic_report(
-		created_at Date,
-		updated_at Date,
 		id String,
 		version String,
 		lastUpdated String,
@@ -59,8 +50,6 @@ const queries = [
 	  ORDER BY tuple();`,
 
   `CREATE TABLE service_request(
-		created_at Date,
-		updated_at Date,
 		id String,
 		version String,
 		lastUpdated String,
@@ -72,8 +61,6 @@ const queries = [
 
   // TODO patient_id for testing only [To be updated]
   `CREATE TABLE specimen(
-		created_at Date,
-		updated_at Date,
 		patient_id String,
 		id String,
 		version String,
@@ -84,8 +71,6 @@ const queries = [
 	  ORDER BY tuple();`,
 
   `CREATE TABLE immunization(
-		created_at Date,
-		updated_at Date,
 		id String,
 		version String,
 		lastUpdated String,
@@ -97,7 +82,7 @@ const queries = [
 	  ORDER BY tuple();`,
 
   // TODO Add join according + create live view
-  `CREATE VIEW report_1_test_2 AS SELECT * from patient INNER JOIN specimen ON patient.patient_id=specimen.patient_id`,
+  `CREATE VIEW report_1 AS SELECT * from patient INNER JOIN specimen ON patient.id=specimen.patient_id INNER JOIN service_request ON patient.id=service_request.patient_idINNER JOIN condition ON patient.id=condition.patient_idINNER JOIN diagnostic_report ON patient.id=diagnostic_report.patient_id INNER JOIN organization ON patient.facility_id=organization.facility_id`,
 ];
 
 module.exports = queries;
