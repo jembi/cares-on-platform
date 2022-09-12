@@ -3,6 +3,7 @@ const queries = [
 		facility_id String,
 		id String,
 		version String,
+		created_at Date,
 		last_updated String,
 		facility_name String,
 		facility_code String,
@@ -17,6 +18,7 @@ const queries = [
   `CREATE TABLE patient(
 		id String,
 		version String,
+		created_at Date,
 		last_updated String,
 		patient_gender String,
 		patient_birthdate Date NULL,
@@ -31,6 +33,7 @@ const queries = [
 		id String,
 		version String,
 		last_updated String,
+		created_at Date,
 		patient_id String,
 		covid_diagnosis String,
 		covid_diagnosis_date Date NULL, 
@@ -43,6 +46,7 @@ const queries = [
 		id String,
 		version String,
 		last_updated String,
+		created_at Date,
 		patient_id String,
 		test_requested String
 	  ) 
@@ -53,6 +57,7 @@ const queries = [
 		patient_id String,
 		id String,
 		version String,
+		created_at Date,
 		last_updated String,
 		date_sample_collected Date NULL
 	  ) 
@@ -64,6 +69,7 @@ const queries = [
 		id String,
 		version String,
 		last_updated String,
+		created_at Date,
 		rapid_antigen_test_result String,
 		diagnostic_pcr_test_result String
 	  ) 
@@ -75,6 +81,7 @@ const queries = [
 		version String,
 		last_updated String,
 		patient_id String,
+		created_at Date,
 		vaccine_administered String,
 		vaccine_dose String,
 		vaccine_series String,
