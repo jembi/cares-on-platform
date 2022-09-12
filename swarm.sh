@@ -24,8 +24,17 @@ main() {
     try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml instant" "Failed to deploy Cares on Platform"
 
     log info "Waiting to update configs"
-    config::update_service_configs instant_kafka-mapper-consumer /app/src/data "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer cares
-    config::update_service_configs instant_dashboard-visualiser-superset /app/pythonpath "$COMPOSE_FILE_PATH"/importer/dashboard-visualiser-superset cares
+    service_update_args=""
+    config::update_service_configs service_update_args /app/src/data "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer cares
+    try "docker service update $service_update_args instant_kafka-mapper-consumer" "Failed to update config for instant_kafka-mapper-consumer"
+
+    service_update_args=""
+    config::update_service_configs service_update_args /app/pythonpath "$COMPOSE_FILE_PATH"/importer/dashboard-visualiser-superset cares
+    # TODO: Update .env.superset once the value for MAPBOX_API_KEY is known
+    config::env_var_add_from_file service_update_args "$COMPOSE_FILE_PATH"/.env.superset
+    try "docker service update $service_update_args instant_dashboard-visualiser-superset" "Failed to update config for instant_dashboard-visualiser-superset"
+
+    docker container prune -f &>/dev/null
 
     log info "Waiting to give config importers time to run before cleaning up service"
     config::remove_config_importer cares-clickhouse-config-importer
