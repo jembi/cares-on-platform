@@ -25,6 +25,7 @@ main() {
 
     log info "Waiting to update configs"
     config::update_service_configs instant_kafka-mapper-consumer /app/src/data "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer cares
+    config::update_service_configs instant_kafka-mapper-consumer /app/src/plugin "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer cares
 
     log info "Waiting to give config importers time to run before cleaning up service"
     config::remove_config_importer cares-clickhouse-config-importer

@@ -19,7 +19,7 @@ const queries = [
 		version String,
 		last_updated String,
 		patient_gender String,
-		patient_birthdate Date,
+		patient_birthdate Date NULL,
 		patient_district String, 
 		patient_key_population String,
 		facility_id String
@@ -32,19 +32,9 @@ const queries = [
 		version String,
 		last_updated String,
 		patient_id String,
-		positive_hiv_diagnosis_date Date,
-		covid_diagnosis String
-	  ) 
-	  ENGINE=MergeTree
-	  ORDER BY tuple();`,
-
-  `CREATE TABLE diagnostic_report(
-		id String,
-		version String,
-		last_updated String,
-		patient_id String,
-		rapid_antigen_test_result String,
-		diagnostic_pcr_test_result String
+		covid_diagnosis String,
+		covid_diagnosis_date Date NULL, 
+		hiv_diagnosis_date Date NULL
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
@@ -59,13 +49,23 @@ const queries = [
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
 
-  // TODO patient_id for testing only [To be updated]
   `CREATE TABLE specimen(
 		patient_id String,
 		id String,
 		version String,
 		last_updated String,
-		date_sample_collected Date
+		date_sample_collected Date NULL
+	  ) 
+	  ENGINE=MergeTree
+	  ORDER BY tuple();`,
+
+  `CREATE TABLE observation(
+		patient_id String,
+		id String,
+		version String,
+		last_updated String,
+		rapid_antigen_test_result String,
+		diagnostic_pcr_test_result String
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
@@ -74,20 +74,39 @@ const queries = [
 		id String,
 		version String,
 		last_updated String,
+		patient_id String,
 		vaccine_administered String,
 		vaccine_dose String,
-		vaccination_date Date
+		vaccine_series String,
+		vaccination_date Date NULL,
+		source_of_information String,
+		meta_profile String
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
 
-  // TODO Add join according + create live view
   `CREATE VIEW report_1 AS SELECT * from patient 
   	INNER JOIN specimen ON patient.id=specimen.patient_id 
 	INNER JOIN service_request ON patient.id=service_request.patient_id
 	INNER JOIN condition ON patient.id=condition.patient_id
-	INNER JOIN diagnostic_report ON patient.id=diagnostic_report.patient_id 
+	INNER JOIN observation ON patient.id=observation.patient_id 
 	INNER JOIN organization ON patient.facility_id=organization.facility_id;`,
+
+  `CREATE VIEW report_2 AS SELECT * from patient 
+	INNER JOIN specimen ON patient.id=specimen.patient_id
+	INNER JOIN service_request ON patient.id=service_request.patient_id
+	INNER JOIN condition ON patient.id=condition.patient_id
+	INNER JOIN observation ON patient.id=observation.patient_id 
+	INNER JOIN organization ON patient.facility_id=organization.facility_id
+	INNER JOIN immunization ON patient.id=immunization.patient_id;`,
+
+  `CREATE VIEW report_3 AS SELECT * from patient 
+	INNER JOIN specimen ON patient.id=specimen.patient_id
+	INNER JOIN service_request ON patient.id=service_request.patient_id
+	INNER JOIN condition ON patient.id=condition.patient_id
+	INNER JOIN observation ON patient.id=observation.patient_id 
+	INNER JOIN organization ON patient.facility_id=organization.facility_id
+	INNER JOIN immunization ON patient.id=immunization.patient_id;`,
 ];
 
 module.exports = queries;

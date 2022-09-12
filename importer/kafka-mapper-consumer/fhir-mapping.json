@@ -57,7 +57,7 @@
           },
           {
             "columnName": "patient_key_population",
-            "fhirPath": "Patient.extension.where(url='http://openhie.org/fhir/hiv-casereporting/StructureDefinition/key-population').first().valueCodeableConcept.coding.first().code"
+            "fhirPath": "Patient.extension.where(url='http://example.com/fhir/example/StructureDefinition/key-population').first().valueCodeableConcept.coding.first().code"
           },
           {
             "columnName": "facility_id",
@@ -72,18 +72,11 @@
     "tableMappings": [
       {
         "targetTable": "condition",
+        "plugin": "condition-plugin.ts",
         "columnMappings": [
           {
             "columnName": "patient_id",
             "fhirPath": "Condition.subject.reference.substring(8)"
-          },
-          {
-            "columnName": "positive_hiv_diagnosis_date",
-            "fhirPath": "Condition.recordedDate"
-          },
-          {
-            "columnName": "covid_diagnosis",
-            "fhirPath": "Condition.code.coding.first().code"
           }
         ]
       }
@@ -112,36 +105,26 @@
     "tableMappings": [
       {
         "targetTable": "service_request",
+        "plugin": "service_request-plugin.ts",
         "columnMappings": [
           {
             "columnName": "patient_id",
             "fhirPath": "ServiceRequest.subject.reference.substring(8)"
-          },
-          {
-            "columnName": "test_requested",
-            "fhirPath": "ServiceRequest.code.coding.where(system='http://loinc.org').first().name"
           }
         ]
       }
     ]
   },
   {
-    "resourceType": "DiagnosticReport",
+    "resourceType": "Observation",
     "tableMappings": [
       {
-        "targetTable": "diagnostic_report",
+        "targetTable": "observation",
+        "plugin": "observation-plugin.ts",
         "columnMappings": [
           {
             "columnName": "patient_id",
-            "fhirPath": "DiagnosticReport.subject.reference.substring(8)"
-          },
-          {
-            "columnName": "rapid_antigen_test_result",
-            "fhirPath": "DiagnosticReport.code.coding.where(url='antigen').first().result"
-          },
-          {
-            "columnName": "diagnostic_pcr_test_result",
-            "fhirPath": "DiagnosticReport.code.coding.where(url='pcr').first().result"
+            "fhirPath": "Observation.subject.reference.substring(8)"
           }
         ]
       }
@@ -154,6 +137,10 @@
         "targetTable": "immunization",
         "columnMappings": [
           {
+            "columnName": "patient_id",
+            "fhirPath": "Immunization.patient.reference.substring(8)"
+          },
+          {
             "columnName": "vaccine_administered",
             "fhirPath": "Immunization.vaccineCode.coding.first().code"
           },
@@ -162,8 +149,20 @@
             "fhirPath": "Immunization.protocolApplied.first().doseNumberPositiveInt"
           },
           {
+            "columnName": "vaccine_series",
+            "fhirPath": "Immunization.protocolApplied.first().series"
+          },
+          {
             "columnName": "vaccination_date",
             "fhirPath": "Immunization.occurrenceDateTime"
+          },
+          {
+            "columnName": "source_of_information",
+            "fhirPath": "Immunization.reportOrigin.coding.first().code"
+          },
+          {
+            "columnName": "meta_profile",
+            "fhirPath": "Immunization.meta.profile.first().substring(52)"
           }
         ]
       }
