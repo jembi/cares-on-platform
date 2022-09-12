@@ -24,15 +24,15 @@ main() {
     try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml instant" "Failed to deploy Cares on Platform"
 
     log info "Waiting to update configs"
-    service_update_args=""
-    config::update_service_configs service_update_args /app/src/data "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer cares
-    try "docker service update $service_update_args instant_kafka-mapper-consumer" "Failed to update config for instant_kafka-mapper-consumer"
+    REF_service_update_args=""
+    config::update_service_configs REF_service_update_args /app/src/data "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer cares
+    try "docker service update $REF_service_update_args instant_kafka-mapper-consumer" "Failed to update config for instant_kafka-mapper-consumer"
 
-    service_update_args=""
-    config::update_service_configs service_update_args /app/pythonpath "$COMPOSE_FILE_PATH"/importer/dashboard-visualiser-superset cares
+    REF_service_update_args=""
+    config::update_service_configs REF_service_update_args /app/pythonpath "$COMPOSE_FILE_PATH"/importer/dashboard-visualiser-superset cares
     # TODO: Update .env.superset once the value for MAPBOX_API_KEY is known
-    config::env_var_add_from_file service_update_args "$COMPOSE_FILE_PATH"/.env.superset
-    try "docker service update $service_update_args instant_dashboard-visualiser-superset" "Failed to update config for instant_dashboard-visualiser-superset"
+    config::env_var_add_from_file REF_service_update_args "$COMPOSE_FILE_PATH"/.env.superset
+    try "docker service update $REF_service_update_args instant_dashboard-visualiser-superset" "Failed to update config for instant_dashboard-visualiser-superset"
 
     docker container prune -f &>/dev/null
 
