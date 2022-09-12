@@ -28,13 +28,15 @@ main() {
     config::update_service_configs REF_service_update_args /app/src/data "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer cares
     try "docker service update $REF_service_update_args instant_kafka-mapper-consumer" "Failed to update config for instant_kafka-mapper-consumer"
 
+    try "docker container rm $(docker container ls -aq --filter name=kafka-mapper-consumer) &>/dev/null" "Failed to clean containers"
+
     REF_service_update_args=""
     config::update_service_configs REF_service_update_args /app/pythonpath "$COMPOSE_FILE_PATH"/importer/dashboard-visualiser-superset cares
     # TODO: Update .env.superset once the value for MAPBOX_API_KEY is known
     config::env_var_add_from_file REF_service_update_args "$COMPOSE_FILE_PATH"/.env.superset
     try "docker service update $REF_service_update_args instant_dashboard-visualiser-superset" "Failed to update config for instant_dashboard-visualiser-superset"
 
-    docker container prune -f &>/dev/null
+    try "docker container rm $(docker container ls -aq --filter name=dashboard-visualiser-superset) &>/dev/null" "Failed to clean containers"
 
     log info "Waiting to give config importers time to run before cleaning up service"
     config::remove_config_importer cares-clickhouse-config-importer
