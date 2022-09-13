@@ -135,6 +135,7 @@
     "tableMappings": [
       {
         "targetTable": "immunization",
+        "filter": "Immunization.meta.profile = 'http://example.com/fhir/example/StructureDefinition/covid19-vaccination'",
         "columnMappings": [
           {
             "columnName": "patient_id",
@@ -158,6 +159,40 @@
           },
           {
             "columnName": "source_of_information",
+            "fhirPath": "Immunization.reportOrigin.coding.first().code"
+          },
+          {
+            "columnName": "meta_profile",
+            "fhirPath": "Immunization.meta.profile.first().substring(52)"
+          }
+        ]
+      },
+      {
+        "targetTable": "immunization",
+        "filter": "Immunization.meta.profile = 'http://example.com/fhir/example/StructureDefinition/covid19-assessment-vaccination'",
+        "columnMappings": [
+          {
+            "columnName": "patient_id",
+            "fhirPath": "Immunization.patient.reference.substring(8)"
+          },
+          {
+            "columnName": "assessment_vaccine_administered",
+            "fhirPath": "Immunization.vaccineCode.coding.first().code"
+          },
+          {
+            "columnName": "assessment_vaccine_dose",
+            "fhirPath": "Immunization.protocolApplied.first().doseNumberPositiveInt"
+          },
+          {
+            "columnName": "assessment_vaccine_series",
+            "fhirPath": "Immunization.protocolApplied.first().series"
+          },
+          {
+            "columnName": "assessment_vaccination_date",
+            "fhirPath": "Immunization.occurrenceDateTime"
+          },
+          {
+            "columnName": "assessment_source_of_information",
             "fhirPath": "Immunization.reportOrigin.coding.first().code"
           },
           {

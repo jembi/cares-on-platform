@@ -87,7 +87,12 @@ const queries = [
 		vaccine_series String,
 		vaccination_date Date NULL,
 		source_of_information String,
-		meta_profile String
+		meta_profile String,
+		assessment_vaccine_administered String,
+		assessment_vaccine_dose String,
+		assessment_vaccine_series String,
+		assessment_vaccination_date Date NULL,
+		assessment_source_of_information String
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
