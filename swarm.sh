@@ -60,9 +60,7 @@ main() {
 
     # Exit 0 here to avoid false error messages
     exit 0
-  elif
-    [[ "${ACTION}" == "down" ]]
-  then
+  elif [[ "${ACTION}" == "down" ]]; then
     log info "Cares only has down for its dependencies"
   elif [[ "${ACTION}" == "destroy" ]]; then
     # shellcheck disable=SC2046 # intentional word splitting
