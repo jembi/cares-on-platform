@@ -1,0 +1,831 @@
+{
+	"info": {
+		"_postman_id": "451d5214-2fc3-4f62-9c88-4f0bfd0cadc8",
+		"name": "CARES DISI CDR",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Superset export assets",
+			"item": [
+				{
+					"name": "Export superset assets",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjYyNjQ4MzE1LCJqdGkiOiJiZWMxZGFmMC0zYzljLTRlYzctOWU5Yy1hNWZkMDBkNzZjYzQiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoxLCJuYmYiOjE2NjI2NDgzMTUsImV4cCI6MTY2MjY0OTIxNX0.MzkSIa3rNydUOgOZ6jPjbhlrc0He83pdgxUtm6nGkCo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/zip",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8089/api/v1/assets/export/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"api",
+								"v1",
+								"assets",
+								"export",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Token Superset",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjYxNTI0OTU2LCJqdGkiOiI2N2E0MjRkMy1jNTcyLTQ1NWEtYmNhNS1iMzc5ZWZkYjc4MjMiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoxLCJuYmYiOjE2NjE1MjQ5NTYsImV4cCI6MTY2MTUyNTg1Nn0.FArOyGHsnB5an9sfDgaEudTxHjSZd7lP5UfcauIzBK8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/zip",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"password\": \"admin\",\n  \"provider\": \"db\",\n  \"refresh\": false,\n  \"username\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8089/api/v1/security/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"api",
+								"v1",
+								"security",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bootstrap",
+			"item": [
+				{
+					"name": "Organizations",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Custom test"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"resourceType\": \"Bundle\",\r\n    \"type\": \"transaction\",\r\n    \"entry\": [\r\n        {\r\n            \"resource\": {\r\n                \"resourceType\": \"Organization\",\r\n                \"id\": \"HIVOrganizationExample\",\r\n                \"meta\": {\r\n                    \"profile\": [\r\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-organization\"\r\n                    ]\r\n                },\r\n                \"address\": [\r\n                    {\r\n                        \"country\": \"QA country\",\r\n                        \"state\": \"QA State\",\r\n                        \"district\": \"QA district\",\r\n                        \"city\": \"Report 1A City\",\r\n                        \"line\": [\r\n                            \"DISI line 1\",\r\n                            \"DISI line 2\",\r\n                            \"DISI line 3\"\r\n                        ],\r\n                        \"postalCode\": \"QA postal code\"\r\n                    }\r\n                ],\r\n                \"name\": \"Reporting Facility 1A\",\r\n                \"identifier\": [\r\n                    {\r\n                        \"system\": \"http://test.org/identifier/hiv-organization\",\r\n                        \"value\": \"HF000001\"\r\n                    }\r\n                ]\r\n            },\r\n            \"request\": {\r\n                \"method\": \"PUT\",\r\n                \"url\": \"Organization/HIVOrganizationExample\"\r\n            }\r\n        },\r\n        {\r\n            \"resource\": {\r\n                \"resourceType\": \"Organization\",\r\n                \"id\": \"HIVOrganizationExample2\",\r\n                \"meta\": {\r\n                    \"profile\": [\r\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-organization\"\r\n                    ]\r\n                },\r\n                \"address\": [\r\n                    {\r\n                        \"country\": \"QA country\",\r\n                        \"state\": \"QA state\",\r\n                        \"district\": \"QA district\",\r\n                        \"city\": \"Report 3A City\",\r\n                        \"line\": [\r\n                            \"DISI line 1\",\r\n                            \"DISI line 2\",\r\n                            \"DISI line 3\"\r\n                        ],\r\n                        \"postalCode\": \"QA postal code 2\"\r\n                    }\r\n                ],\r\n                \"name\": \"Reporting Facility 3A\",\r\n                \"identifier\": [\r\n                    {\r\n                        \"system\": \"http://test.org/identifier/hiv-organization\",\r\n                        \"value\": \"HF000002\"\r\n                    }\r\n                ]\r\n            },\r\n            \"request\": {\r\n                \"method\": \"PUT\",\r\n                \"url\": \"Organization/HIVOrganizationExample2\"\r\n            }\r\n        },\r\n        {\r\n            \"resource\": {\r\n                \"resourceType\": \"Organization\",\r\n                \"id\": \"HIVOrganizationExample3\",\r\n                \"meta\": {\r\n                    \"profile\": [\r\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-organization\"\r\n                    ]\r\n                },\r\n                \"address\": [\r\n                    {\r\n                        \"country\": \"QA country\",\r\n                        \"state\": \"QA State\",\r\n                        \"district\": \"QA district\",\r\n                        \"city\": \"Report 5A City\",\r\n                        \"line\": [\r\n                            \"DISI line 1\",\r\n                            \"DISI line 2\",\r\n                            \"DISI line 3\"\r\n                        ],\r\n                        \"postalCode\": \"QA postal code 3\"\r\n                    }\r\n                ],\r\n                \"name\": \"Reporting Facility 5A\",\r\n                \"identifier\": [\r\n                    {\r\n                        \"system\": \"http://test.org/identifier/hiv-organization\",\r\n                        \"value\": \"HF000003\"\r\n                    }\r\n                ]\r\n            },\r\n            \"request\": {\r\n                \"method\": \"PUT\",\r\n                \"url\": \"Organization/HIVOrganizationExample3\"\r\n            }\r\n        },\r\n        {\r\n            \"resource\": {\r\n                \"resourceType\": \"Organization\",\r\n                \"id\": \"HIVOrganizationExample4\",\r\n                \"meta\": {\r\n                    \"profile\": [\r\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-organization\"\r\n                    ]\r\n                },\r\n                \"address\": [\r\n                    {\r\n                        \"country\": \"QA country\",\r\n                        \"state\": \"QA State\",\r\n                        \"district\": \"QA district\",\r\n                        \"city\": \"Report 5C City\",\r\n                        \"line\": [\r\n                            \"DISI line 1\",\r\n                            \"DISI line 2\",\r\n                            \"DISI line 3\"\r\n                        ],\r\n                        \"postalCode\": \"QA postal code 4\"\r\n                    }\r\n                ],\r\n                \"name\": \"Reporting Facility 5C\",\r\n                \"identifier\": [\r\n                    {\r\n                        \"system\": \"http://test.org/identifier/hiv-organization\",\r\n                        \"value\": \"HF000004\"\r\n                    }\r\n                ]\r\n            },\r\n            \"request\": {\r\n                \"method\": \"PUT\",\r\n                \"url\": \"Organization/HIVOrganizationExample4\"\r\n            }\r\n        },\r\n        {\r\n            \"resource\": {\r\n                \"resourceType\": \"Organization\",\r\n                \"id\": \"HIVOrganizationExample5\",\r\n                \"meta\": {\r\n                    \"profile\": [\r\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-organization\"\r\n                    ]\r\n                },\r\n                \"address\": [\r\n                    {\r\n                        \"country\": \"QA country\",\r\n                        \"state\": \"QA State\",\r\n                        \"district\": \"QA district\",\r\n                        \"city\": \"Report 5D City\",\r\n                        \"line\": [\r\n                            \"DISI line 1\",\r\n                            \"DISI line 2\",\r\n                            \"DISI line 3\"\r\n                        ],\r\n                        \"postalCode\": \"QA postal code 5\"\r\n                    }\r\n                ],\r\n                \"name\": \"Reporting Facility 5D\",\r\n                \"identifier\": [\r\n                    {\r\n                        \"system\": \"http://test.org/identifier/hiv-organization\",\r\n                        \"value\": \"HF000005\"\r\n                    }\r\n                ]\r\n            },\r\n            \"request\": {\r\n                \"method\": \"PUT\",\r\n                \"url\": \"Organization/HIVOrganizationExample5\"\r\n            }\r\n        },\r\n        {\r\n            \"resource\": {\r\n                \"resourceType\": \"Organization\",\r\n                \"id\": \"HIVOrganizationExample6\",\r\n                \"meta\": {\r\n                    \"profile\": [\r\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-organization\"\r\n                    ]\r\n                },\r\n                \"address\": [\r\n                    {\r\n                        \"country\": \"QA country\",\r\n                        \"state\": \"QA State\",\r\n                        \"district\": \"QA district\",\r\n                        \"city\": \"Report 5F City\",\r\n                        \"line\": [\r\n                            \"DISI line 1\",\r\n                            \"DISI line 2\",\r\n                            \"DISI line 3\"\r\n                        ],\r\n                        \"postalCode\": \"QA postal code 6\"\r\n                    }\r\n                ],\r\n                \"name\": \"Reporting Facility 5F\",\r\n                \"identifier\": [\r\n                    {\r\n                        \"system\": \"http://test.org/identifier/hiv-organization\",\r\n                        \"value\": \"HF000006\"\r\n                    }\r\n                ]\r\n            },\r\n            \"request\": {\r\n                \"method\": \"PUT\",\r\n                \"url\": \"Organization/HIVOrganizationExample6\"\r\n            }\r\n        }\r\n    ]\r\n}"
+						},
+						"url": {
+							"raw": "{{openhimUrl}}",
+							"host": [
+								"{{openhimUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Locations",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/fhir+json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Custom test"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"resourceType\": \"Bundle\",\r\n  \"type\": \"transaction\",\r\n  \"entry\": [\r\n    {\r\n      \"resource\": {\r\n        \"resourceType\": \"Location\",\r\n        \"id\": \"HIVLocationExample\",\r\n        \"meta\": {\r\n          \"profile\": [\r\n            \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-Location\"\r\n          ]\r\n        },\r\n        \"address\": [\r\n          {\r\n            \"country\": \"QA country\",\r\n            \"state\": \"QA state\",\r\n            \"district\": \"QA district\",\r\n            \"city\": \"Report 1A City\",\r\n            \"line\": [\r\n              \"DISI line 1\",\r\n              \"DISI line 2\",\r\n              \"DISI line 3\"\r\n            ],\r\n            \"postalCode\": \"QA postal code\"\r\n          }\r\n        ],\r\n        \"name\": \"HIV Location\",\r\n        \"identifier\": [\r\n          {\r\n            \"system\": \"http://test.org/identifier/hiv-Location\",\r\n            \"value\": \"HL000001\"\r\n          }\r\n        ],\r\n        \"position\": {\r\n          \"longitude\": 24.1,\r\n          \"latitude\": -30\r\n        }\r\n      },\r\n      \"request\": {\r\n        \"method\": \"PUT\",\r\n        \"url\": \"Location/HIVLocationExample\"\r\n      }\r\n    },\r\n    {\r\n      \"resource\": {\r\n        \"resourceType\": \"Location\",\r\n        \"id\": \"HIVLocationExample2\",\r\n        \"meta\": {\r\n          \"profile\": [\r\n            \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-Location\"\r\n          ]\r\n        },\r\n        \"address\": [\r\n          {\r\n            \"country\": \"QA country\",\r\n            \"state\": \"QA state\",\r\n            \"district\": \"QA district\",\r\n            \"city\": \"Report 3A City\",\r\n            \"line\": [\r\n              \"DISI line 1\",\r\n              \"DISI line 2\",\r\n              \"DISI line 3\"\r\n            ],\r\n            \"postalCode\": \"QA postal code 2\"\r\n          }\r\n        ],\r\n        \"name\": \"HIV Location 2\",\r\n        \"identifier\": [\r\n          {\r\n            \"system\": \"http://test.org/identifier/hiv-Location\",\r\n            \"value\": \"HL000002\"\r\n          }\r\n        ],\r\n        \"position\": {\r\n          \"longitude\": 24,\r\n          \"latitude\": -30.1\r\n        }\r\n      },\r\n      \"request\": {\r\n        \"method\": \"PUT\",\r\n        \"url\": \"Location/HIVLocationExample2\"\r\n      }\r\n    },\r\n    {\r\n      \"resource\": {\r\n        \"resourceType\": \"Location\",\r\n        \"id\": \"HIVLocationExample3\",\r\n        \"meta\": {\r\n          \"profile\": [\r\n            \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-Location\"\r\n          ]\r\n        },\r\n        \"address\": [\r\n          {\r\n            \"country\": \"QA country\",\r\n            \"state\": \"QA state\",\r\n            \"district\": \"QA district\",\r\n            \"city\": \"Report 5A City\",\r\n            \"line\": [\r\n              \"DISI line 1\",\r\n              \"DISI line 2\",\r\n              \"DISI line 3\"\r\n            ],\r\n            \"postalCode\": \"QA postal code 3\"\r\n          }\r\n        ],\r\n        \"name\": \"HIV Location 3\",\r\n        \"identifier\": [\r\n          {\r\n            \"system\": \"http://test.org/identifier/hiv-Location\",\r\n            \"value\": \"HL000003\"\r\n          }\r\n        ],\r\n        \"position\": {\r\n          \"longitude\": 24.1,\r\n          \"latitude\": -30.1\r\n        }\r\n      },\r\n      \"request\": {\r\n        \"method\": \"PUT\",\r\n        \"url\": \"Location/HIVLocationExample3\"\r\n      }\r\n    },\r\n    {\r\n      \"resource\": {\r\n        \"resourceType\": \"Location\",\r\n        \"id\": \"HIVLocationExample4\",\r\n        \"meta\": {\r\n          \"profile\": [\r\n            \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-Location\"\r\n          ]\r\n        },\r\n        \"address\": [\r\n          {\r\n            \"country\": \"QA country\",\r\n            \"state\": \"QA state\",\r\n            \"district\": \"QA district\",\r\n            \"city\": \"Report 5C City\",\r\n            \"line\": [\r\n              \"DISI line 1\",\r\n              \"DISI line 2\",\r\n              \"DISI line 3\"\r\n            ],\r\n            \"postalCode\": \"QA postal code 4\"\r\n          }\r\n        ],\r\n        \"name\": \"HIV Location 4\",\r\n        \"identifier\": [\r\n          {\r\n            \"system\": \"http://test.org/identifier/hiv-Location\",\r\n            \"value\": \"HL000004\"\r\n          }\r\n        ],\r\n        \"position\": {\r\n          \"longitude\": 24.1,\r\n          \"latitude\": -30\r\n        }\r\n      },\r\n      \"request\": {\r\n        \"method\": \"PUT\",\r\n        \"url\": \"Location/HIVLocationExample4\"\r\n      }\r\n    },\r\n    {\r\n      \"resource\": {\r\n        \"resourceType\": \"Location\",\r\n        \"id\": \"HIVLocationExample5\",\r\n        \"meta\": {\r\n          \"profile\": [\r\n            \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-Location\"\r\n          ]\r\n        },\r\n        \"address\": [\r\n          {\r\n            \"country\": \"QA country\",\r\n            \"state\": \"QA state\",\r\n            \"district\": \"QA district\",\r\n            \"city\": \"Report 5D City\",\r\n            \"line\": [\r\n              \"DISI line 1\",\r\n              \"DISI line 2\",\r\n              \"DISI line 3\"\r\n            ],\r\n            \"postalCode\": \"QA postal code 5\"\r\n          }\r\n        ],\r\n        \"name\": \"HIV Location 5\",\r\n        \"identifier\": [\r\n          {\r\n            \"system\": \"http://test.org/identifier/hiv-Location\",\r\n            \"value\": \"HL000005\"\r\n          }\r\n        ],\r\n        \"position\": {\r\n          \"longitude\": 24,\r\n          \"latitude\": -30.1\r\n        }\r\n      },\r\n      \"request\": {\r\n        \"method\": \"PUT\",\r\n        \"url\": \"Location/HIVLocationExample5\"\r\n      }\r\n    },\r\n    {\r\n      \"resource\": {\r\n        \"resourceType\": \"Location\",\r\n        \"id\": \"HIVLocationExample6\",\r\n        \"meta\": {\r\n          \"profile\": [\r\n            \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-Location\"\r\n          ]\r\n        },\r\n        \"address\": [\r\n          {\r\n            \"country\": \"QA country\",\r\n            \"state\": \"QA state\",\r\n            \"district\": \"QA district\",\r\n            \"city\": \"Report 5F City\",\r\n            \"line\": [\r\n              \"DISI line 1\",\r\n              \"DISI line 2\",\r\n              \"DISI line 3\"\r\n            ],\r\n            \"postalCode\": \"QA postal code 6\"\r\n          }\r\n        ],\r\n        \"name\": \"HIV Location 6\",\r\n        \"identifier\": [\r\n          {\r\n            \"system\": \"http://test.org/identifier/hiv-Location\",\r\n            \"value\": \"HL000006\"\r\n          }\r\n        ],\r\n        \"position\": {\r\n          \"longitude\": 24.1,\r\n          \"latitude\": -30.1\r\n        }\r\n      },\r\n      \"request\": {\r\n        \"method\": \"PUT\",\r\n        \"url\": \"Location/HIVLocationExample6\"\r\n      }\r\n    }\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "{{openhimUrl}}",
+							"host": [
+								"{{openhimUrl}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CARES bundles",
+			"item": [
+				{
+					"name": "HIV CBS Submit random bundle - full",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Custom test",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"resourceType\": \"Bundle\",\n    \"id\": \"{{bundleID}}\",\n    \"type\": \"document\",\n    \"entry\": [\n        {\n            \"fullUrl\": \"Composition/{{randomHivCompositionGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Composition\",\n                \"id\": \"{{randomHivCompositionGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-composition\"\n                    ]\n                },\n                \"type\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"95412-3\",\n                            \"system\": \"http://loinc.org\"\n                        }\n                    ]\n                },\n                \"status\": \"final\",\n                \"identifier\": {\n                    \"system\": \"http://openhie.org/fhir/hiv-casereporting/identifier/hiv-case-report\",\n                    \"value\": \"{{$guid}}\"\n                },\n                \"date\": \"2021-05-18\",\n                \"author\": [\n                    {\n                        \"reference\": \"Organization/{{registrationFacilityCode}}\"\n                    }\n                ],\n                \"title\": \"HIV Case Report\",\n                \"section\": [\n                    {\n                        \"title\": \"Client registration\",\n                        \"code\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"CLIENT-REGISTRATION\",\n                                    \"system\": \"http://openhie.org/fhir/hiv-casereporting/CodeSystem/cs-case-report-sections\"\n                                }\n                            ]\n                        },\n                        \"entry\": [\n                            {\n                                \"reference\": \"Patient/{{randomClientGuid}}\"\n                            },\n                            {\n                                \"reference\": \"RelatedPerson/{{randomRelatedPersonGuid}}\"\n                            }\n                        ]\n                    },\n                    {\n                        \"title\": \"HIV Diagnosis\",\n                        \"code\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"HIV-DIAGNOSIS\",\n                                    \"system\": \"http://openhie.org/fhir/hiv-casereporting/CodeSystem/cs-case-report-sections\"\n                                }\n                            ]\n                        },\n                        \"entry\": [\n                            {\n                                \"reference\": \"Condition/{{randomConditionGuid}}\"\n                            },\n                            {\n                                \"reference\": \"Encounter/{{randomHivDiagnosisGuid}}\"\n                            },\n                            {\n                                \"reference\": \"Observation/{{randomHIVRecencyTestGuid}}\"\n                            },\n                            {\n                                \"reference\": \"Observation/{{randomHIVRecencyTestResultGuid}}\"\n                            }\n                        ]\n                    },\n                    {\n                        \"title\": \"HIV Entry To Care\",\n                        \"code\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"HIV-ENTRY-TO-CARE\",\n                                    \"system\": \"http://openhie.org/fhir/hiv-casereporting/CodeSystem/cs-case-report-sections\"\n                                }\n                            ]\n                        },\n                        \"entry\": [\n                            {\n                                \"reference\": \"EpisodeOfCare/{{randomEpisodeOfCareGuid}}\"\n                            },\n                            {\n                                \"reference\": \"Encounter/{{randomEncounterGuid}}\"\n                            }\n                        ]\n                    },\n                    {\n                        \"title\": \"ARV Treatment\",\n                        \"code\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"arvTherapySummary\",\n                                    \"system\": \"http://openhie.org/fhir/hiv-casereporting/CodeSystem/cs-case-report-sections\"\n                                }\n                            ]\n                        },\n                        \"entry\": [\n                            {\n                                \"reference\": \"CarePlan/{{randomCarePlanGuid}}\"\n                            }\n                        ]\n                    },\n                    {{cd4EntryObject}},\n                    {{viralSuppressionObject}},\n                    {\n                        \"title\": \"Death\",\n                        \"code\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"DEATH\",\n                                    \"system\": \"http://openhie.org/fhir/hiv-casereporting/CodeSystem/cs-case-report-sections\"\n                                }\n                            ]\n                        },\n                        \"entry\": [\n                            {\n                                \"reference\": \"Observation/{{randomDeathGuid}}\"\n                            }\n                        ]\n                    }\n                ]\n            }\n        },\n        {\n            \"fullUrl\": \"Encounter/{{randomHivDiagnosisGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Encounter\",\n                \"id\": \"{{randomHivDiagnosisGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-disgnosis-encounter\"\n                    ]\n                },\n                \"class\": {\n                    \"code\": \"PRENC\",\n                    \"system\": \"http://terminology.hl7.org/CodeSystem/v3-ActCode\"\n                },\n                \"serviceProvider\": {\n                    \"reference\": \"Organization/{{hivPositiveDiagnosisFacilityCode}}\"\n                },\n                \"status\": \"finished\",\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomClientGuid}}\"\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"Encounter/{{randomEncounterGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Encounter\",\n                \"id\": \"{{randomEncounterGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-clinical-encounter\"\n                    ]\n                },\n                \"class\": {\n                    \"code\": \"OBSENC\",\n                    \"system\": \"http://terminology.hl7.org/CodeSystem/v3-ActCode\"\n                },\n                \"status\": \"finished\",\n                \"period\": {\n                    \"start\": \"{{dateOfFirstClinicalVisit}}\"\n                },\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomClientGuid}}\"\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"Patient/{{randomClientGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Patient\",\n                \"id\": \"{{randomClientGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-patient\"\n                    ]\n                },\n                \"extension\": [\n                    {\n                        \"url\": \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/key-population\",\n                        \"valueCodeableConcept\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"{{popStatusFhir}}\"\n                                }\n                            ]\n                        }\n                    }\n                ],\n                \"active\": true,\n                \"name\": [\n                    {\n                        \"use\": \"official\",\n                        \"given\": [\n                            \"{{randomFirstName}}\"\n                        ],\n                        \"family\": \"{{randomLastName}}\"\n                    }\n                ],\n                \"maritalStatus\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"{{maritalStatusFhir}}\",\n                            \"system\": \"http://terminology.hl7.org/CodeSystem/v3-MaritalStatus\"\n                        }\n                    ]\n                },\n                \"gender\": \"{{gender}}\",\n                \"birthDate\": \"{{birthDate}}\",\n                \"telecom\": [\n                    {\n                        \"system\": \"phone\",\n                        \"value\": \"{{$randomPhoneNumber}}\"\n                    }\n                ],\n                \"address\": [\n                    {\n                        \"country\": \"{{randomCountry}}\",\n                        \"state\": \"{{randomState}}\",\n                        \"district\": \"{{randomDistrict}}\",\n                        \"city\": \"{{randomCity}}\"\n                    }\n                ],\n                \"identifier\": [\n                    {\n                        \"system\": \"https://instantopenhie.org/client{{randomClientId}}\",\n                        \"value\": \"{{$guid}}\"\n                    },\n                    {\n                        \"system\": \"http://openhie.org/fhir/hiv-casereporting/identifier/art\",\n                        \"value\": \"{{$guid}}\"\n                    },\n                    {\n                        \"system\": \"http://openhie.org/fhir/hiv-casereporting/identifier/passport\",\n                        \"value\": \"{{$guid}}\"\n                    },\n                    {\n                        \"system\": \"http://openhie.org/fhir/hiv-casereporting/identifier/nid\",\n                        \"value\": \"{{nid}}\"\n                    },\n                    {\n                        \"system\": \"http://openhie.org/fhir/hiv-casereporting/identifier/facility{{randomClientId}}\",\n                        \"value\": \"{{$guid}}\"\n                    }\n                ],\n                \"managingOrganization\": {\n                    \"reference\": \"Organization/{{registrationFacilityCode}}\"\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"RelatedPerson/{{randomRelatedPersonGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"RelatedPerson\",\n                \"id\": \"{{randomRelatedPersonGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-related-person\"\n                    ]\n                },\n                \"name\": [\n                    {\n                        \"given\": [\n                            \"{{randomFirstName}}\"\n                        ],\n                        \"family\": \"{{randomLastName}}\"\n                    }\n                ],\n                \"patient\": {\n                    \"reference\": \"Patient/{{randomClientGuid}}\"\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"Condition/{{randomConditionGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Condition\",\n                \"id\": \"{{randomConditionGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-diagnosis\"\n                    ]\n                },\n                \"clinicalStatus\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"active\"\n                        }\n                    ]\n                },\n                \"verificationStatus\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"confirmed\"\n                        }\n                    ]\n                },\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"86406008\",\n                            \"system\": \"http://snomed.info/sct\"\n                        }\n                    ]\n                },\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomClientGuid}}\"\n                },\n                \"recordedDate\": \"{{hivPositiveDate}}\",\n                \"identifier\": [\n                    {\n                        \"system\": \"http://openhie.org/fhir/hiv-casereporting/identifier/hiv-diagnosis\",\n                        \"value\": \"{{randomHivPositiveDiagnosisUniqueID}}\"\n                    }\n                ]\n            }\n        },\n        {\n            \"fullUrl\": \"Observation/{{randomHIVRecencyTestGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Observation\",\n                \"id\": \"{{randomHIVRecencyTestGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-recency-test-conducted\"\n                    ]\n                },\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"HIV-RECENCY-TEST-CONDUCTED\",\n                            \"system\": \"http://openhie.org/fhir/hiv-casereporting/CodeSystem/cs-hiv-obs-codes\",\n                            \"display\": \"HIV recency test conducted\"\n                        }\n                    ]\n                },\n                \"status\": \"final\",\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomClientGuid}}\"\n                },\n                \"valueBoolean\": {{recencyTestConductedFhir}},\n                \"encounter\": {\n                    \"reference\": \"Encounter/{{randomEncounterGuid}}\"\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"Observation/{{randomHIVRecencyTestResultGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Observation\",\n                \"id\": \"{{randomHIVRecencyTestResultGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-recency-result\"\n                    ]\n                },\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"HIV-RECENCY-RESULT\",\n                            \"system\": \"http://openhie.org/fhir/hiv-casereporting/CodeSystem/cs-hiv-obs-codes\",\n                            \"display\": \"HIV recency test conducted\"\n                        }\n                    ]\n                },\n                \"status\": \"final\",\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomClientGuid}}\"\n                },\n                \"valueBoolean\": {{recencyStatusFhir}},\n                \"encounter\": {\n                    \"reference\": \"Encounter/{{randomEncounterGuid}}\"\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"EpisodeOfCare/{{randomEpisodeOfCareGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"EpisodeOfCare\",\n                \"id\": \"{{randomEpisodeOfCareGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-episode-of-care\"\n                    ]\n                },\n                \"status\": \"active\",\n                \"patient\": {\n                    \"reference\": \"Patient/{{randomClientGuid}}\"\n                },\n                \"period\": {\n                    \"start\": \"{{enrollmentDate}}\"\n                },\n                \"identifier\": [\n                    {\n                        \"system\": \"http://openhie.org/fhir/hiv-casereporting/identifier/enrollment-unique-id\",\n                        \"value\": \"{{$guid}}\"\n                    }\n                ],\n                \"managingOrganization\": {\n                    \"reference\": \"Organization/{{enrolledToCareFacCode}}\"\n                },\n                \"diagnosis\": [\n                    {\n                        \"condition\": {\n                            \"reference\": \"Condition/{{randomConditionGuid}}\"\n                        }\n                    }\n                ]\n            }\n        },\n        {\n            \"fullUrl\": \"CarePlan/{{randomCarePlanGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"CarePlan\",\n                \"id\": \"{{randomCarePlanGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-arv-treatment\"\n                    ]\n                },\n                \"activity\": [\n                    {\n                        \"detail\": {\n                            \"extension\": [\n                                {\n                                    \"url\": \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/art-regimen-line\",\n                                    \"valueCodeableConcept\": {\n                                        \"coding\": [\n                                            {\n                                                \"code\": \"{{artLineFhir}}\"\n                                            }\n                                        ]\n                                    }\n                                }\n                            ],\n                            \"status\": \"stopped\",\n                            \"kind\": \"MedicationRequest\",\n                            \"code\": {\n                                \"coding\": [\n                                    {\n                                        \"code\": \"45260-7\",\n                                        \"system\": \"http://loinc.org\",\n                                        \"display\": \"HIV ART medication\"\n                                    }\n                                ]\n                            },\n                            \"productCodeableConcept\": {\n                                \"coding\": [\n                                    {\n                                        \"code\": \"{{artRegimen}}\"\n                                    }\n                                ]\n                            }\n                        }\n                    }\n                ],\n                \"status\": \"active\",\n                \"intent\": \"plan\",\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomClientGuid}}\"\n                },\n                \"period\": {\n                    \"start\": \"{{artStartDate}}\"\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"Observation/{{randomCd4Guid}}\",\n            \"resource\": {\n                \"resourceType\": \"Observation\",\n                \"id\": \"{{randomCd4Guid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-cd4-test\"\n                    ]\n                },\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"CD4-RESULT\",\n                            \"system\": \"http://openhie.org/fhir/hiv-casereporting/CodeSystem/cs-hiv-obs-codes\",\n                            \"display\": \"CD4 result\"\n                        }\n                    ]\n                },\n                \"component\": [\n                    {\n                        \"code\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"113056008\",\n                                    \"system\": \"http://snomed.info/sct\",\n                                    \"display\": \"CD4 result\"\n                                }\n                            ]\n                        },\n                        \"valueInteger\": {{cd4Result}}\n                    },\n                    {\n                        \"code\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"313938009\",\n                                    \"system\": \"http://snomed.info/sct\",\n                                    \"display\": \"CD4 percentage\"\n                                }\n                            ]\n                        },\n                        \"valueInteger\": {{cd4Percentage}}\n                    }\n                ],\n                \"status\": \"final\",\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomClientGuid}}\"\n                },\n                \"effectiveDateTime\": \"{{cd4CollectionDate}}\"\n            }\n        },\n        {\n            \"fullUrl\": \"Observation/{{randomViralSuppressionGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Observation\",\n                \"id\": \"{{randomViralSuppressionGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/hiv-viral-load-suppression\"\n                    ]\n                },\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"VL-RESULT\",\n                            \"system\": \"http://openhie.org/fhir/hiv-casereporting/CodeSystem/cs-hiv-obs-codes\",\n                            \"display\": \"Viral load result\"\n                        }\n                    ]\n                },\n                \"status\": \"final\",\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomClientGuid}}\"\n                },\n                \"effectiveDateTime\": \"{{vlDate}}\",\n                \"valueInteger\": {{vlResult}},\n                \"interpretation\": [\n                    {\n                        \"coding\": [\n                            {\n                                \"code\": \"{{vlInterpretationFhir}}\",\n                                \"system\": \"http://openhie.org/fhir/hiv-casereporting/CodeSystem/cs-vl-interpretation\",\n                                \"display\": \"{{vlInterpretation}}\"\n                            }\n                        ]\n                    },\n                    {\n                        \"coding\": [\n                            {\n                                \"code\": \"{{currVLSupressionFhir}}\",\n                                \"system\": \"http://openhie.org/fhir/hiv-casereporting/CodeSystem/cs-vl-suppression\",\n                                \"display\": \"{{currVLSupression}}\"\n                            }\n                        ]\n                    }\n                ]\n            }\n        },\n        {\n            \"fullUrl\": \"Observation/{{randomDeathGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Observation\",\n                \"id\": \"{{randomDeathGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/death-obs\"\n                    ]\n                },\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"CAUSE-OF-DEATH\",\n                            \"system\": \"http://openhie.org/fhir/hiv-casereporting/CodeSystem/cs-hiv-obs-codes\",\n                            \"display\": \"Cause of death\"\n                        }\n                    ]\n                },\n                \"extension\": [\n                    {\n                        \"url\": \"http://openhie.org/fhir/hiv-casereporting/StructureDefinition/last-clinical-visit\",\n                        \"valueDateTime\": \"{{dateOfLastVisit}}\"\n                    }\n                ],\n                \"status\": \"final\",\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomClientGuid}}\"\n                },\n                \"effectiveDateTime\": \"{{deathDate}}\",\n                \"valueCodeableConcept\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"{{deathCauseFhir}}\",\n                            \"system\": \"http://openhie.org/fhir/hiv-casereporting/CodeSystem/cs-vl-causeofdeath\",\n                            \"display\": \"{{deathCause}}\"\n                        }\n                    ]\n                }\n            }\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{openhimUrl}}",
+							"host": [
+								"{{openhimUrl}}"
+							]
+						},
+						"description": "Remove author and ARVTherapySummaryExample section reference"
+					},
+					"response": []
+				},
+				{
+					"name": "CARES Submit random bundle - full",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Custom test",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"resourceType\": \"Bundle\",\n    \"id\": \"{{bundleID}}\",\n    \"type\": \"document\",\n    \"entry\": [\n        {\n            \"fullUrl\": \"Composition/{{randomHivCompositionGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Composition\",\n                \"id\": \"{{randomHivCompositionGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-composition\"\n                    ]\n                },\n                \"identifier\": {\n                    \"system\": \"http://openhie.org/fhir/covid19-casereporting/identifier/covid19-case-report\",\n                    \"value\": \"{{$guid}}\"\n                },\n                \"status\": \"final\",\n                \"type\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://loinc.org\",\n                            \"code\": \"95412-3\"\n                        }\n                    ]\n                },\n                \"date\": \"2022-08-04\",\n                \"author\": [\n                    {\n                        \"reference\": \"Organization/{{registrationFacilityCode}}\"\n                    }\n                ],\n                \"title\": \"Covid19 Case Report\",\n                \"section\": [\n                    {\n                        \"title\": \"Client registration\",\n                        \"code\": {\n                            \"coding\": [\n                                {\n                                    \"system\": \"http://example.com/fhir/example/CodeSystem/cs-case-report-sections\",\n                                    \"code\": \"CLIENT-REGISTRATION\"\n                                }\n                            ]\n                        },\n                        \"entry\": [\n                            {\n                                \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                            }\n                        ]\n                    },\n                    {\n                        \"title\": \"Covid19 Assessment Encounter\",\n                        \"code\": {\n                            \"coding\": [\n                                {\n                                    \"system\": \"http://example.com/fhir/example/CodeSystem/cs-case-report-sections\",\n                                    \"code\": \"COVID-ASSESSMENT\"\n                                }\n                            ]\n                        },\n                        \"entry\": [\n                            {\n                                \"reference\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\"\n                            },\n                            {\n                                \"reference\": \"Observation/{{Covid19ReasonforAssessmentGuid}}\"\n                            },\n                            {\n                                \"reference\": \"Observation/{{Covid19PresentationGuid}}\"\n                            },\n                            {\n                                \"reference\": \"Observation/{{Covid19SymptomGuid}}\"\n                            },\n                            {\n                                \"reference\": \"Condition/{{Covid19ConditionsComorbidityGuid}}\"\n                            },\n                            {\n                                \"reference\": \"Condition/{{Covid19DiagnosisGuid}}\"\n                            },\n                            {\n                                \"reference\": \"Condition/{{randomHivDiagnosisGuid}}\"\n                            },\n                            {\n                                \"reference\": \"Immunization/{{Covid19AssessmentVaccinationGuid}}\"\n                            },\n                            {\n                                \"reference\": \"Observation/{{Covid19PatientOutcomeGuid}}\"\n                            }\n                        ]\n                    },\n                    {\n                        \"title\": \"Lab Order Management\",\n                        \"code\": {\n                            \"coding\": [\n                                {\n                                    \"system\": \"http://example.com/fhir/example/CodeSystem/cs-case-report-sections\",\n                                    \"code\": \"LABORDER-MANAGEMENT\"\n                                }\n                            ]\n                        },\n                        \"entry\": [\n                            {\n                                \"reference\": \"ServiceRequest/{{Covid19LabOrderGuid}}\"\n                            },\n                            {\n                                \"reference\": \"Specimen/{{Covid19SpecimenGuid}}\"\n                            },\n                            {\n                                \"reference\": \"DiagnosticReport/{{Covid19SpecimenCollectionGuid}}\"\n                            },\n                            {\n                                \"reference\": \"Task/{{Covid19LabOrderCancellationGuid}}\"\n                            },\n                            {\n                                \"reference\": \"Composition/{{Covid19LabResultsGuid}}\"\n                            },\n                            {\n                                \"reference\": \"Composition/{{Covid19EverHospitalizedGuid}}\"\n                            }\n                        ]\n                    },\n                    {\n                        \"title\": \"Covid 19 Vaccination\",\n                        \"code\": {\n                            \"coding\": [\n                                {\n                                    \"system\": \"http://example.com/fhir/example/CodeSystem/cs-case-report-sections\",\n                                    \"code\": \"COVID-VACCINATION\"\n                                }\n                            ]\n                        },\n                        \"entry\": [\n                            {\n                                \"reference\": \"Immunization/{{Covid19VaccinationGuid}}\"\n                            }\n                        ]\n                    }\n                ]\n            }\n        },\n        {\n            \"fullUrl\": \"Composition/{{randomRelatedPersonGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Patient\",\n                \"id\": \"{{randomRelatedPersonGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-patient\"\n                    ]\n                },\n                \"extension\": [\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/client-ward-division\",\n                        \"valueString\": \"Division 9087\"\n                    },\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/key-population\",\n                        \"valueCodeableConcept\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"{{popStatusFhir}}\"\n                                }\n                            ]\n                        }\n                    }\n                ],\n                \"identifier\": [\n                    {\n                        \"system\": \"http://openhie.org/fhir/covid19-casereporting/identifier/passport\",\n                        \"value\": \"{{$guid}}\"\n                    },\n                    {\n                        \"system\": \"http://openhie.org/fhir/covid19-casereporting/identifier/nid\",\n                        \"value\": \"{{nid}}\"\n                    },\n                    {\n                        \"system\": \"http://openhie.org/fhir/covid19-casereporting/identifier/facility{{randomClientId}}\",\n                        \"value\": \"{{$guid}}\"\n                    }\n                ],\n                \"active\": true,\n                \"name\": [\n                    {\n                        \"use\": \"official\",\n                        \"family\": \"{{randomLastName}}\",\n                        \"given\": [\n                            \"{{randomFirstName}}\"\n                        ]\n                    }\n                ],\n                \"telecom\": [\n                    {\n                        \"system\": \"phone\",\n                        \"value\": \"{{$randomPhoneNumber}}\"\n                    }\n                ],\n                \"gender\": \"{{gender}}\",\n                \"birthDate\": \"{{birthDate}}\",\n                \"address\": [\n                    {\n                        \"country\": \"{{randomCountry}}\",\n                        \"state\": \"{{randomState}}\",\n                        \"district\": \"{{randomDistrict}}\",\n                        \"city\": \"{{randomCity}}\"\n                    }\n                ],\n                \"contact\": [\n                    {\n                        \"relationship\": [\n                            {\n                                \"coding\": [\n                                    {\n                                        \"code\": \"N\"\n                                    }\n                                ]\n                            }\n                        ],\n                        \"name\": {\n                            \"family\": \"John\"\n                        },\n                        \"telecom\": [\n                            {\n                                \"system\": \"phone\"\n                            }\n                        ]\n                    }\n                ],\n                \"managingOrganization\": {\n                    \"reference\": \"Organization/{{registrationFacilityCode}}\"\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"Composition/{{Covid19AssessmentEncounterGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Encounter\",\n                \"id\": \"{{Covid19AssessmentEncounterGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-encounter\"\n                    ]\n                },\n                \"extension\": [\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/covid19-vaccine-dose-received\",\n                        \"valueCodeableConcept\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"Yes\"\n                                }\n                            ]\n                        }\n                    }\n                ],\n                \"status\": \"finished\",\n                \"class\": {\n                    \"code\": \"SS\"\n                },\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"period\": {\n                    \"start\": \"2022-07-28\",\n                    \"end\": \"2022-08-15\"\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"Composition/{{Covid19ReasonforAssessmentGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Observation\",\n                \"id\": \"{{Covid19ReasonforAssessmentGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-reason-for-Assessment\"\n                    ]\n                },\n                \"status\": \"final\",\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://loinc.org\",\n                            \"code\": \"75618-9\"\n                        }\n                    ]\n                },\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"encounter\": {\n                    \"reference\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\"\n                },\n                \"valueCodeableConcept\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"CaseContact\"\n                        }\n                    ]\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"Composition/{{Covid19PresentationGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Observation\",\n                \"id\": \"{{Covid19PresentationGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-presentation\"\n                    ]\n                },\n                \"status\": \"final\",\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://loinc.org\",\n                            \"code\": \"75618-9\"\n                        }\n                    ]\n                },\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"encounter\": {\n                    \"reference\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\"\n                },\n                \"valueCodeableConcept\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"Asymptomatic\"\n                        }\n                    ]\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"Composition/{{Covid19SymptomGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Observation\",\n                \"id\": \"{{Covid19SymptomGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-symptom\"\n                    ]\n                },\n                \"status\": \"final\",\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://loinc.org\",\n                            \"code\": \"75618-9\"\n                        }\n                    ]\n                },\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"encounter\": {\n                    \"reference\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\"\n                },\n                \"valueCodeableConcept\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"JointPain\"\n                        }\n                    ]\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"Composition/{{Covid19ConditionsComorbidityGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Condition\",\n                \"id\": \"{{Covid19ConditionsComorbidityGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-conditions-comorbidity\"\n                    ]\n                },\n                \"extension\": [\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/covid19-comorbidity-present\",\n                        \"valueCodeableConcept\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"Yes\"\n                                }\n                            ]\n                        }\n                    },\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/covid19-other-conditions-comorbidity\",\n                        \"valueString\": \"none\"\n                    }\n                ],\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"ChronicLungDisease\"\n                        }\n                    ]\n                },\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"encounter\": {\n                    \"reference\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\"\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"Composition/{{Covid19DiagnosisGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Condition\",\n                \"id\": \"{{Covid19DiagnosisGuid}}\",\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"{{covidDiagnosis}}\"\n                        }\n                    ]\n                },\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"encounter\": {\n                    \"reference\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\"\n                },\n                \"recordedDate\": \"{{dateOfCovidDiagnosis}}\"\n            }\n        },\n        {\n            \"fullUrl\": \"Composition/{{Covid19EverHospitalizedGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Observation\",\n                \"id\": \"{{Covid19EverHospitalizedGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-everhospitalized\"\n                    ]\n                },\n                \"status\": \"final\",\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://loinc.org\",\n                            \"code\": \"75618-9\"\n                        }\n                    ]\n                },\n                \"encounter\": {\n                    \"reference\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\"\n                },\n                \"valueCodeableConcept\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"Yes\"\n                        }\n                    ]\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"Composition/{{Covid19AssessmentVaccinationGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Immunization\",\n                \"id\": \"{{Covid19AssessmentVaccinationGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-assessment-vaccination\"\n                    ]\n                },\n                \"extension\": [\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/vaccination-source-of-info\",\n                        \"valueCodeableConcept\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"{{sourceOfInformation}}\"\n                                }\n                            ]\n                        }\n                    }\n                ],\n                \"status\": \"not-done\",\n                \"vaccineCode\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"{{covid19AssessmentVaccineCode}}\"\n                        }\n                    ]\n                },\n                \"patient\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"encounter\": {\n                    \"reference\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\"\n                },\n                \"occurrenceDateTime\": \"{{assessmentVaccinationAdministeredDate}}\",\n                \"protocolApplied\": [\n                    {\n                        \"doseNumberPositiveInt\": {{covid19AssessmentVaccineDoseInt}}\n                    }\n                ]\n            }\n        },\n        {\n            \"fullUrl\": \"Composition/{{Covid19PatientOutcomeGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Observation\",\n                \"id\": \"{{Covid19PatientOutcomeGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-patient-outcome\"\n                    ]\n                },\n                \"extension\": [\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/covid19-date-recovered\",\n                        \"valueDateTime\": \"2022-07-28\"\n                    },\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/covid19-long-covid-description\",\n                        \"valueString\": \"none\"\n                    }\n                ],\n                \"status\": \"final\",\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://loinc.org\",\n                            \"code\": \"75618-9\"\n                        }\n                    ]\n                },\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"encounter\": {\n                    \"reference\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\"\n                },\n                \"valueCodeableConcept\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"Recovered\"\n                        }\n                    ]\n                },\n                \"note\": [\n                    {\n                        \"text\": \"patient recovered\"\n                    }\n                ]\n            }\n        },\n        {\n            \"fullUrl\": \"Composition/{{Covid19LabOrderGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"ServiceRequest\",\n                \"id\": \"{{Covid19LabOrderGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-lab-order\"\n                    ]\n                },\n                \"extension\": [\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/covid19-test-requested\",\n                        \"valueCodeableConcept\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"{{testRequested}}\"\n                                }\n                            ]\n                        }\n                    }\n                ],\n                \"status\": \"Pending\",\n                \"intent\": \"order\",\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://loinc.org\",\n                            \"code\": \"75618-9\"\n                        }\n                    ]\n                },\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"encounter\": {\n                    \"reference\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\"\n                },\n                \"authoredOn\": \"2022-07-28\",\n                \"reasonCode\": [\n                    {\n                        \"coding\": [\n                            {\n                                \"code\": \"Surveillance\"\n                            }\n                        ]\n                    }\n                ]\n            }\n        },\n        {\n            \"fullUrl\": \"Composition/{{Covid19SpecimenGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Specimen\",\n                \"id\": \"{{Covid19SpecimenGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-specimen\"\n                    ]\n                },\n                \"type\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"{{specimenType}}\"\n                        }\n                    ]\n                },\n                \"collection\": {\n                    \"collectedDateTime\": \"{{sampleCollectionDate}}\"\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"Composition/{{Covid19SpecimenCollectionGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"DiagnosticReport\",\n                \"id\": \"{{Covid19SpecimenCollectionGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-specimen-collection\"\n                    ]\n                },\n                \"extension\": [\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/covid19-specimen-forwarded\",\n                        \"valueCodeableConcept\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"Yes\"\n                                }\n                            ]\n                        }\n                    },\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/covid-19reference-lab\",\n                        \"valueReference\": {\n                            \"reference\": \"Organization/Covid19Laboratory\"\n                        }\n                    }\n                ],\n                \"identifier\": [\n                    {\n                        \"id\": \"12341324\"\n                    }\n                ],\n                \"status\": \"final\",\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://loinc.org\",\n                            \"code\": \"100156-9\"\n                        }\n                    ]\n                },\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"encounter\": {\n                    \"reference\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\"\n                },\n                \"specimen\": [\n                    {\n                        \"reference\": \"Specimen/{{Covid19SpecimenGuid}}\"\n                    }\n                ]\n            }\n        },\n        {\n            \"fullUrl\": \"Composition/{{Covid19LabOrderCancellationGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Task\",\n                \"id\": \"{{Covid19LabOrderCancellationGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-lab-order-cancellation\"\n                    ]\n                },\n                \"status\": \"requested\",\n                \"intent\": \"order\",\n                \"focus\": {\n                    \"reference\": \"ServiceRequest/{{Covid19LabOrderGuid}}\"\n                },\n                \"for\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"encounter\": {\n                    \"reference\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\"\n                },\n                \"authoredOn\": \"2022-07-28\",\n                \"reasonCode\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"Duplicate\"\n                        }\n                    ]\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"Composition/{{Covid19LabResultsGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"DiagnosticReport\",\n                \"id\": \"{{Covid19LabResultsGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-lab-results\"\n                    ]\n                },\n                \"extension\": [\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/covid19-test-completed\",\n                        \"valueCodeableConcept\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"Yes\"\n                                }\n                            ]\n                        }\n                    },\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/covid19-reason-test-not-performed\",\n                        \"valueCodeableConcept\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"Other\"\n                                }\n                            ]\n                        }\n                    }\n                ],\n                \"identifier\": [\n                    {\n                        \"id\": \"12341324\"\n                    }\n                ],\n                \"status\": \"final\",\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://loinc.org\",\n                            \"code\": \"100156-9\"\n                        }\n                    ]\n                },\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"encounter\": {\n                    \"reference\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\"\n                },\n                \"effectiveDateTime\": \"2022-07-28\",\n                \"conclusionCode\": [\n                    {\n                        \"coding\": [\n                            {\n                                \"code\": \"Positive\"\n                            }\n                        ]\n                    }\n                ]\n            }\n        },\n        {\n            \"fullUrl\": \"Composition/{{Covid19VaccinationGuid}}\",\n            \"resource\": {\n                \"resourceType\": \"Immunization\",\n                \"id\": \"{{Covid19VaccinationGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-vaccination\"\n                    ]\n                },\n                \"extension\": [\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/covid19-next-vaccination-date\",\n                        \"valueDate\": \"2022-12-28\"\n                    },\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/covid19-other-vaccine\",\n                        \"valueString\": \"n/a\"\n                    }\n                ],\n                \"status\": \"final\",\n                \"vaccineCode\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"{{covid19VaccineCode}}\"\n                        }\n                    ]\n                },\n                \"patient\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"occurrenceDateTime\": \"{{vaccinationAdministeredDate}}\",\n                \"lotNumber\": \"1\",\n                \"expirationDate\": \"2022-12-28\",\n                \"protocolApplied\": [\n                    {\n                        \"doseNumberPositiveInt\": {{covid19VaccineDoseInt}}\n                    }\n                ]\n            }\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{openhimUrl}}",
+							"host": [
+								"{{openhimUrl}}"
+							]
+						},
+						"description": "Remove author and ARVTherapySummaryExample section reference"
+					},
+					"response": []
+				},
+				{
+					"name": "CARES BUNDLE",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function getRandomInt(min, max) {",
+									"    min = Math.ceil(min);",
+									"    max = Math.floor(max);",
+									"    return Math.floor(Math.random() * (max - min + 1)) + min;",
+									"}",
+									"",
+									"// Patient",
+									"pm.variables.set('registrationFacilityCode', 'HIVOrganizationExample') //use chosen facility Org FHIR ID",
+									"pm.variables.set('gender', 'male')",
+									"pm.variables.set('birthDate', '1996-01-01')",
+									"pm.variables.set('randomCountry', \"Italy\")",
+									"pm.variables.set('randomState', \"Italy\")",
+									"pm.variables.set('randomDistrict', \"Italy\")",
+									"pm.variables.set('randomCity', \"Italy\")",
+									"",
+									"// Condition: covid19-diagnosis",
+									"const COVID_DIAGNOSIS_CODES = [\"410605003\", \"2931005\", \"415684004\"]",
+									"",
+									"pm.variables.set('random_covid_diagnosis', COVID_DIAGNOSIS_CODES[getRandomInt(0, 2)])",
+									"pm.variables.set('random_covid_diagnosis_date', '1996-01-01')",
+									"",
+									"// Specimen: covid19-specimen",
+									"pm.variables.set('random_collection_date', '2020-05-01')",
+									"",
+									"// ServiceRequest: Lab-order",
+									"const TEST_REQUESTED_CODES= ['94558-4', '94745-7']",
+									"",
+									"pm.variables.set('random_test_requested',  TEST_REQUESTED_CODES[getRandomInt(0, 1)])",
+									"",
+									"// Observation: test-resuluts",
+									"const TEST_RESULTS_CODES= ['10828004', '260385009', '419984006']",
+									"",
+									"pm.variables.set('random_test_results',  TEST_RESULTS_CODES[getRandomInt(0, 2)])",
+									"pm.variables.set('random_test_type', TEST_REQUESTED_CODES[getRandomInt(0, 1)])",
+									"",
+									"// Immunization: vaccincation",
+									"const VACCINE_CODES= ['XM6QV1', 'XM3DT5', 'XM8NQ0', 'XM4YL8', 'XM8NQ0', 'XM8866', 'XM7HT3', 'XM7HT3', 'XM1G90', 'XM9T65', 'XM5JC5', 'XM1AG7']",
+									"const VACCINE_SERIES= ['Primary', 'Booster']",
+									"const SOURCES_OF_INFO= ['PatientRecall', 'VaccineCard', 'MobilePhoneNotification', 'VaccineAdministeredInThisFacility', 'Other']",
+									"",
+									"pm.variables.set('random_vaccine_code', VACCINE_CODES[getRandomInt(0,11)])",
+									"pm.variables.set('random_vaccination_date', \"2022-07-28\")",
+									"pm.variables.set('random_vaccine_serie', VACCINE_SERIES[getRandomInt(0,1)])",
+									"pm.variables.set('random_dose_number_positive', getRandomInt(1, 3))",
+									"pm.variables.set('random_source_of_info', SOURCES_OF_INFO[getRandomInt(0,4)])",
+									"",
+									"// Immunization: assessment-vaccincation",
+									"",
+									"pm.variables.set('random_assessment_vaccine_code', VACCINE_CODES[getRandomInt(0,11)])",
+									"pm.variables.set('random_assessment_vaccination_date', \"2022-07-28\")",
+									"pm.variables.set('random_assessment_vaccine_serie', VACCINE_SERIES[getRandomInt(0,1)])",
+									"pm.variables.set('random_assessment_dose_number_positive', getRandomInt(1, 3))",
+									"pm.variables.set('random_assessment_source_of_info', SOURCES_OF_INFO[getRandomInt(0,4)])",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Custom test",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"resourceType\": \"Bundle\",\n    \"id\": \"{{bundleID}}\",\n    \"type\": \"transaction\",\n    \"entry\": [\n        {\n            \"fullUrl\": \"Patient/{{randomRelatedPersonGuid}}\",\n            \"request\": {\n                \"method\": \"PUT\",\n                \"url\": \"Patient/{{randomRelatedPersonGuid}}\"\n            },\n            \"resource\": {\n                \"resourceType\": \"Patient\",\n                \"id\": \"{{randomRelatedPersonGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-patient\"\n                    ]\n                },\n                \"extension\": [\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/client-ward-division\",\n                        \"valueString\": \"Division 9087\"\n                    },\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/key-population\",\n                        \"valueCodeableConcept\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"{{popStatusFhir}}\"\n                                }\n                            ]\n                        }\n                    }\n                ],\n                \"identifier\": [\n                    {\n                        \"system\": \"http://openhie.org/fhir/covid19-casereporting/identifier/passport\",\n                        \"value\": \"{{$guid}}\"\n                    },\n                    {\n                        \"system\": \"http://openhie.org/fhir/covid19-casereporting/identifier/nid\",\n                        \"value\": \"{{nid}}\"\n                    },\n                    {\n                        \"system\": \"http://openhie.org/fhir/covid19-casereporting/identifier/facility{{randomClientId}}\",\n                        \"value\": \"{{$guid}}\"\n                    }\n                ],\n                \"active\": true,\n                \"name\": [\n                    {\n                        \"use\": \"official\",\n                        \"family\": \"{{randomLastName}}\",\n                        \"given\": [\n                            \"{{randomFirstName}}\"\n                        ]\n                    }\n                ],\n                \"telecom\": [\n                    {\n                        \"system\": \"phone\",\n                        \"value\": \"{{$randomPhoneNumber}}\"\n                    }\n                ],\n                \"gender\": \"{{gender}}\",\n                \"birthDate\": \"{{birthDate}}\",\n                \"address\": [\n                    {\n                        \"country\": \"{{randomCountry}}\",\n                        \"state\": \"{{randomState}}\",\n                        \"district\": \"{{randomDistrict}}\",\n                        \"city\": \"{{randomCity}}\"\n                    }\n                ],\n                \"contact\": [\n                    {\n                        \"relationship\": [\n                            {\n                                \"coding\": [\n                                    {\n                                        \"code\": \"N\"\n                                    }\n                                ]\n                            }\n                        ],\n                        \"name\": {\n                            \"family\": \"John\"\n                        },\n                        \"telecom\": [\n                            {\n                                \"system\": \"phone\"\n                            }\n                        ]\n                    }\n                ],\n                \"managingOrganization\": {\n                    \"reference\": \"Organization/{{registrationFacilityCode}}\"\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\",\n            \"request\": {\n                \"method\": \"PUT\",\n                \"url\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\"\n            },\n            \"resource\": {\n                \"resourceType\": \"Encounter\",\n                \"id\": \"{{Covid19AssessmentEncounterGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-encounter\"\n                    ]\n                },\n                \"extension\": [\n                    {\n                        \"url\": \"http://example.com/fhir/example/StructureDefinition/covid19-vaccine-dose-received\",\n                        \"valueCodeableConcept\": {\n                            \"coding\": [\n                                {\n                                    \"code\": \"Yes\"\n                                }\n                            ]\n                        }\n                    }\n                ],\n                \"status\": \"finished\",\n                \"class\": {\n                    \"code\": \"SS\"\n                },\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"period\": {\n                    \"start\": \"2022-07-28\",\n                    \"end\": \"2022-08-15\"\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"Condition/{{Covid19DiagnosisGuid}}\",\n            \"request\": {\n                \"method\": \"PUT\",\n                \"url\": \"Condition/{{Covid19DiagnosisGuid}}\"\n            },\n            \"resource\": {\n                \"resourceType\": \"Condition\",\n                \"id\": \"{{Covid19DiagnosisGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-diagnosis\"\n                    ]\n                },\n                \"clinicalStatus\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://snomed.info/sct\",\n                            \"code\": \"410605003\"\n                        }\n                    ]\n                },\n                \"verificationStatus\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://snomed.info/sct\",\n                            \"code\": \"{{random_covid_diagnosis}}\"\n                        }\n                    ]\n                },\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"code\": \"Confirmed\"\n                        }\n                    ]\n                },\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"encounter\": {\n                    \"reference\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\"\n                },\n                \"recordedDate\": \"{{random_covid_diagnosis_date}}\"\n            }\n        },\n        {\n            \"fullUrl\": \"Immunization/{{Covid19AssessmentVaccinationGuid}}\",\n            \"request\": {\n                \"method\": \"PUT\",\n                \"url\": \"Immunization/{{Covid19AssessmentVaccinationGuid}}\"\n            },\n            \"resource\": {\n                \"resourceType\": \"Immunization\",\n                \"id\": \"{{Covid19AssessmentVaccinationGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-assessment-vaccination\"\n                    ]\n                },\n                \"status\": \"completed\",\n                \"vaccineCode\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://id.who.int/icd/entity\",\n                            \"code\": \"{{random_assessment_vaccine_code}}\"\n                        }\n                    ]\n                },\n                \"reportOrigin\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://example.com/fhir/example/CodeSystem/cs-source-of-info\",\n                            \"code\": \"{{random_assessment_source_of_info}}\"\n                        }\n                    ]\n                },\n                \"patient\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"encounter\": {\n                    \"reference\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\"\n                },\n                \"occurrenceDateTime\": \"{{random_assessment_vaccination_date}}\",\n                \"protocolApplied\": [\n                    {\n                        \"series\": \"{{random_assessment_vaccine_serie}}\",\n                        \"doseNumberPositiveInt\": {{random_assessment_dose_number_positive}}\n                    }\n                ]\n            }\n        },\n        {\n            \"fullUrl\": \"Immunization/{{Covid19VaccinationGuid}}\",\n            \"request\": {\n                \"method\": \"PUT\",\n                \"url\": \"Immunization/{{Covid19VaccinationGuid}}\"\n            },\n            \"resource\": {\n                \"resourceType\": \"Immunization\",\n                \"id\": \"{{Covid19VaccinationGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-vaccination\"\n                    ]\n                },\n                \"status\": \"completed\",\n                \"vaccineCode\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://id.who.int/icd/entity\",\n                            \"code\": \"{{random_vaccine_code}}\"\n                        }\n                    ]\n                },\n                \"reportOrigin\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://example.com/fhir/example/CodeSystem/cs-source-of-info\",\n                            \"code\": \"{{random_source_of_info}}\"\n                        }\n                    ]\n                },\n                \"patient\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"occurrenceDateTime\": \"{{random_vaccination_date}}\",\n                \"lotNumber\": \"1\",\n                \"expirationDate\": \"2022-12-28\",\n                \"protocolApplied\": [\n                    {\n                        \"series\": \"{{random_vaccine_serie}}\",\n                        \"doseNumberPositiveInt\": {{random_dose_number_positive}}\n                    }\n                ]\n            }\n        },\n        {\n            \"fullUrl\": \"ServiceRequest/{{Covid19LabOrderGuid}}\",\n            \"request\": {\n                \"method\": \"PUT\",\n                \"url\": \"ServiceRequest/{{Covid19LabOrderGuid}}\"\n            },\n            \"resource\": {\n                \"resourceType\": \"ServiceRequest\",\n                \"id\": \"{{Covid19LabOrderGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-lab-order\"\n                    ]\n                },\n                \"identifier\": [\n                    {\n                        \"system\": \"http://covid19laborder.org/order\",\n                        \"value\": \"ORDERNR109191879\"\n                    }\n                ],\n                \"status\": \"completed\",\n                \"intent\": \"order\",\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://loinc.org\",\n                            \"code\": \"94558-4\"\n                        }\n                    ]\n                },\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"encounter\": {\n                    \"reference\": \"Encounter/{{Covid19AssessmentEncounterGuid}}\"\n                },\n                \"authoredOn\": \"2022-07-28\",\n                \"locationReference\": [\n                    {\n                        \"reference\": \"Covid19Laboratory\"\n                    }\n                ],\n                \"reasonCode\": [\n                    {\n                        \"coding\": [\n                            {\n                                \"code\": \"Surveillance\"\n                            }\n                        ]\n                    }\n                ],\n                \"specimen\": [\n                    {\n                        \"reference\": \"Specimen/{{Covid19SpecimenGuid}}\"\n                    }\n                ]\n            }\n        },\n        {\n            \"fullUrl\": \"Specimen/{{Covid19SpecimenGuid}}\",\n            \"request\": {\n                \"method\": \"PUT\",\n                \"url\": \"Specimen/{{Covid19SpecimenGuid}}\"\n            },\n            \"resource\": {\n                \"resourceType\": \"Specimen\",\n                \"id\": \"{{Covid19SpecimenGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-specimen\"\n                    ]\n                },\n                \"identifier\": [\n                    {\n                        \"system\": \"http://covid19laborder.org/specimen\",\n                        \"value\": \"SPECIMEN109191879\"\n                    }\n                ],\n                \"type\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://snomed.info/sct\",\n                            \"code\": \"258500001\"\n                        }\n                    ]\n                },\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"collection\": {\n                    \"collectedDateTime\": \"{{random_collection_date}}\"\n                }\n            }\n        },\n        {\n            \"fullUrl\": \"Observation/{{Covid19TestsResultsGuid}}\",\n            \"request\": {\n                \"method\": \"PUT\",\n                \"url\": \"Observation/{{Covid19TestsResultsGuid}}\"\n            },\n            \"resource\": {\n                \"resourceType\": \"Observation\",\n                \"id\": \"{{Covid19TestsResultsGuid}}\",\n                \"meta\": {\n                    \"profile\": [\n                        \"http://example.com/fhir/example/StructureDefinition/covid19-test-results\"\n                    ]\n                },\n                \"status\": \"final\",\n                \"code\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://loinc.org\",\n                            \"code\": \"94745-7\"\n                        }\n                    ]\n                },\n                \"subject\": {\n                    \"reference\": \"Patient/{{randomRelatedPersonGuid}}\"\n                },\n                \"valueCodeableConcept\": {\n                    \"coding\": [\n                        {\n                            \"system\": \"http://snomed.info/sct\",\n                            \"code\": \"{{random_test_results}}\"\n                        }\n                    ]\n                }\n            }\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{openhimUrl}}",
+							"host": [
+								"{{openhimUrl}}"
+							]
+						},
+						"description": "Remove author and ARVTherapySummaryExample section reference"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"const moment = require('moment');",
+					"const uuid = require('uuid');",
+					"",
+					"const isCaresCaseReport = pm.variables.get('isCaresCaseReport')",
+					"const firstName = pm.variables.get('firstName')",
+					"const lastName = pm.variables.get('lastName')",
+					"const gender = pm.variables.get('gender')",
+					"const dateOfBirth = pm.variables.get('dateOfBirth')",
+					"//const clientID = 12 //pm.variables.get('clientID')",
+					"const registrationDate = '2022-06-22' //pm.variables.get('registrationDate')",
+					"const nid = pm.variables.get('NID')",
+					"const registrationFacilityCode = pm.variables.get('registrationFacilityCode')",
+					"const addressCountry = pm.variables.get('addressCountry')",
+					"const addressProvince = pm.variables.get('addressProvince')",
+					"const addressDistrict = pm.variables.get('addressDistrict')",
+					"const addressCity = pm.variables.get('addressCity')",
+					"const hivPositiveDate = pm.variables.get('hivPositiveDate')",
+					"const hivPositiveDiagnosisFacilityCode = pm.variables.get('hivPositiveDiagnosisFacilityCode')",
+					"const hivPositiveDiagnosisFacilityName = pm.variables.get('hivPositiveDiagnosisFacilityName')",
+					"const hivPositiveTestingUID = pm.variables.get('hivPositiveTestingUID')",
+					"const dateClientEnrolledToCare = pm.variables.get('dateClientEnrolledToCare')",
+					"const enrolledToCareUID = pm.variables.get('enrolledToCareUID')",
+					"const enrolledToCareFacCode = pm.variables.get('enrolledToCareFacCode')",
+					"const enrolledToCareFacName = pm.variables.get('enrolledToCareFacName')",
+					"const enrolledToCareDateFirstClinicalVisit = pm.variables.get('enrolledToCareDateFirstClinicalVisit')",
+					"const artInitiationDate = pm.variables.get('artInitiationDate')",
+					"const artInitiationRegimenLine = pm.variables.get('artInitiationRegimenLine')",
+					"const artInitiationRegimen = pm.variables.get('artInitiationRegimen')",
+					"const dateOfDeath = pm.variables.get('dateOfDeath')",
+					"const ageAtDeath = pm.variables.get('ageAtDeath')",
+					"const deathDateLastClinicalVisit = pm.variables.get('deathDateLastClinicalVisit')",
+					"const deathCause = pm.variables.get('deathCause')",
+					"",
+					"const cd4CollectionDate = pm.variables.get('cd4CollectionDate')",
+					"const cd4Result = pm.variables.get('cd4Result')",
+					"const cd4Percentage = pm.variables.get('cd4Percentage')",
+					"",
+					"const vlDate = pm.variables.get('vlDate')",
+					"const vlResult = pm.variables.get('vlResult')",
+					"const vlInterpretation = pm.variables.get('vlInterpretation')",
+					"const vlSupressionStatus = pm.variables.get('vlSupressionStatus')",
+					"",
+					"const currVLSupression = pm.variables.get('currVLSupression')",
+					"",
+					"",
+					"pm.variables.set('randomClientId', getRandomInt(1, 3))",
+					"pm.variables.set('randomClientGuid', uuid.v4())",
+					"pm.variables.set('randomFirstName', firstName)",
+					"pm.variables.set('randomLastName', lastName)",
+					"pm.variables.set('birthDate', dateOfBirth)",
+					"//pm.variables.set('randomRegistrationDate', registrationDate)",
+					"pm.variables.set('registrationFacilityCode', registrationFacilityCode)",
+					"pm.variables.set('nid', nid)",
+					"pm.variables.set('randomCountry', addressCountry)",
+					"pm.variables.set('randomState', addressProvince)",
+					"pm.variables.set('randomDistrict', addressDistrict)",
+					"pm.variables.set('randomCity', addressCity)",
+					"pm.variables.set('gender', gender)",
+					"pm.variables.set('randomHivPositiveDiagnosisUniqueID', hivPositiveTestingUID)",
+					"",
+					"pm.variables.set('bundleID', uuid.v4())",
+					"pm.variables.set('randomHivCompositionGuid', uuid.v4())",
+					"pm.variables.set('randomHivDiagnosisGuid', uuid.v4())",
+					"pm.variables.set('randomEncounterGuid', uuid.v4())",
+					"pm.variables.set('randomRelatedPersonGuid', uuid.v4())",
+					"pm.variables.set('randomConditionGuid', uuid.v4())",
+					"pm.variables.set('randomHIVRecencyTestGuid', uuid.v4())",
+					"pm.variables.set('randomHIVRecencyTestResultGuid', uuid.v4())",
+					"pm.variables.set('randomEpisodeOfCareGuid', uuid.v4())",
+					"pm.variables.set('randomCarePlanGuid', uuid.v4())",
+					"pm.variables.set('randomCd4Guid', uuid.v4())",
+					"pm.variables.set('randomViralSuppressionGuid', uuid.v4())",
+					"pm.variables.set('randomDeathGuid', uuid.v4())",
+					"",
+					"pm.variables.set('Covid19AssessmentEncounterGuid', uuid.v4())",
+					"pm.variables.set('Covid19ReasonforAssessmentGuid', uuid.v4())",
+					"pm.variables.set('Covid19PresentationGuid', uuid.v4())",
+					"pm.variables.set('Covid19SymptomGuid', uuid.v4())",
+					"pm.variables.set('Covid19ConditionsComorbidityGuid', uuid.v4())",
+					"pm.variables.set('Covid19DiagnosisGuid', uuid.v4())",
+					"pm.variables.set('Covid19AssessmentVaccinationGuid', uuid.v4())",
+					"pm.variables.set('Covid19PatientOutcomeGuid', uuid.v4())",
+					"pm.variables.set('Covid19LabOrderGuid', uuid.v4())",
+					"pm.variables.set('Covid19SpecimenGuid', uuid.v4())",
+					"pm.variables.set('Covid19SpecimenCollectionGuid', uuid.v4())",
+					"pm.variables.set('Covid19LabOrderCancellationGuid', uuid.v4())",
+					"pm.variables.set('Covid19LabResultsGuid', uuid.v4())",
+					"pm.variables.set('Covid19VaccinationGuid', uuid.v4())",
+					"pm.variables.set('Covid19EverHospitalizedGuid', uuid.v4())",
+					"pm.variables.set('Covid19TestsResultsGuid', uuid.v4())",
+					"",
+					"",
+					"",
+					"function isNullOrEmpty(value)",
+					"{",
+					"    if (value !== null && value !== undefined && value != ''  && value != ' ')",
+					"    {",
+					"         return false",
+					"    }",
+					"    else{",
+					"        return true",
+					"    }",
+					"}",
+					"",
+					"function getRandomInt(min, max) {",
+					"    min = Math.ceil(min);",
+					"    max = Math.floor(max);",
+					"    return Math.floor(Math.random() * (max - min + 1)) + min;",
+					"}",
+					"",
+					"function randomByProbability(options) {",
+					"  const r = Math.random()",
+					"  let cummulativeProb = 0",
+					"  for (let option of options) {",
+					"    cummulativeProb += option[0]",
+					"    if (r < cummulativeProb) {",
+					"      return option[1]",
+					"    }",
+					"  }",
+					"}",
+					"",
+					"pm.variables.set('randomClientId', getRandomInt(1, 3))",
+					"",
+					"const visitDate = moment().subtract((Math.random() * 10), 'years')",
+					"",
+					"",
+					"pm.variables.set('hivPositiveDiagnosisFacilityCode', hivPositiveDiagnosisFacilityCode)",
+					"pm.variables.set('hivPositiveDate', hivPositiveDate)",
+					"pm.variables.set('encounterDate', hivPositiveDate)",
+					"",
+					"pm.variables.set('enrolledToCareFacCode', enrolledToCareFacCode)",
+					"pm.variables.set('enrolledToCareUID', enrolledToCareUID)",
+					"pm.variables.set('enrollmentDate', dateClientEnrolledToCare)",
+					"pm.variables.set('dateOfFirstClinicalVisit', enrolledToCareDateFirstClinicalVisit)",
+					"",
+					"const artRegimenLinesForFHIR = [",
+					"    ['First Line', 'FIRST-LINE'],",
+					"    ['Second Line', 'SECOND-LINE'],",
+					"    ['Third Line', 'THIRD-LINE']",
+					"]",
+					"",
+					"pm.variables.set('artStartDate', artInitiationDate)",
+					"pm.variables.set('artLine', artInitiationRegimenLine)",
+					"",
+					"for (let x = 0; x < artRegimenLinesForFHIR.length; x++) {",
+					"    if (artRegimenLinesForFHIR[x][0] == artInitiationRegimenLine) {",
+					"        var FHIRRegimenLine = artRegimenLinesForFHIR[x][1]",
+					"        ",
+					"        pm.variables.set('artLineFhir', FHIRRegimenLine)",
+					"    }",
+					"}",
+					"",
+					"pm.variables.set('artRegimen', artInitiationRegimen)",
+					"",
+					"",
+					"const deathCausesForFHIR = [",
+					"    ['HIV Related', 'HIV'],",
+					"    ['Non HIV Related', 'NON-HIV']",
+					"]",
+					"",
+					"pm.variables.set('deathDate', dateOfDeath)",
+					"pm.variables.set('ageAtDeath', ageAtDeath)",
+					"pm.variables.set('deathCause', deathCause)",
+					"",
+					"for (let x = 0; x < deathCausesForFHIR.length; x++) {",
+					"    if (deathCausesForFHIR[x][0] == artInitiationRegimenLine) {",
+					"        var FHIRDeathCause = deathCausesForFHIR[x][1]",
+					"        ",
+					"        pm.variables.set('deathCauseFhir', FHIRDeathCause)",
+					"    }",
+					"}",
+					"",
+					"pm.variables.set('dateOfLastVisit', deathDateLastClinicalVisit)",
+					"",
+					"",
+					"const popStatus = ['General Population', 'MSM', 'FSW', 'MSW', 'PWID', 'PWUD', 'Transgender']",
+					"const popStatusFhir = ['GENERAL-POPULATION', 'MSM', 'FSW', 'MSW', 'PWID', 'PWUD', 'TRANSGENDER']",
+					"const popStatusIndex = getRandomInt(0, popStatus.length - 1)",
+					"pm.variables.set('popStatus', popStatus[popStatusIndex])",
+					"pm.variables.set('popStatusFhir', popStatusFhir[popStatusIndex])",
+					"",
+					"const maritalStatus = ['Never Married', 'Married Monogamous', 'Married Polygamous', 'Cohabiting', 'Divorced/Separated']",
+					"const maritalStatusFhir = ['S', 'M', 'P', 'T', 'D']",
+					"const maritalStatusIndex = getRandomInt(0, maritalStatus.length - 1)",
+					"pm.variables.set('maritalStatus', maritalStatus[maritalStatusIndex])",
+					"pm.variables.set('maritalStatusFhir', maritalStatusFhir[maritalStatusIndex])",
+					"",
+					"const recencyTestConducted = ['Yes', 'No']",
+					"pm.variables.set('recencyTestConducted', recencyTestConducted[getRandomInt(0, 1)])",
+					"pm.variables.set('recencyTestConductedFhir', pm.variables.get('recencyTestConducted') === 'Yes')",
+					"",
+					"const recencyStatus = ['Recent', 'Not Recent']",
+					"pm.variables.set('recencyStatus', recencyStatus[getRandomInt(0, 1)])",
+					"pm.variables.set('recencyStatusFhir', pm.variables.get('recencyStatus') === 'Recent')",
+					"",
+					"",
+					"if (!isNullOrEmpty(cd4CollectionDate))",
+					"{",
+					"    var randomCd4Guid = pm.variables.get('randomCd4Guid')",
+					"",
+					"    const cd4EntryObject =  ",
+					"         '{'",
+					"            + '\\n\"title\": \"CD4\",'",
+					"            + '\\n\"code\": {'",
+					"            + '\\n\"coding\": ['",
+					"                + '\\n{'",
+					"                    + '\\n\"code\": \"CD4\",'",
+					"                    + '\\n\"system\": \"http://openhie.org/fhir/hiv-casereporting/CodeSystem/cs-case-report-sections\"'",
+					"                + '\\n}'",
+					"            + '\\n]'",
+					"        + '\\n},'",
+					"        + '\\n\"entry\": ['",
+					"            + '\\n{'",
+					"                + '\\n\"reference\": ' + '\"Observation/' + randomCd4Guid + '\"'",
+					"            + '\\n}'",
+					"        + '\\n]'",
+					"    + '\\n}'",
+					"",
+					"    pm.variables.set('cd4EntryObject', cd4EntryObject)",
+					"",
+					"    if (!isNullOrEmpty(cd4CollectionDate))",
+					"    {",
+					"        pm.variables.set('cd4CollectionDate', cd4CollectionDate)",
+					"    }",
+					"    else",
+					"    {",
+					"        pm.variables.set('cd4CollectionDate', '')",
+					"    }",
+					"",
+					"    if (!isNullOrEmpty(cd4Result))",
+					"    {",
+					"        pm.variables.set('cd4Result', cd4Result)",
+					"    }",
+					"    else",
+					"    {",
+					"        pm.variables.set('cd4Result', null)",
+					"    }",
+					"",
+					"    if (!isNullOrEmpty(cd4Percentage))",
+					"    {",
+					"        pm.variables.set('cd4Percentage', cd4Percentage)",
+					"    }",
+					"    else",
+					"    {",
+					"        pm.variables.set('cd4Percentage', null)",
+					"    }",
+					"}",
+					"else",
+					"{",
+					"    pm.variables.set('cd4EntryObject', \"{ }\")",
+					"    pm.variables.set('cd4CollectionDate', '')",
+					"    pm.variables.set('cd4Result', null)",
+					"    pm.variables.set('cd4Percentage', null)",
+					"}",
+					"",
+					"const numRegSwitch = getRandomInt(0, 3)",
+					"const lines = ['First Line', 'Second Line', 'Third Line', 'Special/Unknown']",
+					"const linesFhir = ['FIRST-LINE','SECOND-LINE','THIRD-LINE','SPECIAL-UNKNOWN']",
+					"const regimens = ['TDF/3TC/DTG', 'TDF/3TC/EFV']",
+					"let switchDate = moment(visitDate)",
+					"let switchDates = []",
+					"let switchLines = []",
+					"let switchLinesFhir = []",
+					"let switchRegimens = []",
+					"for (let i = 0; i < numRegSwitch; i++) {",
+					"  switchDates.push(switchDate.format('YYYY-MM-DD'))",
+					"  switchLines.push(lines[i+1])",
+					"  switchLinesFhir.push(linesFhir[i+1])",
+					"  switchRegimens.push(regimens[getRandomInt(0, 1)])",
+					"  switchDate = moment(switchDate).add(getRandomInt(60, 240), 'days')",
+					"}",
+					"",
+					"",
+					"// for fhir only",
+					"pm.variables.set('switchDate1', switchDates[0] || '')",
+					"pm.variables.set('switchLine1', switchLines[0] || '')",
+					"pm.variables.set('switchLineFhir1', switchLinesFhir[0] || '')",
+					"pm.variables.set('switchRegimen1', switchRegimens[0] || '')",
+					"",
+					"const numVL = getRandomInt(0, 5)",
+					"const interpretations = ['Detectable', 'Non Detectable', 'Unknown']",
+					"const interpretationsFhir = ['D', 'ND', 'UNK']",
+					"const currStatus = ['Suppressed', 'Unsuppressed', 'Unknown']",
+					"",
+					"/*let vlDate = moment(visitDate)",
+					"let vlDates = []",
+					"let vlResults = []",
+					"let vlInterpretations = []",
+					"let vlInterpretationsFhir = []",
+					"for (let i = 0; i < numVL; i++) {",
+					"  vlDates.push(vlDate.format('YYYY-MM-DD'))",
+					"  vlResults.push(getRandomInt(10000, 100000))",
+					"  const interIndex = getRandomInt(0, 2)",
+					"  vlInterpretations.push(interpretations[interIndex])",
+					"  vlInterpretationsFhir.push(interpretationsFhir[interIndex])",
+					"  vlDate = moment(vlDate).add(getRandomInt(30, 90), 'days')",
+					"}*/",
+					"",
+					"",
+					"//const currStatusFhir = ['S', 'UNSUP', 'UNK']",
+					"",
+					"if (!isNullOrEmpty(vlDate))",
+					"{",
+					"    var randomViralSuppressionGuid = pm.variables.get('randomViralSuppressionGuid')",
+					"",
+					"    const viralSuppressionObject =  ",
+					"         '{'",
+					"            + '\\n\"title\": \"Viral Suppression\",'",
+					"            + '\\n\"code\": {'",
+					"            + '\\n\"coding\": ['",
+					"                + '\\n{'",
+					"                    + '\\n\"code\": \"VIRAL-SUPPRESSION\",'",
+					"                    + '\\n\"system\": \"http://openhie.org/fhir/hiv-casereporting/CodeSystem/cs-case-report-sections\"'",
+					"                + '\\n}'",
+					"            + '\\n]'",
+					"        + '\\n},'",
+					"        + '\\n\"entry\": ['",
+					"            + '\\n{'",
+					"                + '\\n\"reference\": ' + '\"Observation/' + randomViralSuppressionGuid + '\"'",
+					"            + '\\n}'",
+					"        + '\\n]'",
+					"    + '\\n}'",
+					"",
+					"    pm.variables.set('viralSuppressionObject', viralSuppressionObject)",
+					"",
+					"    if (!isNullOrEmpty(vlDate))",
+					"    {",
+					"        pm.variables.set('vlDate', vlDate)",
+					"    }",
+					"    else",
+					"    {",
+					"        pm.variables.set('vlDate', '')",
+					"    }",
+					"",
+					"    if (!isNullOrEmpty(vlResult))",
+					"    {",
+					"        pm.variables.set('vlResult', vlResult)",
+					"    }",
+					"    else",
+					"    {",
+					"        pm.variables.set('vlResult', null)",
+					"    }",
+					"",
+					"    if (!isNullOrEmpty(vlInterpretation))",
+					"    {",
+					"        pm.variables.set('vlInterpretation', vlInterpretation)",
+					"",
+					"        const interpretationsForForFHIR = [",
+					"            ['Detectable', 'D'],",
+					"            ['Non Detectable', 'ND'],",
+					"            ['Unknown', 'UNK']",
+					"        ]",
+					"",
+					"        for (let x = 0; x < interpretationsForForFHIR.length; x++) {",
+					"            if (interpretationsForForFHIR[x][0] == vlInterpretation) {",
+					"                var FHIRVlInterpretation = interpretationsForForFHIR[x][1]",
+					"                ",
+					"                pm.variables.set('vlInterpretationFhir', FHIRVlInterpretation)",
+					"            }",
+					"        }",
+					"    }",
+					"    else",
+					"    {",
+					"        pm.variables.set('vlInterpretation', null)",
+					"        pm.variables.set('vlInterpretationFhir', null)",
+					"    }",
+					"",
+					"    if (!isNullOrEmpty(currVLSupression))",
+					"    {",
+					"        pm.variables.set('currVLSupression', currVLSupression)",
+					"",
+					"        const suppressionStatusForForFHIR = [",
+					"            ['Suppressed', 'S'],",
+					"            ['Unsuppressed', 'UNSUP'],",
+					"            ['Unknown', 'UNK']",
+					"        ]",
+					"",
+					"        for (let x = 0; x < suppressionStatusForForFHIR.length; x++) {",
+					"            if (suppressionStatusForForFHIR[x][0] == currVLSupression) {",
+					"                var FHIRVlSupressionStatus = suppressionStatusForForFHIR[x][1]",
+					"                ",
+					"                pm.variables.set('currVLSupressionFhir', FHIRVlSupressionStatus)",
+					"            }",
+					"        }",
+					"    }",
+					"    else",
+					"    {",
+					"        pm.variables.set('currVLSupression', null)",
+					"        pm.variables.set('currVLSupressionFhir', null)",
+					"    }",
+					"}",
+					"else",
+					"{",
+					"    pm.variables.set('viralSuppressionObject', \"{ }\")",
+					"    pm.variables.set('vlDate', '')",
+					"    pm.variables.set('vlResult', null)",
+					"    pm.variables.set('vlInterpretation', null)",
+					"    pm.variables.set('vlInterpretationFhir', null)",
+					"    pm.variables.set('currVLSupression', null)",
+					"    pm.variables.set('currVLSupressionFhir', null)",
+					"}",
+					"",
+					"if (isCaresCaseReport)",
+					"{",
+					"    const assessmentVaccinationAdministeredDate = moment().subtract((Math.random() * 10), 'years')",
+					"    const vaccinationAdministeredDate = moment().subtract((Math.random() * 10), 'years')",
+					"    const sampleCollectionDate = moment().subtract((Math.random() * 10), 'years')",
+					"    const covidDiagnosisDate = moment().subtract((Math.random() * 10), 'years')",
+					"",
+					"    const testRequestedTypes = ['Rapid', 'PCR']",
+					"    const specimenTypes = ['Nasopharyngeal', 'OropharyngealSwab', 'Serum', 'Sputum', 'TrachealAspirate', 'Unknown', 'Other']",
+					"    const covidDiagnosis = ['Confirmed', 'Probable', 'Suspected']",
+					"",
+					"    const covid19VaccineCodes = [",
+					"        ['Astrazeneca',\t'Astrazeneca COVID-19 vaccine'],",
+					"        ['BharatBiotech',\t'Bharat Biotech Covaxin COVID-19 vaccine'],",
+					"        ['CansinoBiologics',\t'Cansino Biologics Convidicea COVID-19 vaccine'],",
+					"        ['Chumakov',\t'Chumakov Center Covivac COVID-19 vaccine'],",
+					"        ['convalescent',\t'COVID-19 convalescent plasma'],",
+					"        ['CureVacCVnCoV',\t'CureVac CVnCoV COVID-19 vaccine'],",
+					"        ['GamaleyaSputnik',\t'Gamaleya Sputnik v COVID-19 vaccine'],",
+					"        ['Janssen',\t'Janssen COVID-19 vaccine'],",
+					"        ['Moderna',\t'Moderna COVID-19 vaccine'],",
+					"        ['Novavax',\t'Novavax NVX-COV2373 COVID-19 vaccine'],",
+					"        ['Pfizer-BioNtech',\t'Pfizer-BioNtech COVID-19 vaccine'],",
+					"        ['SinopharmBBIBP-CorV',\t'Sinopharm BBIBP-CorV COVID-19 vaccine'],",
+					"        ['Sinopharm-Wuhan',\t'Sinopharm-Wuhan COVID-19 vaccine'],",
+					"        ['Sinovac',\t'Sinovac COVID-19 vaccine'],",
+					"        ['VectorInstituteEpivacCorona',\t'Vector Institute EpivacCorona COVID-19 vaccine']",
+					"    ]",
+					"",
+					"    const sourceOfInformation = [",
+					"        ['PatietnRecall',\t'Patient Recall'],",
+					"        ['VaccineCard',\t'Vaccine Card'],",
+					"        ['MobilePhoneNotification',\t'Mobile Phone Notification'],",
+					"        ['VaccineAdministeredFromFacility',\t'Vaccine Administered from this facility'],",
+					"        ['Other',\t'Other']",
+					"    ]",
+					"",
+					"    const covid19VaccineCodesIndex = getRandomInt(0, covid19VaccineCodes.length - 1)",
+					"    pm.variables.set('covid19VaccineCode', covid19VaccineCodes[covid19VaccineCodesIndex][0])",
+					"",
+					"    pm.variables.set('covid19VaccineDoseInt', getRandomInt(1, 3))",
+					"",
+					"    pm.variables.set('covid19AssessmentVaccineCode', covid19VaccineCodes[covid19VaccineCodesIndex][0])",
+					"",
+					"    pm.variables.set('covid19AssessmentVaccineDoseInt', getRandomInt(1, 3))",
+					"",
+					"    pm.variables.set('assessmentVaccinationAdministeredDate', assessmentVaccinationAdministeredDate)",
+					"",
+					"    pm.variables.set('vaccinationAdministeredDate', vaccinationAdministeredDate)",
+					"",
+					"    pm.variables.set('testRequested', testRequestedTypes[getRandomInt(0, testRequestedTypes.length - 1)])",
+					"",
+					"    pm.variables.set('sampleCollectionDate', sampleCollectionDate)",
+					"",
+					"    pm.variables.set('specimenType', specimenTypes[getRandomInt(0, specimenTypes.length - 1)])",
+					"",
+					"    pm.variables.set('covidDiagnosis', getRandomInt(0, covidDiagnosis.length - 1))",
+					"",
+					"    pm.variables.set('dateOfCovidDiagnosis', covidDiagnosisDate)",
+					"",
+					"    pm.variables.set('sourceOfInformation', sourceOfInformation[getRandomInt(0, sourceOfInformation.length - 1)][0])",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "openhimUrl",
+			"value": "http://localhost:5001/fhir"
+		}
+	]
+}
