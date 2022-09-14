@@ -98,27 +98,27 @@ const queries = [
 	  ORDER BY tuple();`,
 
   `CREATE VIEW report_1 AS SELECT * from patient 
-  	INNER JOIN specimen ON patient.id=specimen.patient_id 
-	INNER JOIN service_request ON patient.id=service_request.patient_id
-	INNER JOIN condition ON patient.id=condition.patient_id
-	INNER JOIN observation ON patient.id=observation.patient_id 
-	INNER JOIN organization ON patient.facility_id=organization.facility_id;`,
+  	LEFT JOIN specimen ON patient.id=specimen.patient_id 
+	LEFT JOIN service_request ON patient.id=service_request.patient_id
+	LEFT JOIN condition ON patient.id=condition.patient_id
+	LEFT JOIN observation ON patient.id=observation.patient_id 
+	LEFT JOIN organization ON patient.facility_id=organization.facility_id;`,
 
   `CREATE VIEW report_2 AS SELECT * from patient 
-	INNER JOIN specimen ON patient.id=specimen.patient_id
-	INNER JOIN service_request ON patient.id=service_request.patient_id
-	INNER JOIN condition ON patient.id=condition.patient_id
-	INNER JOIN observation ON patient.id=observation.patient_id 
-	INNER JOIN organization ON patient.facility_id=organization.facility_id
-	INNER JOIN immunization ON patient.id=immunization.patient_id;`,
+	LEFT JOIN specimen ON patient.id=specimen.patient_id
+	LEFT JOIN service_request ON patient.id=service_request.patient_id
+	LEFT JOIN condition ON patient.id=condition.patient_id
+	LEFT JOIN observation ON patient.id=observation.patient_id 
+	LEFT JOIN organization ON patient.facility_id=organization.facility_id
+	LEFT JOIN immunization ON patient.id=immunization.patient_id;`,
 
   `CREATE VIEW report_3 AS SELECT * from patient 
-	INNER JOIN specimen ON patient.id=specimen.patient_id
-	INNER JOIN service_request ON patient.id=service_request.patient_id
-	INNER JOIN condition ON patient.id=condition.patient_id
-	INNER JOIN observation ON patient.id=observation.patient_id 
-	INNER JOIN organization ON patient.facility_id=organization.facility_id
-	INNER JOIN immunization ON patient.id=immunization.patient_id;`,
+	LEFT JOIN specimen ON patient.id=specimen.patient_id
+	LEFT JOIN service_request ON patient.id=service_request.patient_id
+	LEFT JOIN condition ON patient.id=condition.patient_id
+	LEFT JOIN observation ON patient.id=observation.patient_id 
+	LEFT JOIN organization ON patient.facility_id=organization.facility_id
+	LEFT JOIN immunization ON patient.id=immunization.patient_id;`,
 ];
 
 module.exports = queries;
