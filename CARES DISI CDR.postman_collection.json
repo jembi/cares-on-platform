@@ -366,7 +366,7 @@
 									"const middleName = pm.variables.replaceIn(\"{{$randomFirstName}}\") //pm.variables.get('middleName')",
 									"const lastName = pm.variables.replaceIn(\"{{$randomLastName}}\") //pm.variables.get('lastName')",
 									"const gender = genders[getRandomInt(0, genders.length - 1)] //pm.variables.get('gender')",
-									"const dateOfBirth = moment(visitDate) //pm.variables.get('dateOfBirth')",
+									"const dateOfBirth = moment(visitDate).format('YYYY-MM-DD') //pm.variables.get('dateOfBirth')",
 									"const nid = getRandomInt(1111111111, 9999999999) //pm.variables.get('NID')",
 									"const registrationFacilityCode = orgs[getRandomInt(0, orgs.length - 1)] //pm.variables.get('registrationFacilityCode')",
 									"const addressCountry = \"Italy\" //pm.variables.get('addressCountry') Italy for now to show in the map",
