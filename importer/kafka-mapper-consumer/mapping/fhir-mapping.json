@@ -44,6 +44,10 @@
         "targetTable": "patient",
         "columnMappings": [
           {
+            "columnName": "golden_id",
+            "fhirPath": "Patient.link.where(type='refer').other.reference.replace('Patient/', '')"
+          },
+          {
             "columnName": "patient_gender",
             "fhirPath": "Patient.gender"
           },

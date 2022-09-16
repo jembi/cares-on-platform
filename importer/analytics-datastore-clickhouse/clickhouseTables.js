@@ -20,6 +20,7 @@ const queries = [
 		version String,
 		created_at Date,
 		last_updated String,
+		golden_id String,
 		patient_gender String,
 		patient_birthdate Date NULL,
 		patient_district String, 
