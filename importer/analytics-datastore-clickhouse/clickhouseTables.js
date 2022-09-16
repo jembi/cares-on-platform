@@ -19,8 +19,14 @@ const queries = [
   `CREATE TABLE patient(
 		id String,
 		version String,
+<<<<<<< HEAD
 		inserted_at DateTime DEFAULT now(),
 		last_updated Date NULL,
+=======
+		created_at Date,
+		last_updated String,
+		golden_id String,
+>>>>>>> 1b3e965537baecca1e8d13f2baf485c6724a8721
 		patient_gender String,
 		patient_birthdate Date NULL,
 		patient_district String, 
