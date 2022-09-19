@@ -61,11 +61,30 @@
           },
           {
             "columnName": "patient_key_population",
-            "fhirPath": "Patient.extension.where(url='http://example.com/fhir/example/StructureDefinition/key-population').first().valueCodeableConcept.coding.first().code"
+            "fhirPath": "Patient.extension.where(url='http://openhie.org/fhir/hiv-casereporting/StructureDefinition/key-population').first().valueCodeableConcept.coding.first().code"
           },
           {
             "columnName": "facility_id",
-            "fhirPath": "Patient.managingOrganization.reference.substring(13)"
+            "fhirPath": "Patient.managingOrganization.reference.replace('Organization/', '')"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "resourceType": "Encounter",
+    "tableMappings": [
+      {
+        "targetTable": "encounter",
+        "filter": "Encounter.meta.profile = 'http://openhie.org/fhir/covid19-casereporting/StructureDefinition/covid19-encounter'",
+        "columnMappings": [
+          {
+            "columnName": "patient_id",
+            "fhirPath": "Encounter.subject.reference.replace('Patient/', '')"
+          },
+          {
+            "columnName": "meta_profile",
+            "fhirPath": "Encounter.meta.profile.first().replace('http://openhie.org/fhir/covid19-casereporting/StructureDefinition/', '')"
           }
         ]
       }
@@ -80,7 +99,11 @@
         "columnMappings": [
           {
             "columnName": "patient_id",
-            "fhirPath": "Condition.subject.reference.substring(8)"
+            "fhirPath": "Condition.subject.reference.replace('Patient/', '')"
+          },
+          {
+            "columnName": "encounter_id",
+            "fhirPath": "Condition.encounter.reference.replace('Encounter/', '')"
           }
         ]
       }
@@ -94,11 +117,15 @@
         "columnMappings": [
           {
             "columnName": "patient_id",
-            "fhirPath": "Specimen.subject.reference.substring(8)"
+            "fhirPath": "Specimen.subject.reference.replace('Patient/', '')"
           },
           {
             "columnName": "date_sample_collected",
             "fhirPath": "Specimen.collection.collectedDateTime"
+          },
+          {
+            "columnName": "meta_profile",
+            "fhirPath": "Specimen.meta.profile.first().replace('http://openhie.org/fhir/covid19-casereporting/StructureDefinition/', '')"
           }
         ]
       }
@@ -113,7 +140,15 @@
         "columnMappings": [
           {
             "columnName": "patient_id",
-            "fhirPath": "ServiceRequest.subject.reference.substring(8)"
+            "fhirPath": "ServiceRequest.subject.reference.replace('Patient/', '')"
+          },
+          {
+            "columnName": "encounter_id",
+            "fhirPath": "ServiceRequest.encounter.reference.replace('Encounter/', '')"
+          },
+          {
+            "columnName": "specimen_id",
+            "fhirPath": "ServiceRequest.specimen.reference.replace('Specimen/', '')"
           }
         ]
       }
@@ -128,7 +163,7 @@
         "columnMappings": [
           {
             "columnName": "patient_id",
-            "fhirPath": "Observation.subject.reference.substring(8)"
+            "fhirPath": "Observation.subject.reference.replace('Patient/', '')"
           }
         ]
       }
@@ -139,11 +174,15 @@
     "tableMappings": [
       {
         "targetTable": "immunization",
-        "filter": "Immunization.meta.profile = 'http://example.com/fhir/example/StructureDefinition/covid19-vaccination'",
+        "filter": "Immunization.meta.profile = 'http://openhie.org/fhir/covid19-casereporting/StructureDefinition/covid19-vaccination'",
         "columnMappings": [
           {
             "columnName": "patient_id",
-            "fhirPath": "Immunization.patient.reference.substring(8)"
+            "fhirPath": "Immunization.patient.reference.replace('Patient/', '')"
+          },
+          {
+            "columnName": "encounter_id",
+            "fhirPath": "Immunization.encounter.reference.replace('Encounter/', '')"
           },
           {
             "columnName": "vaccine_administered",
@@ -167,17 +206,21 @@
           },
           {
             "columnName": "meta_profile",
-            "fhirPath": "Immunization.meta.profile.first().substring(52)"
+            "fhirPath": "Immunization.meta.profile.first().replace('http://openhie.org/fhir/covid19-casereporting/StructureDefinition/', '')"
           }
         ]
       },
       {
         "targetTable": "immunization",
-        "filter": "Immunization.meta.profile = 'http://example.com/fhir/example/StructureDefinition/covid19-assessment-vaccination'",
+        "filter": "Immunization.meta.profile = 'http://openhie.org/fhir/covid19-casereporting/StructureDefinition/covid19-assessment-vaccination'",
         "columnMappings": [
           {
             "columnName": "patient_id",
-            "fhirPath": "Immunization.patient.reference.substring(8)"
+            "fhirPath": "Immunization.patient.reference.replace('Patient/', '')"
+          },
+          {
+            "columnName": "encounter_id",
+            "fhirPath": "Immunization.encounter.reference.replace('Encounter/', '')"
           },
           {
             "columnName": "assessment_vaccine_administered",
@@ -201,7 +244,7 @@
           },
           {
             "columnName": "meta_profile",
-            "fhirPath": "Immunization.meta.profile.first().substring(52)"
+            "fhirPath": "Immunization.meta.profile.first().replace('http://openhie.org/fhir/covid19-casereporting/StructureDefinition/', '')"
           }
         ]
       }

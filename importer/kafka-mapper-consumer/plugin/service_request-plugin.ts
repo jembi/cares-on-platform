@@ -1,10 +1,14 @@
 const PROFILE_URL =
-  'http://example.com/fhir/example/StructureDefinition/covid19-lab-order';
+  'http://openhie.org/fhir/covid19-casereporting/StructureDefinition/covid19-lab-order';
 
 export const plugin = (table, entry, tableMapping) => {
   const resource = entry.resource;
 
   if (resource?.meta?.profile == PROFILE_URL) {
+    table.rows['meta_profile'] = PROFILE_URL.replace(
+      'http://openhie.org/fhir/covid19-casereporting/StructureDefinition/',
+      ''
+    );
     if (resource?.code?.coding?.length > 0) {
       switch (resource.code.coding[0].code) {
         case '94558-4':
