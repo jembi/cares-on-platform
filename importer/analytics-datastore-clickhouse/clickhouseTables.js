@@ -191,12 +191,12 @@ const queries = [
 		LEFT JOIN vaccination ON encounter.id=vaccination.encounter_id;`,
 
   // Manufactuerer Table
-  `CREATE TABLE manufacturer_tbl(
+  `CREATE TABLE manufacturer(
 		id String,
 		version String,
 		inserted_at DateTime DEFAULT now(),
 		last_updated String,
-		manufacturer String,
+		name String,
 		max_doses String,
 		age_group_start String,
 		age_group_end String, 
@@ -206,49 +206,49 @@ const queries = [
 		ENGINE=MergeTree
 		ORDER BY tuple();`,
 
-  `INSERT into manufacturer_tbl(id, manufacturer, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
 		values('1','Pfizer-BioNTech','3','0.5','4','Primary', '2')`,
 
-  `INSERT into manufacturer_tbl(id, manufacturer, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
 		values('2','Pfizer-BioNTech','2','5','17','Primary', '')`,
 
-  `INSERT into manufacturer_tbl(id, manufacturer, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
 		values('3','Pfizer-BioNTech','1','5','17','Booster', '0')`,
 
-  `INSERT into manufacturer_tbl(id, manufacturer, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
 		values('4','Pfizer-BioNTech','2','18','49','Primary', '')`,
 
-  `INSERT into manufacturer_tbl(id, manufacturer, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
 		values('5','Pfizer-BioNTech','1','18','49','Booster', '0')`,
 
-  `INSERT into manufacturer_tbl(id, manufacturer, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
 		values('6','Pfizer-BioNTech','2','50','','Primary', '')`,
 
-  `INSERT into manufacturer_tbl(id, manufacturer, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
 		values('7','Pfizer-BioNTech','2','50','','Booster', '0')`,
 
-  `INSERT into manufacturer_tbl(id, manufacturer, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
 		values('8','Moderna','2','0.5','17','Primary', '2')`,
 
-  `INSERT into manufacturer_tbl(id, manufacturer, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
 		values('9','Moderna','2','18','49','Primary', '')`,
 
-  `INSERT into manufacturer_tbl(id, manufacturer, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
 		values('10','Moderna','1','18','49','Booster', '0')`,
 
-  `INSERT into manufacturer_tbl(id, manufacturer, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
 		values('11','Moderna','2','50','','Primary', '')`,
 
-  `INSERT into manufacturer_tbl(id, manufacturer, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
 		values('12','Moderna','2','50','','Booster', '0')`,
 
-  `INSERT into manufacturer_tbl(id, manufacturer, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
 		values('13','Novavax','2','18','','Primary', '2')`,
 
-  `INSERT into manufacturer_tbl(id, manufacturer, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
 		values('14','Johnson and Johnson','1','18','49','Primary', '')`,
 
-  `INSERT into manufacturer_tbl(id, manufacturer, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
 		values('15','Johnson and Johnson','1','18','49','Booster', '0')`,
 ];
 
