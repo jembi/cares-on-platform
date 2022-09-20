@@ -1,119 +1,119 @@
 const queries = [
   // Resource Tables
   `CREATE TABLE organization(
-		facility_id String,
-		id String,
-		version String,
+		facility_id String null,
+		id String null,
+		version String null,
 		inserted_at DateTime DEFAULT now(),
 		last_updated Date NULL,
-		facility_name String,
-		facility_code String,
-		country_state_province String,
-		country String, 
-		district String,
-		city String
+		facility_name String NULL,
+		facility_code String NULL,
+		country_state_province String NULL,
+		country String NULL, 
+		district String NULL,
+		city String NULL
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
 
   `CREATE TABLE patient(
-		id String,
-		version String,
+		id String NULL,
+		version String NULL,
 		inserted_at DateTime DEFAULT now(),
 		last_updated Date NULL,
-		golden_id String,
-		patient_gender String,
+		golden_id String NULL,
+		patient_gender String NULL,
 		patient_birthdate Date NULL,
-		patient_district String, 
-		patient_key_population String,
-		facility_id String
+		patient_district String NULL, 
+		patient_key_population String NULL,
+		facility_id String NULL
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
 
   `CREATE TABLE encounter(
-		id String,
-		version String,
+		id String NULL,
+		version String NULL,
 		last_updated Date NULL,
 		inserted_at DateTime DEFAULT now(),
-		patient_id String,
-		meta_profile String
+		patient_id String NULL,
+		meta_profile String NULL
 		) 
 		ENGINE=MergeTree
 		ORDER BY tuple();`,
 
   `CREATE TABLE condition(
-		id String,
-		version String,
+		id String NULL,
+		version String NULL,
 		last_updated Date NULL,
 		inserted_at DateTime DEFAULT now(),
-		patient_id String,
-		encounter_id String,
-		covid_diagnosis String,
+		patient_id String NULL,
+		encounter_id String NULL,
+		covid_diagnosis String NULL,
 		covid_diagnosis_date Date NULL, 
 		hiv_diagnosis_date Date NULL,
-		meta_profile String
+		meta_profile String NULL
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
 
   `CREATE TABLE service_request(
-		id String,
-		version String,
+		id String NULL,
+		version String NULL,
 		last_updated Date NULL,
 		inserted_at DateTime DEFAULT now(),
-		patient_id String,
-		encounter_id String,
-		specimen_id String,
-		test_requested String,
-		meta_profile String
+		patient_id String NULL,
+		encounter_id String NULL,
+		specimen_id String NULL,
+		test_requested String NULL,
+		meta_profile String NULL
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
 
   `CREATE TABLE specimen(
-		patient_id String,
-		id String,
-		version String,
+		patient_id String NULL,
+		id String NULL,
+		version String NULL,
 		inserted_at DateTime DEFAULT now(),
 		last_updated Date NULL,
 		date_sample_collected Date NULL,
-		meta_profile String
+		meta_profile String NULL
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
 
   `CREATE TABLE observation(
-		patient_id String,
-		id String,
-		version String,
+		patient_id String NULL,
+		id String NULL,
+		version String NULL,
 		last_updated Date NULL,
 		inserted_at DateTime DEFAULT now(),
-		rapid_antigen_test_result String,
-		diagnostic_pcr_test_result String,
-		meta_profile String
+		rapid_antigen_test_result String NULL,
+		diagnostic_pcr_test_result String NULL,
+		meta_profile String NULL
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
 
   `CREATE TABLE immunization(
-		id String,
-		version String,
+		id String NULL,
+		version String NULL,
 		last_updated Date NULL,
-		patient_id String,
-		encounter_id String,
+		patient_id String NULL,
+		encounter_id String NULL,
 		inserted_at DateTime DEFAULT now(),
-		vaccine_administered String,
-		vaccine_dose String,
-		vaccine_series String,
+		vaccine_administered String NULL,
+		vaccine_dose String NULL,
+		vaccine_series String NULL,
 		vaccination_date Date NULL,
-		source_of_information String,
-		meta_profile String,
-		assessment_vaccine_administered String,
-		assessment_vaccine_dose String,
-		assessment_vaccine_series String,
+		source_of_information String NULL,
+		meta_profile String NULL,
+		assessment_vaccine_administered String NULL,
+		assessment_vaccine_dose String NULL,
+		assessment_vaccine_series String NULL,
 		assessment_vaccination_date Date NULL,
-		assessment_source_of_information String
+		assessment_source_of_information String NULL
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,

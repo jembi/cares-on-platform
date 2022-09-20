@@ -24,8 +24,6 @@ export const plugin = (table, entry, tableMapping) => {
         case '415684004':
           table.rows['covid_diagnosis'] = 'Suspected';
           break;
-        default:
-          break;
       }
     }
   } else if (resource?.meta?.profile == PROFILE_URL_HIV) {

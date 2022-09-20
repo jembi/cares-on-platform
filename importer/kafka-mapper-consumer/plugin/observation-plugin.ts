@@ -26,9 +26,6 @@ export const plugin = (table, entry, tableMapping) => {
         case '419984006':
           table.rows['rapid_antigen_test_result'] = 'Inconclusive';
           break;
-        default:
-          table.rows['rapid_antigen_test_result'] = '';
-          break;
       }
     } else if (
       resource?.code?.coding?.length > 0 &&
@@ -44,9 +41,6 @@ export const plugin = (table, entry, tableMapping) => {
           break;
         case '419984006':
           table.rows['diagnostic_pcr_test_result'] = 'Inconclusive';
-          break;
-        default:
-          table.rows['diagnostic_pcr_test_result'] = '';
           break;
       }
     }

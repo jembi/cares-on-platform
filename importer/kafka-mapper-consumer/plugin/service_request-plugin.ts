@@ -19,9 +19,6 @@ export const plugin = (table, entry, tableMapping) => {
           table.rows['test_requested'] =
             'SARS-CoV-2 (COVID-19) RNA [Cycle Threshold #] in Respiratory specimen by NAA with probe detection';
           break;
-        default:
-          table.rows['test_requested'] = '';
-          break;
       }
     }
   }
