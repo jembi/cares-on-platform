@@ -1,9 +1,9 @@
 const queries = [
   // Resource Tables
   `CREATE TABLE organization(
-		facility_id String null,
-		id String null,
-		version String null,
+		facility_id String NULL,
+		id String NULL,
+		version String NULL,
 		inserted_at DateTime DEFAULT now(),
 		last_updated Date NULL,
 		facility_name String NULL,
