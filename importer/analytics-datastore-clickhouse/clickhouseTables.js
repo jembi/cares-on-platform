@@ -119,29 +119,30 @@ const queries = [
 	  ORDER BY tuple();`,
 
   // Views
-  `CREATE VIEW vaccination AS SELECT encounter_id, patient_id, vaccination_date, vaccine_dose, vaccine_series, vaccine_administered, source_of_information  
-		FROM (
-			WITH assessment AS (
-				SELECT assessment_vaccination_date, patient_id, assessment_vaccine_dose, assessment_vaccine_series, assessment_vaccine_administered, assessment_source_of_information, encounter_id
+  `CREATE VIEW vaccination AS SELECT encounter_id, patient_id, vaccination_date, vaccine_dose, vaccine_series, vaccine_administered, source_of_information, meta_profile
+	FROM (
+		WITH assessment AS (
+			SELECT assessment_vaccination_date, meta_profile as assessment_meta_profile, patient_id, assessment_vaccine_dose, assessment_vaccine_series, assessment_vaccine_administered, assessment_source_of_information, encounter_id
+			FROM immunization 
+			WHERE assessment_vaccination_date IS NOT NULL
+		), vaccination AS (
+				SELECT vaccination_date, patient_id, meta_profile, vaccine_dose, vaccine_series, vaccine_administered, source_of_information, encounter_id
 				FROM immunization 
-				WHERE assessment_vaccination_date IS NOT NULL
-			), vaccination AS (
-					SELECT vaccination_date, patient_id, vaccine_dose, vaccine_series, vaccine_administered, source_of_information, encounter_id
-					FROM immunization 
-					WHERE vaccination_date IS NOT NULL
-			)
-			SELECT 
-				if(vaccination.patient_id='', assessment.patient_id, vaccination.patient_id) AS patient_id,
-				if(vaccination.encounter_id='', assessment.encounter_id, vaccination.encounter_id) AS encounter_id,
-				multiIf(date_diff('day', assessment.assessment_vaccination_date, vaccination.vaccination_date) < 0, assessment.assessment_vaccination_date, vaccination.vaccination_date IS NULL, assessment.assessment_vaccination_date, vaccination.vaccination_date) AS vaccination_date,
-				multiIf(date_diff('day', assessment.assessment_vaccination_date, vaccination.vaccination_date) < 0, assessment.assessment_vaccine_dose, vaccination.vaccination_date IS NULL, assessment.assessment_vaccine_dose, vaccination.vaccine_dose) AS vaccine_dose, 
-				multiIf(date_diff('day', assessment.assessment_vaccination_date, vaccination.vaccination_date) < 0, assessment.assessment_vaccine_series, vaccination.vaccination_date IS NULL, assessment.assessment_vaccine_series, vaccination.vaccine_series) AS vaccine_series,
-				multiIf(date_diff('day', assessment.assessment_vaccination_date, vaccination.vaccination_date) < 0, assessment.assessment_vaccine_administered, vaccination.vaccination_date IS NULL, assessment.assessment_vaccine_administered, vaccination.vaccine_administered) AS vaccine_administered,
-				multiIf(date_diff('day', assessment.assessment_vaccination_date, vaccination.vaccination_date) < 0, assessment.assessment_source_of_information, vaccination.vaccination_date IS NULL, assessment.assessment_source_of_information, vaccination.source_of_information) AS source_of_information
-			FROM vaccination
-			FULL OUTER JOIN assessment
-			ON assessment.encounter_id=vaccination.encounter_id
-		);`,
+				WHERE vaccination_date IS NOT NULL
+		)
+		SELECT 
+			multiIf(date_diff('day', assessment.assessment_vaccination_date, vaccination.vaccination_date) < 0, assessment.encounter_id, vaccination.vaccination_date IS NULL, assessment.encounter_id, vaccination.encounter_id) AS encounter_id,
+			multiIf(date_diff('day', assessment.assessment_vaccination_date, vaccination.vaccination_date) < 0, assessment.patient_id, vaccination.vaccination_date IS NULL, assessment.patient_id, vaccination.patient_id) AS patient_id,
+			multiIf(date_diff('day', assessment.assessment_vaccination_date, vaccination.vaccination_date) < 0, assessment.assessment_meta_profile, vaccination.vaccination_date IS NULL, assessment.assessment_meta_profile, vaccination.meta_profile) AS meta_profile,
+			multiIf(date_diff('day', assessment.assessment_vaccination_date, vaccination.vaccination_date) < 0, assessment.assessment_vaccination_date, vaccination.vaccination_date IS NULL, assessment.assessment_vaccination_date, vaccination.vaccination_date) AS vaccination_date,
+			multiIf(date_diff('day', assessment.assessment_vaccination_date, vaccination.vaccination_date) < 0, assessment.assessment_vaccine_dose, vaccination.vaccination_date IS NULL, assessment.assessment_vaccine_dose, vaccination.vaccine_dose) AS vaccine_dose, 
+			multiIf(date_diff('day', assessment.assessment_vaccination_date, vaccination.vaccination_date) < 0, assessment.assessment_vaccine_series, vaccination.vaccination_date IS NULL, assessment.assessment_vaccine_series, vaccination.vaccine_series) AS vaccine_series,
+			multiIf(date_diff('day', assessment.assessment_vaccination_date, vaccination.vaccination_date) < 0, assessment.assessment_vaccine_administered, vaccination.vaccination_date IS NULL, assessment.assessment_vaccine_administered, vaccination.vaccine_administered) AS vaccine_administered,
+			multiIf(date_diff('day', assessment.assessment_vaccination_date, vaccination.vaccination_date) < 0, assessment.assessment_source_of_information, vaccination.vaccination_date IS NULL, assessment.assessment_source_of_information, vaccination.source_of_information) AS source_of_information
+		FROM vaccination
+		FULL OUTER JOIN assessment
+		ON assessment.encounter_id=vaccination.encounter_id
+	);`,
 
   `CREATE VIEW diagnosis AS SELECT patient_id, covid_diagnosis, covid_diagnosis_date, hiv_diagnosis_date, encounter_id  
    		FROM (
