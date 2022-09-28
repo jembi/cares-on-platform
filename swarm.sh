@@ -19,7 +19,9 @@ readonly ROOT_PATH
 
 clean_containers_and_configs() {
   # shellcheck disable=SC2046 # intentional word splitting
-  docker config rm $(docker config ls -q) &>/dev/null
+  docker config rm $(docker config ls -qf name=superset) &>/dev/null # Remove superset configs
+  docker config rm $(docker config ls -qf name=fhir-mapping) &>/dev/null # Remove fhir-mapping from kafka-mapper-consumer
+  docker config rm $(docker config ls | grep -e .*'plugin'.* | awk '{ print $1 }') &>/dev/null # Remove plugins from kafka-mapper-consumer
   # shellcheck disable=SC2046 # intentional word splitting
   docker container rm $(docker container ls -aqf name=dashboard-visualiser-superset) &>/dev/null
   # shellcheck disable=SC2046 # intentional word splitting
@@ -28,6 +30,9 @@ clean_containers_and_configs() {
 
 main() {
   if [[ "${ACTION}" == "init" ]] || [[ "${ACTION}" == "up" ]]; then
+    if [[ "${ACTION}" == "up" ]]; then
+      clean_containers_and_configs
+    fi
     log info "Setting config digests"
     config::set_config_digests "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml
     try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml instant" "Failed to deploy Cares on Platform"
