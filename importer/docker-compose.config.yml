@@ -73,4 +73,3 @@ configs:
     name: cares-hapi-fhir-fhirConfig.js-${cares_hapi_fhir_fhirConfig_js_DIGEST:?err}
     labels:
       name: cares
-      
