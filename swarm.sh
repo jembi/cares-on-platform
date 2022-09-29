@@ -52,6 +52,7 @@ main() {
     # Ensure config importer is removed
     config::await_service_removed instant_cares-clickhouse-config-importer
     config::await_service_removed instant_cares-superset-config-importer
+    config::await_service_removed instant_hapi-fhir-config-importer
 
     log info "Removing stale configs..."
     config::remove_stale_service_configs "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml "cares"
