@@ -48,12 +48,13 @@ It is advised to take a look at [Platform CLI](https://app.gitbook.com/o/lTiMw1w
 
 The following steps provide a quick start to Cares on platform:
 
-1. In your terminal, navigate to the project root directory and run the command: `./get-cli.sh` to download the [platform-cli](https://app.gitbook.com/o/lTiMw1wKTVQEjepxV4ou/s/TwrbQZir3ZdvejunAFia/) executable for your operating system`[linux|windows|macos].`\
+1. Clone the [GitHub repository for the project](https://github.com/jembi/cares-disi-on-platform).
+2. In your terminal, navigate to the project root directory and run the command: `./get-cli.sh` to download the [platform-cli](https://app.gitbook.com/o/lTiMw1wKTVQEjepxV4ou/s/TwrbQZir3ZdvejunAFia/) executable for your operating system`[linux|windows|macos].`\
    ``Example: `./get-cli.sh linux`  to download the binary for use on Linux.
-2. According to your arguments provided in the first command, it downloads one or three executable files `platform-linux | platform-macos | platform.exe`. \
+3. According to your arguments provided in the first command, it downloads one or three executable files `platform-linux | platform-macos | platform.exe`. \
    Now you should edit the command in the `deploy-local.sh` file. It should make use of the executable suitable for your operating system (the default: `platform-linux`).
-3. Ensure docker is installed on your machine, and run the command `docker swarm init` to initialize a docker swarm.
-4. To start up the project run the command`./deploy-local-combo.sh init` .
+4. Ensure docker is installed on your machine, and run the command `docker swarm init` to initialize a docker swarm.
+5. To start up the project run the command`./deploy-local-combo.sh init` .
 
 The following options can be passed to the `./deploy-local-combo.sh` command:
 
