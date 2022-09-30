@@ -22,6 +22,7 @@ clean_containers_and_configs() {
   docker config rm $(docker config ls -qf label=name=superset) &>/dev/null # Remove superset configs
   docker config rm $(docker config ls -qf label=name=kafka-mapper-consumer) &>/dev/null # Remove kafka-mapper-consumer configs
   docker config rm $(docker config ls -qf label=name=clickhouse) &>/dev/null # Remove clickhouse configs
+
   # shellcheck disable=SC2046 # intentional word splitting
   docker container rm $(docker container ls -aqf name=dashboard-visualiser-superset) &>/dev/null
   # shellcheck disable=SC2046 # intentional word splitting
@@ -62,6 +63,7 @@ main() {
     log info "Removing stale configs..."
     config::remove_stale_service_configs "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml "superset"
     config::remove_stale_service_configs "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml "clickhouse"
+    config::remove_stale_service_configs "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml "hapi-fhir"
 
     log info "Cleaning containers and configs"
     clean_containers_and_configs
