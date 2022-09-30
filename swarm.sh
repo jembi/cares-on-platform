@@ -52,10 +52,12 @@ main() {
     log info "Waiting to give config importers time to run before cleaning up service"
     config::remove_config_importer cares-clickhouse-config-importer
     config::remove_config_importer cares-superset-config-importer
+    config::remove_config_importer hapi-fhir-config-importer
 
     # Ensure config importer is removed
     config::await_service_removed instant_cares-clickhouse-config-importer
     config::await_service_removed instant_cares-superset-config-importer
+    config::await_service_removed instant_hapi-fhir-config-importer
 
     log info "Removing stale configs..."
     config::remove_stale_service_configs "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml "superset"
