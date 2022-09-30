@@ -5,7 +5,7 @@
 In order to view the reference implementation in action, please send messages to the CDR using one of the following Postman Collections:
 
 * [HIV & COVID19 Postman Collection](https://www.postman.com/jembi-platform/workspace/jembi-public/collection/23345468-72eafb5d-6ce7-4ccc-abb5-49d76e83b270?action=share\&creator=2252804)
-* [COVID19 Lab Order Postman Collection](https://www.postman.com/jembi-platform/workspace/jembi-public/collection/2252804-7c71737d-d370-4eec-aaa6-2971ff742b8f?action=share\&creator=2252804)
+* [COVID19 Lab Integration Postman Collection](https://www.postman.com/jembi-platform/workspace/jembi-public/collection/2252804-7c71737d-d370-4eec-aaa6-2971ff742b8f?action=share\&creator=2252804)
 
 The following FHIR APIs have been established to enable testing:
 
@@ -51,7 +51,7 @@ All of the Postman Collections make use of the variable \{{openhimURL\}} which i
             2. _Cares Submit random bundle_
          3. _FULL HIV CBS & CARES & LAB ORDER Submit random bundle_: This bundle contains the resources for the bundle “_Program Care & Monitoring HIV CBS & CARES Submit random bundle_” but also includes the various resources to enable you to submit lab orders and lab results within a single message.
             1. This bundle is very useful when wanting to do full testing (HIV, COVID19 and COVID19 Lab)
-2. **COVID19 Lab Order Postman Collection**
+2. **COVID19 Lab Integration Postman Collection**
    1. This collection allows you to perform the following key operations individually:
       1. Submit a new lab order for COVID19:\
 
