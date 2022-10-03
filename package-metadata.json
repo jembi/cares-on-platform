@@ -7,6 +7,7 @@
   "dependencies": [
     "kafka-unbundler-consumer",
     "kafka-mapper-consumer",
+    "fhir-datastore-hapi-fhir",
     "dashboard-visualiser-superset"
   ],
   "environmentVariables": {
@@ -16,6 +17,8 @@
     "SUPERSET_PASSWORD": "admin",
     "SUPERSET_USERNAME": "admin",
     "SUPERSET_CONFIG_FILE": "superset-export.zip",
-    "SUPERSET_SSL": "false"
+    "SUPERSET_SSL": "false",
+
+    "FHIR_IG_URL": "https://openhie.github.io/cares-covid-ig"
   }
 }

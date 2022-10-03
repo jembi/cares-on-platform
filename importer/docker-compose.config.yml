@@ -36,24 +36,40 @@ services:
         target: /superset-export.zip
     command: sh -c "cd / && npm i axios form-data && node /supersetConfig.js"
 
+  hapi-fhir-config-importer:
+    image: jembi/instantohie-config-importer:v1.0.0
+    environment:
+      HAPI_FHIR_BASE_URL: http://hapi-fhir:8080/fhir
+      FHIR_IG_URL: ${FHIR_IG_URL}
+      NODE_ENV: 'production'
+    configs: 
+      - source: cares-hapi-fhir-fhirConfig.js
+        target: /fhirConfig.js
+    command: sh -c "wait-on -t 60000 http-get://hapi-fhir:8080 && sleep 1 && cd / && npm i axios adm-zip && node /fhirConfig.js"
+
 configs:
   cares-clickhouse-config-clickhouseConfig.js:
     file: ./analytics-datastore-clickhouse/clickhouseConfig.js
     name: cares-clickhouse-config-clickhouseConfig.js-${cares_clickhouse_config_clickhouseConfig_js_DIGEST:?err}
     labels:
-      name: cares
+      name: clickhouse
   cares-clickhouse-config-clickhouseTables.js:
     file: ./analytics-datastore-clickhouse/clickhouseTables.js
     name: cares-clickhouse-config-clickhouseTables.js-${cares_clickhouse_config_clickhouseTables_js_DIGEST:?err}
     labels:
-      name: cares
+      name: clickhouse
   cares-superset-config-supersetConfig.js:
     file: ./dashboard-visualiser-superset/supersetConfig.js
     name: cares-superset-config-supersetConfig.js-${cares_superset_config_supersetConfig_js_DIGEST:?err}
     labels:
-      name: cares
+      name: superset
   cares-superset-config-superset-export.zip:
     file: ./dashboard-visualiser-superset/superset-export.zip
     name: cares-superset-config-superset-export.zip-${cares_superset_config_superset_export_zip_DIGEST:?err}
     labels:
-      name: cares
+      name: superset
+  cares-hapi-fhir-fhirConfig.js:
+    file: ./hapi-fhir/fhirConfig.js
+    name: cares-hapi-fhir-fhirConfig.js-${cares_hapi_fhir_fhirConfig_js_DIGEST:?err}
+    labels:
+      name: hapi-fhir

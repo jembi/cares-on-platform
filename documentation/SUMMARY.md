@@ -23,3 +23,4 @@
 * [Deployment](deployment/README.md)
   * [Local deployment](deployment/local-deployment.md)
   * [Deploy on a Remote Server](deployment/deploy-on-a-remote-server.md)
+* [Postman Collections](postman-collections.md)
