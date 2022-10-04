@@ -10,5 +10,15 @@
     "fhir-datastore-hapi-fhir",
     "dashboard-visualiser-superset"
   ],
-  "environmentVariables": {}
+  "environmentVariables": {
+    "CLICKHOUSE_HOST": "analytics-datastore-clickhouse",
+    "CLICKHOUSE_PORT": "8123",
+
+    "SUPERSET_PASSWORD": "admin",
+    "SUPERSET_USERNAME": "admin",
+    "SUPERSET_CONFIG_FILE": "superset-export.zip",
+    "SUPERSET_SSL": "false",
+
+    "FHIR_IG_URL": "https://openhie.github.io/cares-covid-ig"
+  }
 }
