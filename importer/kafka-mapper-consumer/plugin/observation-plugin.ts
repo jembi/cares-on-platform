@@ -1,7 +1,7 @@
 const COVID19_TEST_RESULTS_PROFILE =
   'http://openhie.org/fhir/covid19-casereporting/StructureDefinition/covid19-test-results';
-const CODE_ANTIGEN_TEST = '1156860005';
-const CODE_PCR_TEST = '9718006';
+const CODE_ANTIGEN_TEST = '94558-4';
+const CODE_PCR_TEST = '94745-7';
 
 export const plugin = (table, entry, tableMapping) => {
   const resource = entry.resource;
