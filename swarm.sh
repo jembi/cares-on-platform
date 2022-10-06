@@ -34,16 +34,22 @@ main() {
     if [[ "${ACTION}" == "up" ]]; then
       clean_containers_and_configs
     fi
+
     log info "Setting config digests"
     config::set_config_digests "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml
-    try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml instant" "Failed to deploy Cares on Platform"
+    # Clickhouse 
+    config::generate_service_configs cares-clickhouse-config-importer / "${COMPOSE_FILE_PATH}/importer/analytics-datastore-clickhouse/" "${COMPOSE_FILE_PATH}/importer"
+    ClickhouseTempComposeParam="-c ${COMPOSE_FILE_PATH}/importer/docker-compose.tmp.yml"
+
+    try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml $ClickhouseTempComposeParam instant" "Failed to deploy Cares on Platform"
 
     log info "Waiting to update configs"
+    # Kafka Mapper Consumer
     REF_service_update_args=""
     config::update_service_configs REF_service_update_args /app/src/data "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer/mapping kafka-mapper-consumer
     config::update_service_configs REF_service_update_args /app/src/plugin "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer/plugin kafka-mapper-consumer
     try "docker service update $REF_service_update_args instant_kafka-mapper-consumer" "Failed to update config for instant_kafka-mapper-consumer"
-    
+    # Superset
     REF_service_update_args=""
     config::update_service_configs REF_service_update_args /app/pythonpath "$COMPOSE_FILE_PATH"/importer/dashboard-visualiser-superset superset
     # TODO: Update .env.superset once the value for MAPBOX_API_KEY is known
