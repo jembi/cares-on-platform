@@ -76,7 +76,6 @@
     "tableMappings": [
       {
         "targetTable": "encounter",
-        "filter": "Encounter.meta.profile = 'http://openhie.org/fhir/covid19-casereporting/StructureDefinition/covid19-encounter'",
         "columnMappings": [
           {
             "columnName": "patient_id",
