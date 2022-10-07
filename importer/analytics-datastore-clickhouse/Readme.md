@@ -4,7 +4,20 @@ CRUD operations over Clickhouse should be done with migrations.
 
 Follow the steps to create and run migrations: 
 
-### 1. Create a new migration with the following command: 
+### One step: Generate migration with bash script
+
+You can run the `./generate-migration.sh <NAME_OF_THE_MIGRATION>` script. It will generate a new migration with a minimum required structure. 
+The name of the migration will start with a timestamp and end with the name specified as first parameter to the bash script.
+
+> The name of the migration should be descriptive.
+
+You can edit the query after creating the file. 
+
+Jump to  `Run the platform`  section if you generate the file already.
+
+To create a migration from scratch, you can follow these steps:
+
+1. Create a new migration with the following command: 
 
 You should cd into the migration folder `cares-on-platform > importer > analytics-datastore-clickhouse > migrations`, and run the following:
 
@@ -24,7 +37,7 @@ touch ./migrations/$(date +%s)-Create_manufacturer_table.js
 > * Migrations will not rerun after the first initialization.
 > * Migrations should have different names.
 
-### 2. Edit the file as follows:
+2. Edit the file as follows:
 
 First you need to declare the queries table: 
 
@@ -72,7 +85,7 @@ Example of queries:
  
 More examples in [the docs of clickhouse](https://clickhouse.com/docs/en/analyze).
 
-### 3. Run the platform 
+### Run the platform 
 
 If it is a new initalization, all the migrations will run from the start: 
 
