@@ -36,7 +36,15 @@ main() {
     fi
     log info "Setting config digests"
     config::set_config_digests "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml
+<<<<<<< Updated upstream
     try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml instant" "Failed to deploy Cares on Platform"
+=======
+    # Clickhouse 
+    config::generate_service_configs cares-clickhouse-config-importer / "${COMPOSE_FILE_PATH}/importer/analytics-datastore-clickhouse/" "${COMPOSE_FILE_PATH}/importer" clickhouse
+    ClickhouseTempComposeParam="-c ${COMPOSE_FILE_PATH}/importer/docker-compose.tmp.yml"
+
+    try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml $ClickhouseTempComposeParam instant" "Failed to deploy Cares on Platform"
+>>>>>>> Stashed changes
 
     log info "Waiting to update configs"
     REF_service_update_args=""
@@ -73,7 +81,9 @@ main() {
   elif [[ "${ACTION}" == "down" ]]; then
     log info "Cares only has down for its dependencies"
   elif [[ "${ACTION}" == "destroy" ]]; then
-    log info "Cares only has destroy for its dependencies"
+    docker::service_destroy cares-clickhouse-config-importer
+    docker::service_destroy cares-superset-config-importer
+    docker::service_destroy hapi-fhir-config-importer
   else
     log error "Valid options are: init, up, down, or destroy"
   fi
