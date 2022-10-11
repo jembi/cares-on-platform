@@ -36,15 +36,12 @@ main() {
     fi
     log info "Setting config digests"
     config::set_config_digests "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml
-<<<<<<< Updated upstream
-    try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml instant" "Failed to deploy Cares on Platform"
-=======
+
     # Clickhouse 
     config::generate_service_configs cares-clickhouse-config-importer / "${COMPOSE_FILE_PATH}/importer/analytics-datastore-clickhouse/" "${COMPOSE_FILE_PATH}/importer" clickhouse
     ClickhouseTempComposeParam="-c ${COMPOSE_FILE_PATH}/importer/docker-compose.tmp.yml"
 
     try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml $ClickhouseTempComposeParam instant" "Failed to deploy Cares on Platform"
->>>>>>> Stashed changes
 
     log info "Waiting to update configs"
     REF_service_update_args=""
