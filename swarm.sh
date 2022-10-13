@@ -39,9 +39,9 @@ main() {
 
     # Clickhouse 
     config::generate_service_configs cares-clickhouse-config-importer / "${COMPOSE_FILE_PATH}/importer/analytics-datastore-clickhouse/" "${COMPOSE_FILE_PATH}/importer" clickhouse
-    ClickhouseTempComposeParam="-c ${COMPOSE_FILE_PATH}/importer/docker-compose.tmp.yml"
+    clickhouse_temp_compose_param="-c ${COMPOSE_FILE_PATH}/importer/docker-compose.tmp.yml"
 
-    try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml $ClickhouseTempComposeParam instant" "Failed to deploy Cares on Platform"
+    try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml $clickhouse_temp_compose_param instant" "Failed to deploy Cares on Platform"
 
     log info "Waiting to update configs"
     REF_service_update_args=""
