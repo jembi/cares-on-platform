@@ -23,7 +23,7 @@ const queries = [
 		last_updated Date NULL,
 		golden_id String NULL,
 		patient_gender String NULL,
-		patient_birthdate Date NULL,
+		patient_birthdate Date32 NULL,
 		patient_district String NULL, 
 		patient_key_population String NULL,
 		facility_id String NULL
@@ -202,55 +202,56 @@ const queries = [
 		age_group_start String,
 		age_group_end String, 
 		series String,
-		weeks_waiting_interval String
+		weeks_waiting_interval String,
+		code String
 		) 
 		ENGINE=MergeTree
 		ORDER BY tuple();`,
 
-  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
-		values('1','Pfizer-BioNTech','3','0.5','4','Primary', '2')`,
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval, code) 
+		values('1','Pfizer-BioNTech','3','0.5','4','Primary', '2', 'XM8NQ0')`,
 
-  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
-		values('2','Pfizer-BioNTech','2','5','17','Primary', '')`,
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval, code) 
+		values('2','Pfizer-BioNTech','2','5','17','Primary', '', 'XM8NQ0')`,
 
-  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
-		values('3','Pfizer-BioNTech','1','5','17','Booster', '0')`,
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval, code) 
+		values('3','Pfizer-BioNTech','1','5','17','Booster', '0', 'XM8NQ0')`,
 
-  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
-		values('4','Pfizer-BioNTech','2','18','49','Primary', '')`,
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval, code) 
+		values('4','Pfizer-BioNTech','2','18','49','Primary', '', 'XM8NQ0')`,
 
-  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
-		values('5','Pfizer-BioNTech','1','18','49','Booster', '0')`,
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval, code) 
+		values('5','Pfizer-BioNTech','1','18','49','Booster', '0', 'XM8NQ0')`,
 
-  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
-		values('6','Pfizer-BioNTech','2','50','','Primary', '')`,
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval, code) 
+		values('6','Pfizer-BioNTech','2','50','','Primary', '', 'XM8NQ0')`,
 
-  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
-		values('7','Pfizer-BioNTech','2','50','','Booster', '0')`,
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval, code) 
+		values('7','Pfizer-BioNTech','2','50','','Booster', '0', 'XM8NQ0')`,
 
-  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
-		values('8','Moderna','2','0.5','17','Primary', '2')`,
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval, code) 
+		values('8','Moderna','2','0.5','17','Primary', '2', 'XM3DT5')`,
 
-  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
-		values('9','Moderna','2','18','49','Primary', '')`,
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval, code) 
+		values('9','Moderna','2','18','49','Primary', '', 'XM3DT5')`,
 
-  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
-		values('10','Moderna','1','18','49','Booster', '0')`,
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval, code) 
+		values('10','Moderna','1','18','49','Booster', '0', 'XM3DT5')`,
 
-  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
-		values('11','Moderna','2','50','','Primary', '')`,
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval, code) 
+		values('11','Moderna','2','50','','Primary', '', 'XM3DT5')`,
 
-  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
-		values('12','Moderna','2','50','','Booster', '0')`,
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval, code) 
+		values('12','Moderna','2','50','','Booster', '0', 'XM3DT5')`,
 
-  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
-		values('13','Novavax','2','18','','Primary', '2')`,
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval, code) 
+		values('13','Novavax','2','18','','Primary', '2', 'XM5JC5')`,
 
-  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
-		values('14','Johnson and Johnson','1','18','49','Primary', '')`,
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval, code) 
+		values('14','Johnson and Johnson','1','18','49','Primary', '', 'XM6QV1')`,
 
-  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval) 
-		values('15','Johnson and Johnson','1','18','49','Booster', '0')`,
+  `INSERT into manufacturer(id, name, max_doses, age_group_start, age_group_end, series, weeks_waiting_interval, code) 
+		values('15','Johnson and Johnson','1','18','49','Booster', '0', 'XM6QV1')`,
 ];
 
 module.exports = queries;
