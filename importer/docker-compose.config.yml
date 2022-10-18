@@ -27,7 +27,7 @@ services:
       SUPERSET_API_PORT: 8088
       SUPERSET_API_PASSWORD: ${SUPERSET_API_PASSWORD}
       SUPERSET_API_USERNAME: ${SUPERSET_API_USERNAME}
-      CONFIG_FILE: ${CONFIG_FILE}
+      CONFIG_FILE: ${SUPERSET_CONFIG_FILE}
       SUPERSET_SSL: ${SUPERSET_SSL}
     configs:
       - source: cares-superset-config-supersetConfig.js
