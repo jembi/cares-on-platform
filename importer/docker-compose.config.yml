@@ -36,8 +36,8 @@ services:
         target: /superset-export.zip
     command: sh -c "cd / && npm i axios form-data && node /supersetConfig.js"
 
-  hapi-fhir-config-importer:
-    image: jembi/instantohie-config-importer:v1.0.0
+  cares-hapi-fhir-config-importer:
+    image: node:erbium-alpine
     environment:
       HAPI_FHIR_BASE_URL: http://hapi-fhir:8080/fhir
       FHIR_IG_URL: ${FHIR_IG_URL}
@@ -45,7 +45,7 @@ services:
     configs: 
       - source: cares-hapi-fhir-fhirConfig.js
         target: /fhirConfig.js
-    command: sh -c "wait-on -t 60000 http-get://hapi-fhir:8080 && sleep 1 && cd / && npm i axios adm-zip && node /fhirConfig.js"
+    command: sh -c "sleep 1 && cd / && npm i axios adm-zip && node /fhirConfig.js"
 
 configs:
   cares-clickhouse-config-clickhouseConfig.js:
