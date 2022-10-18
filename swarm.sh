@@ -80,7 +80,7 @@ main() {
   elif [[ "${ACTION}" == "destroy" ]]; then
     docker::service_destroy cares-clickhouse-config-importer
     docker::service_destroy cares-superset-config-importer
-    docker::service_destroy hapi-fhir-config-importer
+    docker::service_destroy cares-hapi-fhir-config-importer
   else
     log error "Valid options are: init, up, down, or destroy"
   fi

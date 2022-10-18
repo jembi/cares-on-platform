@@ -52,24 +52,24 @@ configs:
     file: ./analytics-datastore-clickhouse/clickhouseConfig.js
     name: cares-clickhouse-config-clickhouseConfig.js-${cares_clickhouse_config_clickhouseConfig_js_DIGEST:?err}
     labels:
-      name: cares
+      name: clickhouse
   cares-clickhouse-config-clickhouseTables.js:
     file: ./analytics-datastore-clickhouse/clickhouseTables.js
     name: cares-clickhouse-config-clickhouseTables.js-${cares_clickhouse_config_clickhouseTables_js_DIGEST:?err}
     labels:
-      name: cares
+      name: clickhouse
   cares-superset-config-supersetConfig.js:
     file: ./dashboard-visualiser-superset/supersetConfig.js
     name: cares-superset-config-supersetConfig.js-${cares_superset_config_supersetConfig_js_DIGEST:?err}
     labels:
-      name: cares
+      name: superset
   cares-superset-config-superset-export.zip:
     file: ./dashboard-visualiser-superset/superset-export.zip
     name: cares-superset-config-superset-export.zip-${cares_superset_config_superset_export_zip_DIGEST:?err}
     labels:
-      name: cares
+      name: superset
   cares-hapi-fhir-fhirConfig.js:
     file: ./hapi-fhir/fhirConfig.js
     name: cares-hapi-fhir-fhirConfig.js-${cares_hapi_fhir_fhirConfig_js_DIGEST:?err}
     labels:
-      name: cares
+      name: hapi-fhir
