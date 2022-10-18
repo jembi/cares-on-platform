@@ -8,8 +8,8 @@ services:
       restart_policy:
         condition: none
     environment:
-      CLICKHOUSE_HOST: ${CLICKHOUSE_HOST}
-      CLICKHOUSE_PORT: ${CLICKHOUSE_PORT}
+      CLICKHOUSE_HOST: ${CLICKHOUSE_HOST:-analytics-datastore-clickhouse}
+      CLICKHOUSE_PORT: ${CLICKHOUSE_PORT:-8123}
     configs:
       - source: cares-clickhouse-config-clickhouseConfig.js
         target: /clickhouseConfig.js
@@ -25,10 +25,10 @@ services:
     environment:
       SUPERSET_SERVICE_NAME: 'dashboard-visualiser-superset'
       SUPERSET_API_PORT: 8088
-      SUPERSET_API_PASSWORD: ${SUPERSET_API_PASSWORD}
-      SUPERSET_API_USERNAME: ${SUPERSET_API_USERNAME}
-      CONFIG_FILE: ${SUPERSET_CONFIG_FILE}
-      SUPERSET_SSL: ${SUPERSET_SSL}
+      SUPERSET_API_PASSWORD: ${SUPERSET_API_PASSWORD:-admin}
+      SUPERSET_API_USERNAME: ${SUPERSET_API_USERNAME:-admin}
+      CONFIG_FILE: ${CONFIG_FILE:-superset-export.zip}
+      SUPERSET_SSL: ${SUPERSET_SSL:-false}
     configs:
       - source: cares-superset-config-supersetConfig.js
         target: /supersetConfig.js
@@ -45,31 +45,31 @@ services:
     configs: 
       - source: cares-hapi-fhir-fhirConfig.js
         target: /fhirConfig.js
-    command: sh -c "sleep 1 && cd / && npm i axios adm-zip && node /fhirConfig.js"
+    command: sh -c "sleep 1 && cd / && npm i axios adm-zip && npm i wait-on -g && wait-on -t 600000 http-get://hapi-fhir:8080 && node /fhirConfig.js"
 
 configs:
   cares-clickhouse-config-clickhouseConfig.js:
     file: ./analytics-datastore-clickhouse/clickhouseConfig.js
     name: cares-clickhouse-config-clickhouseConfig.js-${cares_clickhouse_config_clickhouseConfig_js_DIGEST:?err}
     labels:
-      name: clickhouse
+      name: cares
   cares-clickhouse-config-clickhouseTables.js:
     file: ./analytics-datastore-clickhouse/clickhouseTables.js
     name: cares-clickhouse-config-clickhouseTables.js-${cares_clickhouse_config_clickhouseTables_js_DIGEST:?err}
     labels:
-      name: clickhouse
+      name: cares
   cares-superset-config-supersetConfig.js:
     file: ./dashboard-visualiser-superset/supersetConfig.js
     name: cares-superset-config-supersetConfig.js-${cares_superset_config_supersetConfig_js_DIGEST:?err}
     labels:
-      name: superset
+      name: cares
   cares-superset-config-superset-export.zip:
     file: ./dashboard-visualiser-superset/superset-export.zip
     name: cares-superset-config-superset-export.zip-${cares_superset_config_superset_export_zip_DIGEST:?err}
     labels:
-      name: superset
+      name: cares
   cares-hapi-fhir-fhirConfig.js:
     file: ./hapi-fhir/fhirConfig.js
     name: cares-hapi-fhir-fhirConfig.js-${cares_hapi_fhir_fhirConfig_js_DIGEST:?err}
     labels:
-      name: hapi-fhir
+      name: cares
