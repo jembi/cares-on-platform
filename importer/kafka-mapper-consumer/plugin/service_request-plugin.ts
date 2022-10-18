@@ -11,11 +11,11 @@ export const plugin = (table, entry, tableMapping) => {
     );
     if (resource?.code?.coding?.length > 0) {
       switch (resource.code.coding[0].code) {
-        case '1156860005':
+        case '94558-4':
           table.rows['test_requested'] =
             'SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory specimen by Rapid immunoassay';
           break;
-        case '9718006':
+        case '94745-7':
           table.rows['test_requested'] =
             'SARS-CoV-2 (COVID-19) RNA [Cycle Threshold #] in Respiratory specimen by NAA with probe detection';
           break;

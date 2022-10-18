@@ -2,7 +2,7 @@
 
 readonly ACTION=$1
 
-readonly STATEFUL_NODES=${STATEFUL_NODES:-"cluster"}
+readonly STATEFUL_NODES=${STATEFUL_NODES:-"single"}
 
 COMPOSE_FILE_PATH=$(
   cd "$(dirname "${BASH_SOURCE[0]}")" || exit
@@ -19,7 +19,10 @@ readonly ROOT_PATH
 
 clean_containers_and_configs() {
   # shellcheck disable=SC2046 # intentional word splitting
-  docker config rm $(docker config ls -q) &>/dev/null
+  docker config rm $(docker config ls -qf label=name=superset) &>/dev/null # Remove superset configs
+  docker config rm $(docker config ls -qf label=name=kafka-mapper-consumer) &>/dev/null # Remove kafka-mapper-consumer configs
+  docker config rm $(docker config ls -qf label=name=clickhouse) &>/dev/null # Remove clickhouse configs
+
   # shellcheck disable=SC2046 # intentional word splitting
   docker container rm $(docker container ls -aqf name=dashboard-visualiser-superset) &>/dev/null
   # shellcheck disable=SC2046 # intentional word splitting
@@ -28,18 +31,26 @@ clean_containers_and_configs() {
 
 main() {
   if [[ "${ACTION}" == "init" ]] || [[ "${ACTION}" == "up" ]]; then
+    if [[ "${ACTION}" == "up" ]]; then
+      clean_containers_and_configs
+    fi
     log info "Setting config digests"
     config::set_config_digests "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml
-    try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml instant" "Failed to deploy Cares on Platform"
+
+    # Clickhouse 
+    config::generate_service_configs cares-clickhouse-config-importer / "${COMPOSE_FILE_PATH}/importer/analytics-datastore-clickhouse/" "${COMPOSE_FILE_PATH}/importer" clickhouse
+    clickhouse_temp_compose_param="-c ${COMPOSE_FILE_PATH}/importer/docker-compose.tmp.yml"
+
+    try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml $clickhouse_temp_compose_param instant" "Failed to deploy Cares on Platform"
 
     log info "Waiting to update configs"
     REF_service_update_args=""
-    config::update_service_configs REF_service_update_args /app/src/data "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer/mapping cares
-    config::update_service_configs REF_service_update_args /app/src/plugin "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer/plugin cares
+    config::update_service_configs REF_service_update_args /app/src/data "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer/mapping kafka-mapper-consumer
+    config::update_service_configs REF_service_update_args /app/src/plugin "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer/plugin kafka-mapper-consumer
     try "docker service update $REF_service_update_args instant_kafka-mapper-consumer" "Failed to update config for instant_kafka-mapper-consumer"
     
     REF_service_update_args=""
-    config::update_service_configs REF_service_update_args /app/pythonpath "$COMPOSE_FILE_PATH"/importer/dashboard-visualiser-superset cares
+    config::update_service_configs REF_service_update_args /app/pythonpath "$COMPOSE_FILE_PATH"/importer/dashboard-visualiser-superset superset
     # TODO: Update .env.superset once the value for MAPBOX_API_KEY is known
     config::env_var_add_from_file REF_service_update_args "$COMPOSE_FILE_PATH"/.env.superset
     try "docker service update $REF_service_update_args instant_dashboard-visualiser-superset" "Failed to update config for instant_dashboard-visualiser-superset"
@@ -55,7 +66,9 @@ main() {
     config::await_service_removed instant_cares-hapi-fhir-config-importer
 
     log info "Removing stale configs..."
-    config::remove_stale_service_configs "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml "cares"
+    config::remove_stale_service_configs "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml "superset"
+    config::remove_stale_service_configs "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml "clickhouse"
+    config::remove_stale_service_configs "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml "hapi-fhir"
 
     log info "Cleaning containers and configs"
     clean_containers_and_configs
@@ -65,8 +78,9 @@ main() {
   elif [[ "${ACTION}" == "down" ]]; then
     log info "Cares only has down for its dependencies"
   elif [[ "${ACTION}" == "destroy" ]]; then
-    # shellcheck disable=SC2046 # intentional word splitting
-    docker::prune_configs "cares"
+    docker::service_destroy cares-clickhouse-config-importer
+    docker::service_destroy cares-superset-config-importer
+    docker::service_destroy hapi-fhir-config-importer
   else
     log error "Valid options are: init, up, down, or destroy"
   fi
