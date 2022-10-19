@@ -20,7 +20,9 @@ readonly ROOT_PATH
 clean_containers_and_configs() {
   # shellcheck disable=SC2046 # intentional word splitting
   docker config rm $(docker config ls -qf label=name=superset) &>/dev/null # Remove superset configs
+  # shellcheck disable=SC2046 # intentional word splitting
   docker config rm $(docker config ls -qf label=name=kafka-mapper-consumer) &>/dev/null # Remove kafka-mapper-consumer configs
+  # shellcheck disable=SC2046 # intentional word splitting
   docker config rm $(docker config ls -qf label=name=clickhouse) &>/dev/null # Remove clickhouse configs
 
   # shellcheck disable=SC2046 # intentional word splitting
@@ -37,11 +39,12 @@ main() {
 
     log info "Setting config digests"
     config::set_config_digests "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml
-    # Clickhouse 
-    config::generate_service_configs cares-clickhouse-config-importer / "${COMPOSE_FILE_PATH}/importer/analytics-datastore-clickhouse/" "${COMPOSE_FILE_PATH}/importer"
-    ClickhouseTempComposeParam="-c ${COMPOSE_FILE_PATH}/importer/docker-compose.tmp.yml"
 
-    try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml $ClickhouseTempComposeParam instant" "Failed to deploy Cares on Platform"
+    # Clickhouse
+    config::generate_service_configs cares-clickhouse-config-importer / "${COMPOSE_FILE_PATH}/importer/analytics-datastore-clickhouse/" "${COMPOSE_FILE_PATH}/importer" clickhouse
+    clickhouse_temp_compose_param="-c ${COMPOSE_FILE_PATH}/importer/docker-compose.tmp.yml"
+
+    try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml $clickhouse_temp_compose_param instant" "Failed to deploy Cares on Platform"
 
     log info "Waiting to update configs"
     # Kafka Mapper Consumer
@@ -79,7 +82,9 @@ main() {
   elif [[ "${ACTION}" == "down" ]]; then
     log info "Cares only has down for its dependencies"
   elif [[ "${ACTION}" == "destroy" ]]; then
-    log info "Cares only has destroy for its dependencies"
+    docker::service_destroy cares-clickhouse-config-importer
+    docker::service_destroy cares-superset-config-importer
+    docker::service_destroy hapi-fhir-config-importer
   else
     log error "Valid options are: init, up, down, or destroy"
   fi
