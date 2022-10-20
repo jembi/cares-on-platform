@@ -1,6 +1,6 @@
 ## Migrations
 
-CRUD operations over Clickhouse should be done with migrations. 
+DDL operations over Clickhouse should be done with migrations. 
 
 Follow the steps to create and run migrations: 
 
