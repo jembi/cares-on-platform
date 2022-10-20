@@ -22,7 +22,7 @@ Example:
 > * Migrations will not rerun after the first initialization.
 > * Migrations should have uniqe names.
 
-2. Edit the file as follows:
+Edit the file as follows:
 
 ```
 	const queries = [
