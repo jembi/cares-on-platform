@@ -20,7 +20,9 @@ readonly ROOT_PATH
 clean_containers_and_configs() {
   # shellcheck disable=SC2046 # intentional word splitting
   docker config rm $(docker config ls -qf label=name=superset) &>/dev/null # Remove superset configs
+  # shellcheck disable=SC2046 # intentional word splitting
   docker config rm $(docker config ls -qf label=name=kafka-mapper-consumer) &>/dev/null # Remove kafka-mapper-consumer configs
+  # shellcheck disable=SC2046 # intentional word splitting
   docker config rm $(docker config ls -qf label=name=clickhouse) &>/dev/null # Remove clickhouse configs
 
   # shellcheck disable=SC2046 # intentional word splitting
@@ -34,21 +36,23 @@ main() {
     if [[ "${ACTION}" == "up" ]]; then
       clean_containers_and_configs
     fi
+
     log info "Setting config digests"
     config::set_config_digests "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml
 
-    # Clickhouse 
+    # Clickhouse
     config::generate_service_configs cares-clickhouse-config-importer / "${COMPOSE_FILE_PATH}/importer/analytics-datastore-clickhouse/" "${COMPOSE_FILE_PATH}/importer" clickhouse
     clickhouse_temp_compose_param="-c ${COMPOSE_FILE_PATH}/importer/docker-compose.tmp.yml"
 
     try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml $clickhouse_temp_compose_param instant" "Failed to deploy Cares on Platform"
 
     log info "Waiting to update configs"
+    # Kafka Mapper Consumer
     REF_service_update_args=""
     config::update_service_configs REF_service_update_args /app/src/data "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer/mapping kafka-mapper-consumer
     config::update_service_configs REF_service_update_args /app/src/plugin "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer/plugin kafka-mapper-consumer
     try "docker service update $REF_service_update_args instant_kafka-mapper-consumer" "Failed to update config for instant_kafka-mapper-consumer"
-    
+    # Superset
     REF_service_update_args=""
     config::update_service_configs REF_service_update_args /app/pythonpath "$COMPOSE_FILE_PATH"/importer/dashboard-visualiser-superset superset
     # TODO: Update .env.superset once the value for MAPBOX_API_KEY is known

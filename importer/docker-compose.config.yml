@@ -13,8 +13,6 @@ services:
     configs:
       - source: cares-clickhouse-config-clickhouseConfig.js
         target: /clickhouseConfig.js
-      - source: cares-clickhouse-config-clickhouseTables.js
-        target: /clickhouseTables.js
     command: sh -c "cd / && npm i clickhouse && node /clickhouseConfig.js"
 
   cares-superset-config-importer:
@@ -51,11 +49,6 @@ configs:
   cares-clickhouse-config-clickhouseConfig.js:
     file: ./analytics-datastore-clickhouse/clickhouseConfig.js
     name: cares-clickhouse-config-clickhouseConfig.js-${cares_clickhouse_config_clickhouseConfig_js_DIGEST:?err}
-    labels:
-      name: clickhouse
-  cares-clickhouse-config-clickhouseTables.js:
-    file: ./analytics-datastore-clickhouse/clickhouseTables.js
-    name: cares-clickhouse-config-clickhouseTables.js-${cares_clickhouse_config_clickhouseTables_js_DIGEST:?err}
     labels:
       name: clickhouse
   cares-superset-config-supersetConfig.js:
