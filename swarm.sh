@@ -68,6 +68,10 @@ main() {
     config::await_service_removed instant_cares-clickhouse-config-importer
     config::await_service_removed instant_cares-superset-config-importer
     config::await_service_removed instant_hapi-fhir-config-importer
+    
+    log info "Restarting HAPI FHIR.."
+    try "docker service scale instant_hapi-fhir=0" "Error scaling down hapi-fhir to update the IG"
+    try "docker service scale instant_hapi-fhir=$HAPI_FHIR_INSTANCES" "Error scaling up hapi-fhir to update the IG"
 
     log info "Removing stale configs..."
     config::remove_stale_service_configs "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml "superset"
