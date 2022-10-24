@@ -24,5 +24,9 @@
 # A list of available feature flags is available at https://github.com/apache/superset/blob/master/RESOURCES/FEATURE_FLAGS.md
 FEATURE_FLAGS = {
     "ENABLE_JAVASCRIPT_CONTROLS": True,
-    'DASHBOARD_RBAC': True
+    "DASHBOARD_RBAC": True,
+    "DASHBOARD_NATIVE_FILTERS": True,
+    "DASHBOARD_CROSS_FILTERS": True,
+    "DASHBOARD_NATIVE_FILTERS_SET": True,
+    "DASHBOARD_FILTERS_EXPERIMENTAL": True
 }
