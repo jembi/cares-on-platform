@@ -163,6 +163,10 @@
           {
             "columnName": "patient_id",
             "fhirPath": "Observation.subject.reference.replace('Patient/', '')"
+          },
+          {
+            "columnName": "encounter_id",
+            "fhirPath": "Observation.encounter.reference.replace('Encounter/', '')"
           }
         ]
       }

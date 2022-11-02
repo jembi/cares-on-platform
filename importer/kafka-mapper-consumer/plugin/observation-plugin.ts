@@ -11,6 +11,7 @@ export const plugin = (table, entry, tableMapping) => {
       'http://openhie.org/fhir/covid19-casereporting/StructureDefinition/',
       ''
     );
+    table.rows['result_date'] = resource.effectiveDateTime;
     if (
       resource?.code?.coding?.length > 0 &&
       resource.code.coding[0].code == CODE_ANTIGEN_TEST &&

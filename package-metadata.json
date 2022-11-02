@@ -19,6 +19,7 @@
     "SUPERSET_CONFIG_FILE": "superset-export.zip",
     "SUPERSET_SSL": "false",
 
-    "FHIR_IG_URL": "https://openhie.github.io/cares-covid-ig"
+    "FHIR_IG_URL": "https://openhie.github.io/cares-covid-ig",
+    "HAPI_FHIR_INSTANCES": "1"
   }
 }
