@@ -91,7 +91,9 @@ const queries = [
 		inserted_at DateTime DEFAULT now(),
 		rapid_antigen_test_result String NULL,
 		diagnostic_pcr_test_result String NULL,
-		meta_profile String NULL
+		meta_profile String NULL,
+		encounter_id String NULL,
+		result_date Date NULL
 	  ) 
 	  ENGINE=MergeTree
 	  ORDER BY tuple();`,
