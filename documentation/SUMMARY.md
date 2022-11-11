@@ -24,3 +24,4 @@
   * [Local deployment](deployment/local-deployment.md)
   * [Deploy on a Remote Server](deployment/deploy-on-a-remote-server.md)
 * [Postman Collections](postman-collections.md)
+* [Sante MPI Configuration](sante-mpi-configuration.md)
