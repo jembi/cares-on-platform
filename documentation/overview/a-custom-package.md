@@ -19,7 +19,7 @@ More reading about the platform CLI is this link: [Platform CLI](https://app.git
 
 Cares on platform will need the packages mentioned in the `package-metadata.json,` in the depedencies section:&#x20;
 
-<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption><p>package-metadata.json file of cares-on-platform</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption><p>package-metadata.json file of cares-on-platform</p></figcaption></figure>
 
 Each package mentioned above will have dependencies as well.
 
@@ -27,7 +27,7 @@ Running the cares on platform will result on running these packages as well as t
 
 Another example from Platform:&#x20;
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>package-metadata.json of dashboard-visualiser-superset in Platform</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4).png" alt=""><figcaption><p>package-metadata.json of dashboard-visualiser-superset in Platform</p></figcaption></figure>
 
 In result, the packages cares-on-platform, analytics-datastore-clickhouse and dashboard-visualiser-superset will run in this order:&#x20;
 
