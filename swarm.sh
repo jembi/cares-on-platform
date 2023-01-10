@@ -3,6 +3,7 @@
 declare ACTION=""
 declare COMPOSE_FILE_PATH=""
 declare UTILS_PATH=""
+declare CONFIG_LABELS=()
 declare SERVICE_IMPORTER_NAMES=()
 
 function init_vars() {
@@ -21,8 +22,16 @@ function init_vars() {
     "hapi-fhir-config-importer"
   )
 
+  CONFIG_LABELS=(
+    "superset"
+    "kafka-mapper-consumer"
+    "clickhouse"
+    "hapi-fhir"
+  )
+
   readonly ACTION
   readonly COMPOSE_FILE_PATH
+  readonly CONFIG_LABELS
   readonly UTILS_PATH
   readonly SERVICE_IMPORTER_NAMES
 }
@@ -35,22 +44,24 @@ function import_sources() {
 }
 
 function remove_container() {
-  local -r SERVICE_NAME=${1:?$(missing_param "remove_container")}
-
-  if [[ -n $(docker container ls -aqf name="${SERVICE_NAME}") ]]; then
-    # shellcheck disable=SC2046 # intentional word splitting
-    docker container rm $(docker container ls -aqf name="${SERVICE_NAME}") &>/dev/null
+  if [[ -z "$*" ]]; then
+    log error "$(missing_param "remove_container")"
+    exit 1
   fi
+
+  for service_name in "$@"; do
+    if [[ -n $(docker container ls -aqf name="${service_name}") ]]; then
+      # shellcheck disable=SC2046 # intentional word splitting
+      docker container rm $(docker container ls -aqf name="${service_name}") &>/dev/null
+    fi
+  done
 }
 
 function clean_containers_and_configs() {
   log info "Cleaning containers and configs..."
-  docker::prune_configs "superset" &>/dev/null
-  docker::prune_configs "kafka-mapper-consumer" &>/dev/null
-  docker::prune_configs "clickhouse" &>/dev/null
+  docker::prune_configs "superset" "kafka-mapper-consumer" "clickhouse" &>/dev/null
 
-  remove_container "dashboard-visualiser-superset"
-  remove_container "kafka-mapper-consumer"
+  remove_container "dashboard-visualiser-superset" "kafka-mapper-consumer"
 
   overwrite "Cleaning containers and configs... Done"
 }
@@ -73,19 +84,16 @@ function restart_hapi_fhir() {
 
 function cleaning() {
   log info "Waiting to give config importers time to run before cleaning up service"
-  config::remove_config_importer cares-clickhouse-config-importer
-  config::remove_config_importer cares-superset-config-importer
-  config::remove_config_importer hapi-fhir-config-importer
 
-  # Ensure config importer is removed
-  config::await_service_removed instant_cares-clickhouse-config-importer
-  config::await_service_removed instant_cares-superset-config-importer
-  config::await_service_removed instant_hapi-fhir-config-importer
+  for service_name in "${SERVICE_IMPORTER_NAMES[@]}"; do
+    config::remove_config_importer "$service_name"
+    config::await_service_removed instant_"$service_name"
+  done
 
   log info "Removing stale configs..."
-  config::remove_stale_service_configs "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml "superset"
-  config::remove_stale_service_configs "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml "clickhouse"
-  config::remove_stale_service_configs "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml "hapi-fhir"
+  for config_label in "${CONFIG_LABELS[@]}"; do
+    config::remove_stale_service_configs "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml "$config_label"
+  done
 }
 
 function initialize_package() {
