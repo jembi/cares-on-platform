@@ -71,11 +71,11 @@ function restart_hapi_fhir() {
     log info "Restarting HAPI FHIR..."
     try \
       "docker service scale instant_hapi-fhir=0" \
-      catch \
+      throw \
       "Error scaling down hapi-fhir to update the IG"
     try \
       "docker service scale instant_hapi-fhir=$HAPI_FHIR_INSTANCES" \
-      catch \
+      throw \
       "Error scaling up hapi-fhir to update the IG"
   else
     log warn "Service 'hapi-fhir' does not appear to be running... Skipping the restart of hapi-fhir"
@@ -107,20 +107,20 @@ function initialize_package() {
   config::generate_service_configs cares-clickhouse-config-importer / "${COMPOSE_FILE_PATH}/importer/analytics-datastore-clickhouse/" "${COMPOSE_FILE_PATH}/importer" clickhouse
   clickhouse_temp_compose_param="-c ${COMPOSE_FILE_PATH}/importer/docker-compose.tmp.yml"
 
-  try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml $clickhouse_temp_compose_param instant" catch "Failed to deploy Cares on Platform"
+  try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml $clickhouse_temp_compose_param instant" throw "Failed to deploy Cares on Platform"
 
   log info "Waiting to update configs"
   # Kafka Mapper Consumer
   REF_service_update_args=""
   config::update_service_configs REF_service_update_args /app/src/data "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer/mapping kafka-mapper-consumer
   config::update_service_configs REF_service_update_args /app/src/plugin "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer/plugin kafka-mapper-consumer
-  try "docker service update $REF_service_update_args instant_kafka-mapper-consumer" catch "Failed to update config for instant_kafka-mapper-consumer"
+  try "docker service update $REF_service_update_args instant_kafka-mapper-consumer" throw "Failed to update config for instant_kafka-mapper-consumer"
   # Superset
   REF_service_update_args=""
   config::update_service_configs REF_service_update_args /app/pythonpath "$COMPOSE_FILE_PATH"/importer/dashboard-visualiser-superset superset
   # TODO: Update .env.superset once the value for MAPBOX_API_KEY is known
   config::env_var_add_from_file REF_service_update_args "$COMPOSE_FILE_PATH"/.env.superset
-  try "docker service update $REF_service_update_args instant_dashboard-visualiser-superset" catch "Failed to update config for instant_dashboard-visualiser-superset"
+  try "docker service update $REF_service_update_args instant_dashboard-visualiser-superset" throw "Failed to update config for instant_dashboard-visualiser-superset"
 
   cleaning
 
