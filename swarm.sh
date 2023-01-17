@@ -82,7 +82,7 @@ function restart_hapi_fhir() {
   fi
 }
 
-function cleaning() {
+function clean_stale_config_importers() {
   log info "Waiting to give config importers time to run before cleaning up service"
 
   for service_name in "${SERVICE_IMPORTER_NAMES[@]}"; do
@@ -122,7 +122,7 @@ function initialize_package() {
   config::env_var_add_from_file REF_service_update_args "$COMPOSE_FILE_PATH"/.env.superset
   try "docker service update $REF_service_update_args instant_dashboard-visualiser-superset" throw "Failed to update config for instant_dashboard-visualiser-superset"
 
-  cleaning
+  clean_stale_config_importers
 
   restart_hapi_fhir
 
