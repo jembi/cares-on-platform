@@ -1,25 +1,30 @@
----
-image: jembi/platform
-defaultTargetLauncher: swarm
-disableKubernetes: true
-disableIG: true
-disableCustomTargetSelection: true
+projectName: Cares-on-platform
+image: jembi/platform:latest
+logPath: /tmp/logs
+
 packages:
-  - id: interoperability-layer-openhim
-    name: Interoperability Layer - OpenHIM
-  - id: reverse-proxy-nginx
-    name: Reverse Proxy - NGINX
-  - id: fhir-datastore-hapi-fhir
-    name: FHIR Data Store - HAPI-FHIR
-  - id: message-bus-kafka
-    name: Message Bus - Kafka
-  - id: message-bus-helper-hapi-proxy
-    name: Message Bus Helper Package - Hapi Proxy
-  - id: kafka-unbundler-consumer
-    name: Kafka Unbundler Consumer
-  - id: kafka-mapper-consumer
-    name: Kafka Mapper Consumer
-  - id: analytics-datastore-clickhouse
-    name: Analytics Datastore Clickhouse
-  - id: dashboard-visualiser-superset
-    name: Dashboard Visualiser Superset
+    - cares-on-platform
+    - reverse-proxy-nginx
+    - elastic-monitoring-metricbeats-filebeats
+    - system-monitoring-prometheus-grafana
+
+customPackages:
+  - id: cares-on-platform
+    path: ../cares-on-platform
+
+profiles:
+  - name: local
+    packages:
+      - cares-on-platform
+    envFiles:
+      - ./.env.local
+    dev: true
+
+  - name: prod
+    packages:
+      - cares-on-platform
+      - reverse-proxy-nginx
+      - elastic-monitoring-metricbeats-filebeats
+      - system-monitoring-prometheus-grafana
+    envFiles:
+      - ./.env.prod
