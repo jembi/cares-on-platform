@@ -20,6 +20,8 @@
     "SUPERSET_SSL": "false",
 
     "FHIR_IG_URL": "https://openhie.github.io/cares-covid-ig",
-    "HAPI_FHIR_INSTANCES": "1"
+    "HAPI_FHIR_INSTANCES": "1",
+    "DISABLE_VALIDATION": "false",
+    "FHIR_CONFIG_IMPORTER_FOLDER_NAME": "hapi-fhir"
   }
 }
