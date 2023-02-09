@@ -3,10 +3,9 @@ image: jembi/platform:latest
 logPath: /tmp/logs
 
 packages:
-    - cares-on-platform
-    - reverse-proxy-nginx
-    - elastic-monitoring-metricbeats-filebeats
-    - system-monitoring-prometheus-grafana
+  - cares-on-platform
+  - reverse-proxy-nginx
+  - monitoring
 
 customPackages:
   - id: cares-on-platform
@@ -16,6 +15,7 @@ profiles:
   - name: local
     packages:
       - cares-on-platform
+      - monitoring
     envFiles:
       - ./.env.local
     dev: true
@@ -24,7 +24,6 @@ profiles:
     packages:
       - cares-on-platform
       - reverse-proxy-nginx
-      - elastic-monitoring-metricbeats-filebeats
-      - system-monitoring-prometheus-grafana
+      - monitoring
     envFiles:
       - ./.env.prod
