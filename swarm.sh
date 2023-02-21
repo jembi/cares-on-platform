@@ -87,7 +87,7 @@ function clean_stale_config_importers() {
 
   for service_name in "${SERVICE_IMPORTER_NAMES[@]}"; do
     # Only run the importer for fhir datastore when validation is enabled
-    if [[ $DISABLE_VALIDATION == "true" ]] && [[ "${target_service_name}" == $FHIR_CONFIG_IMPORTER_FOLDER_NAME ]]; then
+    if [[ $DISABLE_VALIDATION == "true" ]] && [[ "${service_name}" == "hapi-fhir-config-importer" ]]; then
       continue
     fi
 
@@ -127,11 +127,16 @@ function initialize_package() {
   config::env_var_add_from_file REF_service_update_args "$COMPOSE_FILE_PATH"/.env.superset
   try "docker service update $REF_service_update_args instant_dashboard-visualiser-superset" throw "Failed to update config for instant_dashboard-visualiser-superset"
 
-  clean_stale_config_importers
-
+  # hapi-fhir
   if [[ $DISABLE_VALIDATION == "false" ]]; then
+    config::set_config_digests "$COMPOSE_FILE_PATH"/importer/docker-compose.hapi-fhir-config.yml
+
+    try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.hapi-fhir-config.yml instant" throw "Failed to deploy Cares on Platform (hapi-fhir)"
+
     restart_hapi_fhir
   fi
+
+  clean_stale_config_importers
 
   clean_containers_and_configs
 }
