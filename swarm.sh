@@ -86,6 +86,11 @@ function clean_stale_config_importers() {
   log info "Waiting to give config importers time to run before cleaning up service"
 
   for service_name in "${SERVICE_IMPORTER_NAMES[@]}"; do
+    # Only run the importer for fhir datastore when validation is enabled
+    if [[ $DISABLE_VALIDATION == "true" ]] && [[ "${target_service_name}" == $FHIR_CONFIG_IMPORTER_FOLDER_NAME ]]; then
+      continue
+    fi
+
     config::remove_config_importer "$service_name"
     config::await_service_removed instant_"$service_name"
   done
@@ -124,7 +129,9 @@ function initialize_package() {
 
   clean_stale_config_importers
 
-  restart_hapi_fhir
+  if [[ $DISABLE_VALIDATION == "false" ]]; then
+    restart_hapi_fhir
+  fi
 
   clean_containers_and_configs
 }
