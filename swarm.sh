@@ -86,7 +86,7 @@ function clean_stale_config_importers() {
   log info "Waiting to give config importers time to run before cleaning up service"
 
   for service_name in "${SERVICE_IMPORTER_NAMES[@]}"; do
-    # Only run the importer for fhir datastore when validation is enabled
+    # Only remove the importer for fhir datastore when validation is enabled
     if [[ $DISABLE_VALIDATION == "true" ]] && [[ "${service_name}" == "hapi-fhir-config-importer" ]]; then
       continue
     fi
@@ -134,6 +134,8 @@ function initialize_package() {
     try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.hapi-fhir-config.yml instant" throw "Failed to deploy Cares on Platform (hapi-fhir)"
 
     restart_hapi_fhir
+  else
+    log warn "Validation is disabled... Skipping the deploy of hapi fhir config importer"
   fi
 
   clean_stale_config_importers
