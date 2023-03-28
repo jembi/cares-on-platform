@@ -26,6 +26,6 @@
 
     "FHIR_STACKNAME": "hapi-fhir",
     "KAFKA_STACKNAME": "kafka",
-    "SUPERSET_STACKNAME": "superset",
+    "SUPERSET_STACKNAME": "superset"
   }
 }
