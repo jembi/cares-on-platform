@@ -95,7 +95,7 @@ function clean_stale_config_importers() {
     fi
 
     config::remove_config_importer $STACK "$service_name"
-    config::await_service_removed ${STACK}_"$service_name"
+    config::await_service_removed $STACK "$service_name"
   done
 
   log info "Removing stale configs..."
@@ -123,7 +123,7 @@ function initialize_package() {
   REF_service_update_args=""
   config::update_service_configs REF_service_update_args /app/src/data "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer/mapping kafka-mapper-consumer
   config::update_service_configs REF_service_update_args /app/src/plugin "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer/plugin kafka-mapper-consumer
-  try "docker service update $REF_service_update_args ${kafka_mapper_stackname}_kafka-mapper-consumer" throw "Failed to update config for ${kafka_stackname}_kafka-mapper-consumer"
+  try "docker service update $REF_service_update_args ${kafka_mapper_stackname}_kafka-mapper-consumer" throw "Failed to update config for ${kafka_mapper_stackname}_kafka-mapper-consumer"
   # Superset
   local -r superset_stackname="${SUPERSET_STACKNAME:-superset}"
   REF_service_update_args=""
