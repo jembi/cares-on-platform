@@ -21,6 +21,10 @@
 
     "FHIR_IG_URL": "https://openhie.github.io/cares-covid-ig",
     "HAPI_FHIR_INSTANCES": "1",
-    "DISABLE_VALIDATION": "false"
+    "DISABLE_VALIDATION": "false",
+
+    "FHIR_STACKNAME": "hapi-fhir",
+    "KAFKA_MAPPER_STACKNAME": "kafka-mapper",
+    "SUPERSET_STACKNAME": "superset"
   }
 }

@@ -14,6 +14,8 @@ services:
       - source: cares-clickhouse-config-clickhouseConfig.js
         target: /clickhouseConfig.js
     command: sh -c "cd / && npm i clickhouse && node /clickhouseConfig.js"
+    networks:
+      clickhouse:
 
   cares-superset-config-importer:
     image: node:erbium-alpine
@@ -33,6 +35,8 @@ services:
       - source: cares-superset-config-superset-export.zip
         target: /superset-export.zip
     command: sh -c "cd / && npm i axios form-data && node /supersetConfig.js"
+    networks:
+      clickhouse:
 
 configs:
   cares-clickhouse-config-clickhouseConfig.js:
@@ -50,3 +54,8 @@ configs:
     name: cares-superset-config-superset-export.zip-${cares_superset_config_superset_export_zip_DIGEST:?err}
     labels:
       name: superset
+
+networks:
+  clickhouse:
+    name: clickhouse_public
+    external: true

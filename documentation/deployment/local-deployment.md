@@ -7,33 +7,33 @@ To deploy locally, you can follow the sections:&#x20;
 
 The necessary services that should be up and running after launching:&#x20;
 
-* instant\_analytics-datastore-clickhouse
-* instant\_dashboard-visualiser-superset
-* instant\_kafdrop
-* instant\_kafka
-* instant\_kafka-mapper-consumer
-* instant\_kafka-unbundler-consumer
-* instant\_zookeeper-1
+* clickhouse\_analytics-datastore-clickhouse
+* superset\_dashboard-visualiser-superset
+* kafka\_kafdrop
+* kafka\_kafka
+* kafka\_kafka-mapper-consumer
+* kafka\_kafka-unbundler-consumer
+* kafka\_zookeeper-1
 
 If launching cares only, some additional services should exist:&#x20;
 
-* instant\_hapi-proxy
-* instant\_hapi-fhir&#x20;
-* instant\_mongo-1&#x20;
-* instant\_openhim-console
-* instant\_openhim-core&#x20;
-* instant\_postgres-1
+* hapi-proxy\_hapi-proxy
+* hapi-fhir\_hapi-fhir&#x20;
+* hapi-fhir\_postgres-1
+* openhim\_mongo-1&#x20;
+* openhim\_openhim-console
+* openhim\_openhim-core&#x20;
 
 If launching cares + disi, the following services should be up as well:&#x20;
 
-* instant\_analytics-datastore-elastic-search
-* instant\_dashboard-visualiser-jsreport
-* instant\_dashboard-visualiser-kibana
-* instant\_hapi-fhir&#x20;
-* instant\_mongo-1&#x20;
-* instant\_openhim-console
-* instant\_openhim-core&#x20;
-* instant\_postgres-1
-* instant\_santedb-mpi&#x20;
-* instant\_santedb-www
-* instant\_santempi-psql-1
+* elasticsearch\_analytics-datastore-elastic-search
+* jsreport\_dashboard-visualiser-jsreport
+* kibana\_dashboard-visualiser-kibana
+* hapi-fhir\_hapi-fhir&#x20;
+* hapi-fhir\_postgres-1
+* openhim\_mongo-1&#x20;
+* openhim\_openhim-console
+* openhim\_openhim-core&#x20;
+* santempi\_santedb-mpi&#x20;
+* santempi\_santedb-www
+* santempi\_santempi-psql-1
