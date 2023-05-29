@@ -1,5 +1,5 @@
 projectName: Cares-on-platform
-image: jembi/platform:1.5.0
+image: jembi/platform:2.2.1
 logPath: /tmp/logs
 
 packages:

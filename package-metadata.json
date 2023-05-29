@@ -8,7 +8,8 @@
     "kafka-unbundler-consumer",
     "kafka-mapper-consumer",
     "fhir-datastore-hapi-fhir",
-    "dashboard-visualiser-superset"
+    "dashboard-visualiser-superset",
+    "identity-access-manager-keycloak"
   ],
   "environmentVariables": {
     "CLICKHOUSE_HOST": "analytics-datastore-clickhouse",
