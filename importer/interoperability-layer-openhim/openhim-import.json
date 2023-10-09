@@ -1,0 +1,196 @@
+{
+  "Users": [
+    {
+      "provider": "token",
+      "groups": ["admin"],
+      "firstname": "Super",
+      "surname": "User",
+      "email": "root@openhim.org",
+      "expiry": null,
+      "locked": false,
+      "token": null,
+      "tokenType": null
+    }
+  ],
+  "Passports": [
+    {
+      "protocol": "local",
+      "email": "root@openhim.org",
+      "password": "$2a$10$qvja1lAaItmcZolkoKCPn.9EXY2b8s9dTlUFx36Q7ey0rieXXnxVC"
+    },
+    {
+      "protocol": "token",
+      "email": "root@openhim.org",
+      "passwordHash": "c5e14f0062bfac45bf20f0fcf0403e758a2233756e40e7b328e1f10dfef3d8ba57c2bf230ee9fd627956fbb4e57fab7e32efe108db76d515f1f61f6b853ffba3",
+      "passwordAlgorithm": "sha512",
+      "passwordSalt": "c5f2a9fd7907e1a1c6658841426e6f5d"
+    }
+  ],
+  "Clients": [
+    {
+      "roles": ["instant"],
+      "customTokenID": "test",
+      "clientID": "instant-client",
+      "name": "Instant Client"
+    }
+  ],
+  "Channels": [
+    {
+      "methods": ["POST", "DELETE"],
+      "type": "http",
+      "allow": ["instant"],
+      "whitelist": [],
+      "authType": "private",
+      "matchContentTypes": [],
+      "properties": [],
+      "txViewAcl": [],
+      "txViewFullAcl": [],
+      "txRerunAcl": [],
+      "status": "enabled",
+      "rewriteUrls": false,
+      "addAutoRewriteRules": true,
+      "autoRetryEnabled": false,
+      "autoRetryPeriodMinutes": 60,
+      "routes": [
+        {
+          "type": "http",
+          "status": "enabled",
+          "forwardAuthHeader": false,
+          "name": "FHIR Server",
+          "secured": false,
+          "host": "hapi-proxy",
+          "port": 18080,
+          "path": "",
+          "pathTransform": "",
+          "primary": true,
+          "username": "",
+          "password": ""
+        }
+      ],
+      "requestBody": true,
+      "responseBody": true,
+      "rewriteUrlsConfig": [],
+      "name": "FHIR Server",
+      "description": "A FHIR server (HAPI FHIR)",
+      "urlPattern": "^/fhir.*$",
+      "priority": 1,
+      "matchContentRegex": null,
+      "matchContentXpath": null,
+      "matchContentValue": null,
+      "matchContentJson": null,
+      "pollingSchedule": null,
+      "tcpHost": null,
+      "tcpPort": null,
+      "updatedBy": {
+        "id": "5e2eca110bb0420011f0cd84",
+        "name": "Super User"
+      },
+      "alerts": [],
+      "timeout": 3000000
+    },
+    {
+      "methods": ["POST"],
+      "type": "http",
+      "allow": ["instant"],
+      "whitelist": [],
+      "authType": "private",
+      "matchContentTypes": [],
+      "properties": [],
+      "txViewAcl": [],
+      "txViewFullAcl": [],
+      "txRerunAcl": [],
+      "status": "enabled",
+      "rewriteUrls": false,
+      "addAutoRewriteRules": true,
+      "autoRetryEnabled": false,
+      "autoRetryPeriodMinutes": 60,
+      "routes": [
+        {
+          "type": "http",
+          "status": "enabled",
+          "forwardAuthHeader": false,
+          "name": "Reprocess Endpoint",
+          "secured": false,
+          "host": "reprocess-mediator",
+          "port": 3000,
+          "path": "/reprocess",
+          "pathTransform": "",
+          "primary": true,
+          "username": "",
+          "password": ""
+        }
+      ],
+      "requestBody": true,
+      "responseBody": true,
+      "rewriteUrlsConfig": [],
+      "name": "Reprocess Mediator",
+      "description": "Monitor reprocessed data triggered by this mediator",
+      "urlPattern": "^/reprocess$",
+      "matchContentRegex": null,
+      "matchContentXpath": null,
+      "matchContentValue": null,
+      "matchContentJson": null,
+      "pollingSchedule": null,
+      "tcpHost": null,
+      "tcpPort": null,
+      "updatedBy": {
+        "id": "6128a65ed529a100137ab88b",
+        "name": "Super User"
+      },
+      "alerts": [],
+      "timeout": 3000000
+    },
+    {
+      "methods": ["GET"],
+      "type": "http",
+      "allow": ["instant"],
+      "whitelist": [],
+      "authType": "private",
+      "matchContentTypes": [],
+      "properties": [],
+      "txViewAcl": [],
+      "txViewFullAcl": [],
+      "txRerunAcl": [],
+      "status": "enabled",
+      "rewriteUrls": false,
+      "addAutoRewriteRules": true,
+      "autoRetryEnabled": false,
+      "autoRetryPeriodMinutes": 60,
+      "updatedBy": {
+        "id": "6180fecba6295300160c5319",
+        "name": "Super User"
+      },
+      "routes": [
+        {
+          "type": "http",
+          "status": "enabled",
+          "forwardAuthHeader": false,
+          "name": "FHIR Server",
+          "secured": false,
+          "host": "hapi-fhir",
+          "port": 8080,
+          "path": "",
+          "pathTransform": "",
+          "primary": true,
+          "username": "",
+          "password": ""
+        }
+      ],
+      "requestBody": true,
+      "responseBody": true,
+      "rewriteUrlsConfig": [],
+      "description": "A channel to allow queries on the FHIR Server directly",
+      "urlPattern": "^/fhir.*$",
+      "priority": 2,
+      "matchContentRegex": null,
+      "matchContentXpath": null,
+      "matchContentValue": null,
+      "matchContentJson": null,
+      "pollingSchedule": null,
+      "tcpHost": null,
+      "tcpPort": null,
+      "alerts": [],
+      "name": "FHIR Server Direct"
+    }
+  ]
+}
