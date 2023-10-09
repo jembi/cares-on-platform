@@ -52,7 +52,7 @@ function remove_container() {
   for service_name in "$@"; do
     if [[ -n $(docker container ls -aqf name="${service_name}") ]]; then
       # shellcheck disable=SC2046 # intentional word splitting
-      docker container rm $(docker container ls -aqf name="${service_name}") &>/dev/null
+      docker container rm -f $(docker container ls -aqf name="${service_name}") &>/dev/null
     fi
   done
 }
