@@ -5,7 +5,6 @@ declare COMPOSE_FILE_PATH=""
 declare UTILS_PATH=""
 declare CONFIG_LABELS=()
 declare SERVICE_IMPORTER_NAMES=()
-declare STACK="cares"
 
 function init_vars() {
   ACTION=$1
@@ -18,16 +17,16 @@ function init_vars() {
   UTILS_PATH="${COMPOSE_FILE_PATH}/../utils"
 
   SERVICE_IMPORTER_NAMES=(
-    "cares-clickhouse-config-importer"
-    "cares-superset-config-importer"
-    "hapi-fhir-config-importer"
+    "workshop-clickhouse-config-importer"
+    "workshop-superset-config-importer"
+    "workshop-openhim-config-importer"
   )
 
   CONFIG_LABELS=(
     "superset"
     "kafka-mapper-consumer"
     "clickhouse"
-    "hapi-fhir"
+    "openhim"
   )
 
   readonly ACTION
@@ -35,7 +34,6 @@ function init_vars() {
   readonly CONFIG_LABELS
   readonly UTILS_PATH
   readonly SERVICE_IMPORTER_NAMES
-  readonly STACK
 }
 
 # shellcheck disable=SC1091
@@ -68,34 +66,12 @@ function clean_containers_and_configs() {
   overwrite "Cleaning containers and configs... Done"
 }
 
-function restart_hapi_fhir() {
-  local -r stackname="${FHIR_STACKNAME:-hapi-fhir}"
-  if docker service ps -q ${stackname}_hapi-fhir &>/dev/null; then
-    log info "Restarting HAPI FHIR..."
-    try \
-      "docker service scale ${stackname}_hapi-fhir=0" \
-      throw \
-      "Error scaling down hapi-fhir to update the IG"
-    try \
-      "docker service scale ${stackname}_hapi-fhir=$HAPI_FHIR_INSTANCES" \
-      throw \
-      "Error scaling up hapi-fhir to update the IG"
-  else
-    log warn "Service 'hapi-fhir' does not appear to be running... Skipping the restart of hapi-fhir"
-  fi
-}
-
 function clean_stale_config_importers() {
   log info "Waiting to give config importers time to run before cleaning up service"
 
   for service_name in "${SERVICE_IMPORTER_NAMES[@]}"; do
-    # Only remove the importer for fhir datastore when validation is enabled
-    if [[ $DISABLE_VALIDATION == "true" ]] && [[ "${service_name}" == "hapi-fhir-config-importer" ]]; then
-      continue
-    fi
-
-    config::remove_config_importer $STACK "$service_name"
-    config::await_service_removed $STACK "$service_name"
+    config::remove_config_importer "instant" "$service_name"
+    config::await_service_removed "instant" "$service_name"
   done
 
   log info "Removing stale configs..."
@@ -105,43 +81,28 @@ function clean_stale_config_importers() {
 }
 
 function initialize_package() {
-  if [[ "${ACTION}" == "up" ]]; then
-    clean_containers_and_configs
-  fi
+  clean_containers_and_configs
 
   config::set_config_digests "$COMPOSE_FILE_PATH"/importer/docker-compose.config.yml
 
   # Clickhouse
-  config::generate_service_configs cares-clickhouse-config-importer / "${COMPOSE_FILE_PATH}/importer/analytics-datastore-clickhouse/" "${COMPOSE_FILE_PATH}/importer" clickhouse
+  config::generate_service_configs workshop-clickhouse-config-importer / "${COMPOSE_FILE_PATH}/importer/analytics-datastore-clickhouse/" "${COMPOSE_FILE_PATH}/importer" clickhouse
   clickhouse_temp_compose_param="-c ${COMPOSE_FILE_PATH}/importer/docker-compose.tmp.yml"
 
-  try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml $clickhouse_temp_compose_param $STACK" throw "Failed to deploy Cares on Platform"
+  try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.config.yml $clickhouse_temp_compose_param instant" throw "Failed to deploy Cares on Platform"
 
   log info "Waiting to update configs"
   # Kafka Mapper Consumer
-  local -r kafka_mapper_stackname="${KAFKA_MAPPER_STACKNAME:-kafka-mapper}"
   REF_service_update_args=""
   config::update_service_configs REF_service_update_args /app/src/data "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer/mapping kafka-mapper-consumer
   config::update_service_configs REF_service_update_args /app/src/plugin "$COMPOSE_FILE_PATH"/importer/kafka-mapper-consumer/plugin kafka-mapper-consumer
-  try "docker service update $REF_service_update_args ${kafka_mapper_stackname}_kafka-mapper-consumer" throw "Failed to update config for ${kafka_mapper_stackname}_kafka-mapper-consumer"
+  try "docker service update $REF_service_update_args kafka-mapper_kafka-mapper-consumer" throw "Failed to update config for kafka-mapper_kafka-mapper-consumer"
   # Superset
-  local -r superset_stackname="${SUPERSET_STACKNAME:-superset}"
   REF_service_update_args=""
   config::update_service_configs REF_service_update_args /app/pythonpath "$COMPOSE_FILE_PATH"/importer/dashboard-visualiser-superset superset
   # TODO: Update .env.superset once the value for MAPBOX_API_KEY is known
   config::env_var_add_from_file REF_service_update_args "$COMPOSE_FILE_PATH"/.env.superset
-  try "docker service update $REF_service_update_args ${superset_stackname}_dashboard-visualiser-superset" throw "Failed to update config for ${superset_stackname}_dashboard-visualiser-superset"
-
-  # hapi-fhir
-  if [[ $DISABLE_VALIDATION == "false" ]]; then
-    config::set_config_digests "$COMPOSE_FILE_PATH"/importer/docker-compose.hapi-fhir-config.yml
-
-    try "docker stack deploy -c ${COMPOSE_FILE_PATH}/importer/docker-compose.hapi-fhir-config.yml $STACK" throw "Failed to deploy Cares on Platform (hapi-fhir)"
-
-    restart_hapi_fhir
-  else
-    log warn "Validation is disabled... Skipping the deploy of hapi fhir config importer"
-  fi
+  try "docker service update $REF_service_update_args superset_dashboard-visualiser-superset" throw "Failed to update config for superset_dashboard-visualiser-superset"
 
   clean_stale_config_importers
 
@@ -165,7 +126,7 @@ main() {
   elif [[ "${ACTION}" == "destroy" ]]; then
     log info "Destroying package"
 
-    docker::stack_destroy $STACK
+    docker::service_destroy "${SERVICE_IMPORTER_NAMES[@]}"
   else
     log error "Valid options are: init, up, down, or destroy"
   fi

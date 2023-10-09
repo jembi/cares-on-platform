@@ -1,10 +1,12 @@
 projectName: Cares-on-platform
-image: jembi/platform:2.2.1
+image: jembi/platform:workshop-testing
 logPath: /tmp/logs
 
 packages:
+  - interoperability-layer-openhim
   - cares-on-platform
   - reverse-proxy-nginx
+  - message-bus-helper-hapi-proxy
   - monitoring
 
 customPackages:
@@ -14,16 +16,18 @@ customPackages:
 profiles:
   - name: local
     packages:
+      - interoperability-layer-openhim
       - cares-on-platform
-      - monitoring
+      - message-bus-helper-hapi-proxy
     envFiles:
       - ./.env.local
     dev: true
 
   - name: prod
     packages:
+      - interoperability-layer-openhim
       - cares-on-platform
       - reverse-proxy-nginx
-      - monitoring
+      - message-bus-helper-hapi-proxy
     envFiles:
       - ./.env.prod

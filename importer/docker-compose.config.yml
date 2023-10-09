@@ -2,8 +2,10 @@ version: '3.9'
 
 services:
   # container for executing config import scripts for setting up initial config
-  cares-clickhouse-config-importer:
+  workshop-clickhouse-config-importer:
     image: node:erbium-alpine
+    networks:
+      clickhouse:
     deploy:
       restart_policy:
         condition: none
@@ -11,14 +13,14 @@ services:
       CLICKHOUSE_HOST: ${CLICKHOUSE_HOST}
       CLICKHOUSE_PORT: ${CLICKHOUSE_PORT}
     configs:
-      - source: cares-clickhouse-config-clickhouseConfig.js
+      - source: workshop-clickhouse-config-clickhouseConfig.js
         target: /clickhouseConfig.js
     command: sh -c "cd / && npm i clickhouse && node /clickhouseConfig.js"
-    networks:
-      clickhouse:
 
-  cares-superset-config-importer:
+  workshop-superset-config-importer:
     image: node:erbium-alpine
+    networks:
+      superset:
     deploy:
       restart_policy:
         condition: none
@@ -30,32 +32,68 @@ services:
       CONFIG_FILE: ${SUPERSET_CONFIG_FILE}
       SUPERSET_SSL: ${SUPERSET_SSL}
     configs:
-      - source: cares-superset-config-supersetConfig.js
+      - source: workshop-superset-config-supersetConfig.js
         target: /supersetConfig.js
-      - source: cares-superset-config-superset-export.zip
+      - source: workshop-superset-config-superset-export.zip
         target: /superset-export.zip
     command: sh -c "cd / && npm i axios form-data && node /supersetConfig.js"
+
+  workshop-openhim-config-importer:
+    image: jembi/instantohie-config-importer
+    deploy:
+      restart_policy:
+        condition: none
+    environment:
+      OPENHIM_API_HOSTNAME: 'openhim-core'
+      OPENHIM_API_PORT: 8080
+      OPENHIM_API_USERNAME: 'root@openhim.org'
+      OPENHIM_API_PASSWORD: 'instant101'
+      # Reject unauthorised is only needed if the OpenHIM's SSL is not setup
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
+    configs:
+      - source: workshop-openhim-config-openhimConfig.js
+        target: /openhimConfig.js
+      - source: workshop-openhim-config-openhim-import.json
+        target: /openhim-import.json
     networks:
-      clickhouse:
+      openhim:
+    # This command will only attempt to import the OpenHIM config when the heartbeat responds with a 2xx
+    command: sh -c "wait-on -t 60000 https-get://openhim-core:8080/heartbeat && node /openhimConfig.js"
 
 configs:
-  cares-clickhouse-config-clickhouseConfig.js:
+  workshop-clickhouse-config-clickhouseConfig.js:
     file: ./analytics-datastore-clickhouse/clickhouseConfig.js
-    name: cares-clickhouse-config-clickhouseConfig.js-${cares_clickhouse_config_clickhouseConfig_js_DIGEST:?err}
+    name: workshop-clickhouse-config-clickhouseConfig.js-${workshop_clickhouse_config_clickhouseConfig_js_DIGEST:?err}
     labels:
       name: clickhouse
-  cares-superset-config-supersetConfig.js:
+  workshop-superset-config-supersetConfig.js:
     file: ./dashboard-visualiser-superset/supersetConfig.js
-    name: cares-superset-config-supersetConfig.js-${cares_superset_config_supersetConfig_js_DIGEST:?err}
+    name: workshop-superset-config-supersetConfig.js-${workshop_superset_config_supersetConfig_js_DIGEST:?err}
     labels:
       name: superset
-  cares-superset-config-superset-export.zip:
+  workshop-superset-config-superset-export.zip:
     file: ./dashboard-visualiser-superset/superset-export.zip
-    name: cares-superset-config-superset-export.zip-${cares_superset_config_superset_export_zip_DIGEST:?err}
+    name: workshop-superset-config-superset-export.zip-${workshop_superset_config_superset_export_zip_DIGEST:?err}
     labels:
       name: superset
+  workshop-openhim-config-openhimConfig.js:
+    file: ./interoperability-layer-openhim/openhimConfig.js
+    name: workshop-openhim-config-openhimConfig.js-${workshop_openhim_config_openhimConfig_js_DIGEST:?err}
+    labels:
+      name: openhim
+  workshop-openhim-config-openhim-import.json:
+    file: ./interoperability-layer-openhim/openhim-import.json
+    name: workshop-openhim-config-openhim-import.json-${workshop_openhim_config_openhim_import_json_DIGEST:?err}
+    labels:
+      name: openhim
 
 networks:
+  openhim:
+    name: openhim_public
+    external: true
   clickhouse:
     name: clickhouse_public
     external: true
+  superset:
+    name: superset_public
+    external: true  

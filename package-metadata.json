@@ -8,8 +8,7 @@
     "kafka-unbundler-consumer",
     "kafka-mapper-consumer",
     "fhir-datastore-hapi-fhir",
-    "dashboard-visualiser-superset",
-    "identity-access-manager-keycloak"
+    "dashboard-visualiser-superset"
   ],
   "environmentVariables": {
     "CLICKHOUSE_HOST": "analytics-datastore-clickhouse",
@@ -20,12 +19,8 @@
     "SUPERSET_CONFIG_FILE": "superset-export.zip",
     "SUPERSET_SSL": "false",
 
-    "FHIR_IG_URL": "https://openhie.github.io/cares-covid-ig",
     "HAPI_FHIR_INSTANCES": "1",
-    "DISABLE_VALIDATION": "false",
-
-    "FHIR_STACKNAME": "hapi-fhir",
-    "KAFKA_MAPPER_STACKNAME": "kafka-mapper",
-    "SUPERSET_STACKNAME": "superset"
+    "FHIR_SERVER_URL": "http://hapi-fhir:8080",
+    "FHIR_STACKNAME": "hapi-fhir"
   }
 }
